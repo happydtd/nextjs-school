@@ -1,12 +1,12 @@
 import axios, {AxiosResponse} from "axios"
 import SignupType from "../models/signup.interface"
 
-export default function callAxios(url, type='GET', data={}) : Promise<SignupType> {
+export default function callAxios(url, type='GET', data={}) {
     if (type === 'GET'){
-      return axios.get(url, {
+      return axios.get<SignupType>(url, {
         params: data
       })
     } else{
-      return axios.post(url, data)
+      return axios.post<SignupType>(url, data)
     }
   }

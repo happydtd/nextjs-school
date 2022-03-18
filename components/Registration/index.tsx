@@ -26,7 +26,7 @@ export default function RegistrationForm(){
     async function callAPI(){
       try{
         const result  = await reqSignup(email,password,role)
-        console.log('call signup api result' ,result.status)
+        console.log('call signup api result' ,result)
         if (result.status === 201){
           message.success("success")
         }
