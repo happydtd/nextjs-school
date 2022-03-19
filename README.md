@@ -28,3 +28,5 @@
             </Col>
             <Col span={6}></Col>
         </Row>
+        
+        问题6：table中的index number处理
