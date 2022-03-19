@@ -3,8 +3,11 @@ import 'antd/dist/antd.css';
 import {UserOutlined, LockOutlined } from '@ant-design/icons';
 import {Radio, Form, Input, Select, Button, message} from 'antd';
 import {reqSignup} from '../../serverAPI/'
+import NextLink from 'next/link';
+import { Typography, Space } from 'antd';
 
 type LayoutType = Parameters<typeof Form>[0]['layout'];
+const { Text, Link } = Typography;
 
 export default function RegistrationForm(){
   const [form] = Form.useForm();
@@ -58,9 +61,8 @@ export default function RegistrationForm(){
         onFinish={onFinish}
         initialValues={{ layout: formLayout }}
         scrollToFirstError
-        style={{ padding: '0 800px' }}
       >
-      <h1 style={{padding: '0 100px' }}>SIGN UP YOUR ACCOUNT</h1>
+      <h1>SIGN UP YOUR ACCOUNT</h1>
 
       <Form.Item
         name="role"
@@ -146,9 +148,11 @@ export default function RegistrationForm(){
       <Form.Item 
         name="signin" 
         label="Already have an account?">
-        <a href="">
-          Sign in
-        </a>
+        <NextLink href="/signin" passHref>
+            <Link>
+                Sign in
+            </Link>
+        </NextLink>
       </Form.Item>
 
     </>

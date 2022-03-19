@@ -2,23 +2,29 @@ export const data = [
     {
       key: '1',
       name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-      tags: ['nice', 'developer'],
+      area: 'china',
+      email: 'student@admin.com',
+      selectedCurriculum: 'test curriculum1',
+      studentType:'developer',
+      jointime: '12 years ago'
     },
     {
       key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-      tags: ['loser'],
+      name: 'DD Brown',
+      area: 'india',
+      email: 'student2@admin.com',
+      selectedCurriculum: 'test curriculum2',
+      studentType:'developer',
+      jointime: '2 years ago'
     },
     {
       key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park',
-      tags: ['cool', 'teacher'],
+      name: 'ba ba wn',
+      area: 'australia',
+      email: 'student3@admin.com',
+      selectedCurriculum: 'test curriculum3',
+      studentType:'tester',
+      jointime: '1 years ago'
     },
   ];
   
