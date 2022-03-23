@@ -1,15 +1,17 @@
-import React from 'react';
-import { Row, Col, Table, Tag, Space, Button, Input } from 'antd';
+import React, { useContext, useEffect, useState } from 'react';
+import { Row, Col, Table, Tag, Space, Button, Input, message } from 'antd';
 import 'antd/dist/antd.css';
 import {data} from '../../serverAPI/data'
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import {Store} from '../../Utils/Store'
+import { GetStudents } from '../../serverAPI';
 
 const columns = [
-    // {
-    //   title: 'No.',
-    //   dataIndex: 'no',
-    //   key: 'no',
-    // },
+    {
+      title: 'No.',
+      dataIndex: 'id',
+      key: 'id',
+    },
     {
       title: 'Name',
       dataIndex: 'name',
@@ -17,8 +19,8 @@ const columns = [
     },
     {
       title: 'Area',
-      dataIndex: 'area',
-      key: 'area',
+      dataIndex: 'country',
+      key: 'country',
     },
     {
       title: 'Email',
@@ -28,18 +30,28 @@ const columns = [
     {
       title: 'Selected Curriculum',
       key: 'selectedCurriculum',
-      dataIndex: 'selectedCurriculum',
+      dataIndex: 'courses',
+      // render: courses =>{
+      //   const getstring = (a,b) => {a.name + b.name;
+      //   console.log('a',a.name)
+      //   console.log('b',b.name)
+      //   }
+      //   var result = courses.reduce(getstring);
+      //   return <>{result}</>
+      // }
     },
     {
       title: 'Student Type',
-      key: 'studentType',
-      dataIndex: 'studentType',
+      key: 'StudentType',
+      dataIndex: 'type',
+      render: type =><>{type.name}</>,
+
     },
-    {
-      title: 'Join Time',
-      key: 'joinTime',
-      dataIndex: 'joinTime',
-    },
+    // {
+    //   title: 'Join Time',
+    //   key: 'joinTime',
+    //   dataIndex: 'joinTime',
+    // },
     {
       title: 'Action',
       key: 'action',
@@ -53,6 +65,26 @@ const columns = [
   ];
 
 export default function Student() {
+  const { state, dispatch } = useContext(Store);
+  const [ students, setStudents] = useState([])
+  const { token } = state;
+  async function callAPI(){
+    try{
+        console.log('student receive token', token)
+        const result  = await GetStudents(token, 1, 1);
+        console.log(result.data.data.students)
+        setStudents(result.data.data.students);
+    }
+    catch(error){
+      console.log("error", error)
+    }
+  };
+  
+
+  useEffect(()=>{
+    callAPI();
+  },[])
+
   return (
     <div>
         <Row>
@@ -69,7 +101,7 @@ export default function Student() {
         <Row>
             <Col span={6}></Col>
             <Col span={12}>
-                <Table columns={columns} dataSource={data}/>
+                <Table columns={columns} dataSource={students}/>
             </Col>
             <Col span={6}></Col>
         </Row>

@@ -5,14 +5,18 @@ import {Radio, Form, Input, Select, Button, message} from 'antd';
 import {reqSignIn} from '../../serverAPI/'
 import NextLink from 'next/link';
 import { Typography, Space } from 'antd';
+import { useRouter } from 'next/router';
+import {Store} from '../../Utils/Store'
+import { useContext } from 'react';
 
 type LayoutType = Parameters<typeof Form>[0]['layout'];
 const { Text, Link } = Typography;
 
 export default function LoginForm(){
+  const { state, dispatch } = useContext(Store);
   const [form] = Form.useForm();
   const [value, setValue] = React.useState(1);
-
+  const router = useRouter();
   const [formLayout, setFormLayout] = useState<LayoutType>('vertical');
 
   const formItemLayout =
@@ -31,7 +35,14 @@ export default function LoginForm(){
         const result  = await reqSignIn(email,password,role)
         console.log('call signin api result' ,result)
         if (result.status === 201){
-          message.success("success")
+          var token = result.data.data.token;
+
+          dispatch({
+            type: 'ADD_TOKEN',
+            payload: { token },
+          });
+
+          router.push('/student');
         }
         else{
           message.error("error")
