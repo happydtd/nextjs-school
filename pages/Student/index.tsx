@@ -27,63 +27,74 @@ const columns = [
       dataIndex: 'email',
       key: 'email',
     },
-    {
-      title: 'Selected Curriculum',
-      key: 'selectedCurriculum',
-      dataIndex: 'courses',
-      // render: courses =>{
-      //   const getstring = (a,b) => {a.name + b.name;
-      //   console.log('a',a.name)
-      //   console.log('b',b.name)
-      //   }
-      //   var result = courses.reduce(getstring);
-      //   return <>{result}</>
-      // }
-    },
-    {
-      title: 'Student Type',
-      key: 'StudentType',
-      dataIndex: 'type',
-      render: type =><>{type.name}</>,
+    // {
+    //   title: 'Selected Curriculum',
+    //   key: 'selectedCurriculum',
+    //   dataIndex: 'courses',
+    //   // render: courses =>{
+    //   //   const getstring = (a,b) => {a.name + b.name;
+    //   //   console.log('a',a.name)
+    //   //   console.log('b',b.name)
+    //   //   }
+    //   //   var result = courses.reduce(getstring);
+    //   //   return <>{result}</>
+    //   // }
+    // },
+    // {
+    //   title: 'Student Type',
+    //   key: 'StudentType',
+    //   dataIndex: 'type',
+    //   render: type =><>{type.name}</>,
 
-    },
+    // },
     // {
     //   title: 'Join Time',
     //   key: 'joinTime',
     //   dataIndex: 'joinTime',
     // },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (text, record) => (
-        <Space size="middle">
-          <a>Edit</a>
-          <a>Delete</a>
-        </Space>
-      ),
-    },
+    // {
+    //   title: 'Action',
+    //   key: 'action',
+    //   render: (text, record) => (
+    //     <Space size="middle">
+    //       <a>Edit</a>
+    //       <a>Delete</a>
+    //     </Space>
+    //   ),
+    // },
   ];
 
 export default function Student() {
   const { state, dispatch } = useContext(Store);
-  const [ students, setStudents] = useState([])
+  const [ students, setStudents] = useState([]);
+  const [ page, setPage] = useState(1);
+  const [ pageSize, setPageSize] = useState(15);
+  const [ total, setTotal] = useState(0);
+  const [ loading, setLoading] = useState(false);
   const { token } = state;
   async function callAPI(){
     try{
+      setLoading(true);
         console.log('student receive token', token)
-        const result  = await GetStudents(token, 1, 1);
-        console.log(result.data.data.students)
+        console.log('page', page)
+        console.log('pageSize', pageSize)
+        const result  = await GetStudents(token, page, pageSize);
+        console.log(result.data.data)
+        setTotal(result.data.data.total)
         setStudents(result.data.data.students);
     }
     catch(error){
       console.log("error", error)
+    }
+    finally{
+      setLoading(false);
     }
   };
   
 
   useEffect(()=>{
     callAPI();
-  },[])
+  },[page, pageSize])
 
   return (
     <div>
@@ -101,7 +112,19 @@ export default function Student() {
         <Row>
             <Col span={6}></Col>
             <Col span={12}>
-                <Table columns={columns} dataSource={students}/>
+                <Table
+                loading={loading}
+                columns={columns}
+                dataSource={students}
+                pagination={{
+                  pageSize: pageSize,
+                  current:page,
+                  total: total,
+                  onChange:(page, pageSize)=>{
+                    setPage(page);
+                    setPageSize(pageSize);
+                  }
+                }}/>
             </Col>
             <Col span={6}></Col>
         </Row>
