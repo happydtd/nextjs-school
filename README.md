@@ -33,7 +33,7 @@
         已回答。问题6：table中的index number处理
         
         3月23号
-        问题7：course是个数组，
+        已答。问题7：course是个数组，
                 [{ courseId: 1
                 id: 2
                 name: "Anjali Hodkiewicz"
@@ -56,3 +56,47 @@
                 return <>{result}</>
               }
             },
+        已答。问题8：demo网站没法登录
+        已答。问题9：使用useContext()可以代替redux？和redux比，有什么限制吗？
+        
+        3月24号
+        setPage()和setPageSize()后直接调用callAPI()不能反映新的page和pageSize。
+          useEffect(()=>{
+            callAPI();
+          },[])
+        <Row>
+            <Col span={6}></Col>
+            <Col span={12}>
+                <Table columns={columns} dataSource={students} pagination={{
+                  pageSize: pageSize,
+                  current:page,
+                  total: total,
+                  onChange:(page, pageSize)=>{
+                    setPage(page);
+                    setPageSize(pageSize);
+                    callAPI();
+                  }
+                }}/>
+            </Col>
+            <Col span={6}></Col>
+        </Row>
+        
+        这样才能work
+         useEffect(()=>{
+            callAPI();
+          },[page，pageSize])
+        <Row>
+            <Col span={6}></Col>
+            <Col span={12}>
+                <Table columns={columns} dataSource={students} pagination={{
+                  pageSize: pageSize,
+                  current:page,
+                  total: total,
+                  onChange:(page, pageSize)=>{
+                    setPage(page);
+                    setPageSize(pageSize);
+                  }
+                }}/>
+            </Col>
+            <Col span={6}></Col>
+        </Row>
