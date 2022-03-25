@@ -60,7 +60,7 @@
         已答。问题9：使用useContext()可以代替redux？和redux比，有什么限制吗？
         
         3月24号
-        setPage()和setPageSize()后直接调用callAPI()不能反映新的page和pageSize。
+        问题8：setPage()和setPageSize()后直接调用callAPI()不能反映新的page和pageSize。
           useEffect(()=>{
             callAPI();
           },[])
@@ -100,3 +100,9 @@
             </Col>
             <Col span={6}></Col>
         </Row>
+        
+        问题9：组件的css该写在哪里？我把组件的css和tsx写在同一个文件夹内得到error。
+        ./components/CommonLayout/CommonLayout.css
+        Global CSS cannot be imported from files other than your Custom <App>. Due to the Global nature of stylesheets, and to avoid conflicts, Please move all first-party global CSS imports to pages/_app.js. Or convert the import to Component-Level CSS (CSS Modules).
+        Read more: https://nextjs.org/docs/messages/css-global
+        Location: components\CommonLayout\CommonLayout.tsx
