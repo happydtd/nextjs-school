@@ -6,6 +6,7 @@ import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import {Store} from '../../Utils/Store'
 import { GetStudents } from '../../serverAPI';
 import { formatDistanceToNow } from 'date-fns'
+import CommonLayout from '../../components/CommonLayout/CommonLayout';
 
 const columns = [
     {
@@ -97,7 +98,7 @@ export default function Student() {
   },[page, pageSize])
 
   return (
-    <div>
+    <CommonLayout>
         <Row>
             <Col span={6}></Col>
             <Col span={2}>
@@ -128,6 +129,6 @@ export default function Student() {
             </Col>
             <Col span={6}></Col>
         </Row>
-    </div>
+    </CommonLayout>
   )
 }

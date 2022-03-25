@@ -1,7 +1,7 @@
 import React, { Children } from 'react'
 import { Layout, Menu, Breadcrumb } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
-import './CommonLayout.css'
+//import './CommonLayout.css'
 
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
