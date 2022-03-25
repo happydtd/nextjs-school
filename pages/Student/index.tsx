@@ -5,6 +5,7 @@ import {data} from '../../serverAPI/data'
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import {Store} from '../../Utils/Store'
 import { GetStudents } from '../../serverAPI';
+import { formatDistanceToNow } from 'date-fns'
 
 const columns = [
     {
@@ -27,41 +28,40 @@ const columns = [
       dataIndex: 'email',
       key: 'email',
     },
-    // {
-    //   title: 'Selected Curriculum',
-    //   key: 'selectedCurriculum',
-    //   dataIndex: 'courses',
-    //   // render: courses =>{
-    //   //   const getstring = (a,b) => {a.name + b.name;
-    //   //   console.log('a',a.name)
-    //   //   console.log('b',b.name)
-    //   //   }
-    //   //   var result = courses.reduce(getstring);
-    //   //   return <>{result}</>
-    //   // }
-    // },
-    // {
-    //   title: 'Student Type',
-    //   key: 'StudentType',
-    //   dataIndex: 'type',
-    //   render: type =><>{type.name}</>,
-
-    // },
-    // {
-    //   title: 'Join Time',
-    //   key: 'joinTime',
-    //   dataIndex: 'joinTime',
-    // },
-    // {
-    //   title: 'Action',
-    //   key: 'action',
-    //   render: (text, record) => (
-    //     <Space size="middle">
-    //       <a>Edit</a>
-    //       <a>Delete</a>
-    //     </Space>
-    //   ),
-    // },
+    {
+      title: 'Selected Curriculum',
+      key: 'selectedCurriculum',
+      dataIndex: 'courses',
+      render: courses =>{
+        const cns =courses.map((c)=>{return c.name})
+        const result = cns.join(",")
+        return <>{result}</>
+      }
+    },
+    {
+      title: 'Student Type',
+      key: 'StudentType',
+      dataIndex: 'type',
+      render: type =><>{type.name}</>,
+    },
+    {
+      title: 'Join Time',
+      key: 'joinTime',
+      dataIndex: 'createdAt',
+      render: jointime =>{
+         return <>{formatDistanceToNow(Date.parse(jointime))}</>
+      }
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (text, record) => (
+        <Space size="middle">
+          <a>Edit</a>
+          <a>Delete</a>
+        </Space>
+      ),
+    },
   ];
 
 export default function Student() {
