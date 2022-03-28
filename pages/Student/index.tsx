@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Row, Col, Table, Tag, Space, Button, Input, message } from 'antd';
+import { Row, Col, Table, Tag, Space, Button, Input, message, Popconfirm } from 'antd';
 import 'antd/dist/antd.css';
 import {data} from '../../serverAPI/data'
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
@@ -59,11 +59,25 @@ const columns = [
       render: (text, record) => (
         <Space size="middle">
           <a>Edit</a>
-          <a>Delete</a>
+          <Popconfirm
+                title="Are you sure to delete?"
+                okText="Confirm"
+                cancelText="Cancel"
+                onConfirm={confirm}
+          >
+            <a>Delete</a>
+          </Popconfirm>
+          
         </Space>
       ),
     },
   ];
+
+  const confirm = () =>
+    new Promise(resolve => {
+      setTimeout(() => resolve(1), 3000);
+    });
+
 
 export default function Student() {
   const { state, dispatch } = useContext(Store);
