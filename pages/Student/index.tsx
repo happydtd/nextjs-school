@@ -4,11 +4,12 @@ import 'antd/dist/antd.css';
 import {data} from '../../serverAPI/data'
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import {Store} from '../../Utils/Store'
-import { GetStudents } from '../../serverAPI';
+import { GetStudents, DeleteStudentById } from '../../serverAPI';
 import { formatDistanceToNow } from 'date-fns'
 import CommonLayout from '../../components/CommonLayout/CommonLayout';
 
-const columns = [
+export default function Student() {
+  const columns = [
     {
       title: 'No.',
       dataIndex: 'id',
@@ -63,7 +64,7 @@ const columns = [
                 title="Are you sure to delete?"
                 okText="Confirm"
                 cancelText="Cancel"
-                onConfirm={confirm}
+                onConfirm={()=>confirm(record.id)}
           >
             <a>Delete</a>
           </Popconfirm>
@@ -73,13 +74,13 @@ const columns = [
     },
   ];
 
-  const confirm = () =>
-    new Promise(resolve => {
-      setTimeout(() => resolve(1), 3000);
-    });
+  const confirm = async (id) => {
+    const deleteResult  = await DeleteStudentById(token, id);
+    const result  = await GetStudents(token, page, pageSize);
+    setTotal(result.data.data.total)
+    setStudents(result.data.data.students);
+  };
 
-
-export default function Student() {
   const { state, dispatch } = useContext(Store);
   const [ students, setStudents] = useState([]);
   const [ page, setPage] = useState(1);
@@ -89,12 +90,8 @@ export default function Student() {
   const { token } = state;
   async function callAPI(){
     try{
-      setLoading(true);
-        console.log('student receive token', token)
-        console.log('page', page)
-        console.log('pageSize', pageSize)
+        setLoading(true);
         const result  = await GetStudents(token, page, pageSize);
-        console.log(result.data.data)
         setTotal(result.data.data.total)
         setStudents(result.data.data.students);
     }
