@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Form, Input, Button, Select } from 'antd';
 
 const { Option } = Select;
@@ -14,6 +14,7 @@ const tailLayout = {
 
 export default function StudentForm(props) {
   const [form] = Form.useForm();
+  const [stype, setStype] = useState('tester');
 
   const onFinish = (values: any) => {
     props.parentOnOK(values);
@@ -26,11 +27,25 @@ export default function StudentForm(props) {
 
   if (props.student){
         form.setFieldsValue({
-      name:props.student.name,
-      area: props.student.country,
-      email: props.student.email,
-    });
+          name:props.student.name,
+          area: props.student.country,
+          email: props.student.email,
+        });
+
+        console.log('stype1',stype)
+        console.log('type1',props.student.studentType.name)
+        if (stype !== props.student.studentType.name)
+        {
+          setStype(props.student.studentType.name);
+          console.log('stype2',stype)
+        }
   }
+
+  useEffect(()=>{
+
+  },[stype])
+
+  console.log('render');
   // const onFill = () => {
   //   form.setFieldsValue({
   //     note: 'Hello world!',
@@ -53,9 +68,10 @@ export default function StudentForm(props) {
       <Select
         placeholder="Select a option"
         allowClear
+        defaultValue={stype}
       >
-        <Option value="2">developer</Option>
         <Option value="1">tester</Option>
+        <Option value="2">developer</Option>
       </Select>
     </Form.Item>
     <Form.Item {...tailLayout}>
