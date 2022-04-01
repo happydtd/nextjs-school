@@ -106,3 +106,24 @@
         Global CSS cannot be imported from files other than your Custom <App>. Due to the Global nature of stylesheets, and to avoid conflicts, Please move all first-party global CSS imports to pages/_app.js. Or convert the import to Component-Level CSS (CSS Modules).
         Read more: https://nextjs.org/docs/messages/css-global
         Location: components\CommonLayout\CommonLayout.tsx
+        
+        4月1日 我想用setstate()更新弹出框的student type，但是一直不能立刻更新
+          if (props.student){
+                form.setFieldsValue({
+                  name:props.student.name,
+                  area: props.student.country,
+                  email: props.student.email,
+                });
+
+                console.log('stype1',stype)
+                console.log('type1',props.student.studentType.name)
+                if (stype !== props.student.studentType.name)
+                {
+                  setStype(props.student.studentType.name);
+                  console.log('stype2',stype)
+                }
+          }
+
+          useEffect(()=>{
+
+          },[stype])
