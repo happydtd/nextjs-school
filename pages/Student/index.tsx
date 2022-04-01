@@ -94,7 +94,7 @@ export default function Student() {
   const [ pageSize, setPageSize] = useState(15);
   const [ total, setTotal] = useState(0);
   const [ loading, setLoading] = useState(false);
-  const [ student, setStudent] = useState({});
+  const [ student, setStudent] = useState(null);
   const { token } = state;
 
   const [visible, setVisible] = React.useState(false);
@@ -194,17 +194,17 @@ export default function Student() {
             {/* <Col span={6}></Col> */}
         </Row>
         <Modal
-        title="Add Student"
-        visible={visible}
-        footer={null}
-        // onOk={handleOk}
-        // okText='Update'
-        // cancelText='Cancel'
-        confirmLoading={confirmLoading}
-        // onCancel={handleCancel}
-      >
-        <StudentForm parentOnOK={handleAdd} parentOnCancel={handleCancel} actionType='Add' student= {student}></StudentForm>
-      </Modal>
+          title="Add Student"
+          visible={visible}
+          footer={null}
+          // onOk={handleOk}
+          // okText='Update'
+          // cancelText='Cancel'
+          confirmLoading={confirmLoading}
+          // onCancel={handleCancel}
+        >
+          <StudentForm parentOnOK={handleAdd} parentOnCancel={handleCancel} actionType='Add' student= {student}></StudentForm>
+        </Modal>
     </CommonLayout>
   )
 }
