@@ -1,14 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import { Row, Col, Table, Tag, Space, Button, Input, message, Popconfirm,Modal} from 'antd';
 import 'antd/dist/antd.css';
 import {data} from '../../serverAPI/data'
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import {Store} from '../../Utils/Store'
-import { GetStudents, DeleteStudentById, AddStudent } from '../../serverAPI';
+import { GetStudents, DeleteStudentById, AddStudent, EditStudent } from '../../serverAPI';
 import { formatDistanceToNow } from 'date-fns'
 import CommonLayout from '../../components/CommonLayout/CommonLayout';
 import StudentForm from '../../components/Student';
 import BreadcrumbSeparator from 'antd/lib/breadcrumb/BreadcrumbSeparator';
+import areIntervalsOverlappingWithOptions from 'date-fns/esm/fp/areIntervalsOverlappingWithOptions/index.js';
 
 export default function Student() {
   const columns = [
@@ -71,7 +72,7 @@ export default function Student() {
                 title="Are you sure to delete?"
                 okText="Confirm"
                 cancelText="Cancel"
-                onConfirm={()=>confirm(record.id)}
+                onConfirm={()=>HandleDeleteStudent(record.id)}
           >
             <a>Delete</a>
           </Popconfirm>
@@ -81,13 +82,6 @@ export default function Student() {
     },
   ];
 
-  const confirm = async (id) => {
-    const deleteResult  = await DeleteStudentById(token, id);
-    const result  = await GetStudents(token, page, pageSize);
-    setTotal(result.data.data.total)
-    setStudents(result.data.data.students);
-  };
-
   const { state, dispatch } = useContext(Store);
   const [ students, setStudents] = useState([]);
   const [ page, setPage] = useState(1);
@@ -95,15 +89,21 @@ export default function Student() {
   const [ total, setTotal] = useState(0);
   const [ loading, setLoading] = useState(false);
   const [ student, setStudent] = useState(null);
+  const [ modalTitle, setmodalTitle] = useState("");
+  const [ actionType, setActionType] = useState("");
+  const [ search, setSearch] = useState(null);
   const { token } = state;
 
   const [visible, setVisible] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
 
+  const searchRef = useRef(null)
+
   async function callAPI(){
     try{
         setLoading(true);
-        const result  = await GetStudents(token, page, pageSize);
+        const result  = await GetStudents(token, search, page, pageSize);
+        console.log(result);
         setTotal(result.data.data.total)
         setStudents(result.data.data.students);
     }
@@ -120,15 +120,38 @@ export default function Student() {
     callAPI();
   },[page, pageSize])
 
+  const handleSearch = async ()=>{
+
+      setSearch(searchRef.current.input.value);
+      const result  = await GetStudents(token, searchRef.current.input.value, page, pageSize);
+      setTotal(result.data.data.total)
+      setStudents(result.data.data.students);
+
+  }
+
+  const HandleDeleteStudent = async (id) => {
+    const deleteResult  = await DeleteStudentById(token, id);
+    const result  = await GetStudents(token, search, page, pageSize);
+    setTotal(result.data.data.total)
+    setStudents(result.data.data.students);
+  };
+
   const handleStudentForm = ()=>{
+    setStudent(null);
+    setmodalTitle("Add Student");
+    setActionType("Add");
     setVisible(true);
   }
 
-  const handleAdd = async (values) => {
+  const handleOK = async (values) => {
     const {name, email, area, studentType} = values;
     setConfirmLoading(true);
-    const result1  = await AddStudent(token, name, email, area, +studentType);
-    const result  = await GetStudents(token, page, pageSize);
+    let result1;
+    if(actionType === 'Add' )
+      result1  = await AddStudent(token, name, email, area, +studentType);
+    else
+      result1  = await EditStudent(token, name, email, area, +studentType);
+    const result  = await GetStudents(token, search, page, pageSize);
     setTotal(result.data.data.total)
     setStudents(result.data.data.students);
     setVisible(false);
@@ -141,16 +164,10 @@ export default function Student() {
   };
 
   const handleEdit =(name, country, email, studentType )=>{
+    setmodalTitle("Edit Student");
+    setActionType("Edit");
     setStudent({name, country, email, studentType})
     setVisible(true);
-  //   <Modal
-  //   title="Edit Student"
-  //   visible={visible}
-  //   footer={null}
-  //   confirmLoading={confirmLoading}
-  // >
-  //   <StudentForm parentOnOK={handleAdd} parentOnCancel={handleCancel} actionType='Edit' student= {{name, country, email, studentType}}></StudentForm>
-  // </Modal>
   }
 
   return (
@@ -165,9 +182,9 @@ export default function Student() {
             <Col span={4}>
               <Row>
                 <Col span={21}>
-                  <Input placeholder="Search by name"/>
+                  <Input placeholder="Search by name" ref={searchRef}/>
                 </Col>
-                <Col span={3}><Button icon={<SearchOutlined />}/></Col>
+                <Col span={3}><Button icon={<SearchOutlined />} onClick={handleSearch}/></Col>
                 
               </Row>
             </Col>
@@ -194,7 +211,7 @@ export default function Student() {
             {/* <Col span={6}></Col> */}
         </Row>
         <Modal
-          title="Add Student"
+          title={modalTitle}
           visible={visible}
           footer={null}
           // onOk={handleOk}
@@ -203,7 +220,7 @@ export default function Student() {
           confirmLoading={confirmLoading}
           // onCancel={handleCancel}
         >
-          <StudentForm parentOnOK={handleAdd} parentOnCancel={handleCancel} actionType='Add' student= {student}></StudentForm>
+          <StudentForm parentOnOK={handleOK} parentOnCancel={handleCancel} actionType={actionType} student= {student}></StudentForm>
         </Modal>
     </CommonLayout>
   )
