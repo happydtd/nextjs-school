@@ -14,7 +14,7 @@ const tailLayout = {
 
 export default function StudentForm(props) {
   const [form] = Form.useForm();
-  const [stype, setStype] = useState('tester');
+  const [stype, setStype] = useState(1);
 
   const onFinish = (values: any) => {
     props.parentOnOK(values);
@@ -26,26 +26,24 @@ export default function StudentForm(props) {
   };
 
   if (props.student){
+    console.log(props.student.studentType);
         form.setFieldsValue({
           name:props.student.name,
           area: props.student.country,
           email: props.student.email,
+          studentType: props.student.studentType.id.toString()
         });
 
-        console.log('stype1',stype)
-        console.log('type1',props.student.studentType.name)
-        if (stype !== props.student.studentType.name)
-        {
-          setStype(props.student.studentType.name);
-          console.log('stype2',stype)
-        }
+        // console.log('stype1',stype)
+        // console.log('type1',props.student.studentType.name)
+        // if (stype !== props.student.studentType.name)
+        // {
+        //   setStype(props.student.studentType.name);
+        //   console.log('stype2',stype)
+        // }
   }
 
-  useEffect(()=>{
-
-  },[stype])
-
-  console.log('render');
+  console.log('render3');
   // const onFill = () => {
   //   form.setFieldsValue({
   //     note: 'Hello world!',
@@ -68,7 +66,6 @@ export default function StudentForm(props) {
       <Select
         placeholder="Select a option"
         allowClear
-        defaultValue={stype}
       >
         <Option value="1">tester</Option>
         <Option value="2">developer</Option>
