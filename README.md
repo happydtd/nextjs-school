@@ -107,7 +107,8 @@
         Read more: https://nextjs.org/docs/messages/css-global
         Location: components\CommonLayout\CommonLayout.tsx
         
-        4月1日 我想用setstate()更新弹出框的student type，但是一直不能立刻更新
+        4月1日
+        已答。问题10. 我想用setstate()更新弹出框的student type，但是一直不能立刻更新
           if (props.student){
                 form.setFieldsValue({
                   name:props.student.name,
@@ -127,3 +128,8 @@
           useEffect(()=>{
 
           },[stype])
+          
+          4月6日
+          问题11. 接着上次的问题我修改后work了，value={1}的意思是不是不能直接存数值类型所以要用{1}这样把数值存入value？
+          <Option value={1}>tester</Option>
+          <Option value={2}>developer</Option>
