@@ -14,10 +14,10 @@ export default function StudentDetail() {
   async function callAPI(){
     try{
         setLoading(true);
-        const result  = await GetStudents(token, search, page, pageSize);
-        console.log(result);
-        setTotal(result.data.data.total)
-        setStudents(result.data.data.students);
+        // const result  = await GetStudents(token, search, page, pageSize);
+        // console.log(result);
+        // setTotal(result.data.data.total)
+        // setStudents(result.data.data.students);
     }
     catch(error){
       console.log("error", error)

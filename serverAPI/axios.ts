@@ -28,5 +28,8 @@ export async function callAxiosWithToken(url, token, type='GET', data={}) {
     return await axios.post(url, data)
   } else if (type === 'DELETE'){
     return await axios.delete(`${url}/${data}`)
-  } 
+  }  else if (type ==='PUT'){
+    console.log(data)
+    return await axios.put(url, data)
+  }
 }
