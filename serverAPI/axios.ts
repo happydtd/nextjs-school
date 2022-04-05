@@ -12,7 +12,7 @@ export async function callAxiosWithoutToken(url, type='GET', data={}) {
     }
 }
 
-export async function callAxiosWithToken(url, token, type='GET', data={}) {
+export async function callAxiosWithToken(url, token, type, query, data={}) {
   
   axios.interceptors.request.use(config=>{
     if(token) config.headers.Authorization = `Bearer ${token}`;
@@ -20,11 +20,11 @@ export async function callAxiosWithToken(url, token, type='GET', data={}) {
   })
 
   if (type === 'GET'){
-    return await axios.get(url, {
-      params: data
-    })
+    if (query === 'Body')
+      return await axios.get(url, { params: data })
+    else
+      return await axios.get(`${url}/${data}`)
   } else if (type === 'POST'){
-    console.log(data)
     return await axios.post(url, data)
   } else if (type === 'DELETE'){
     return await axios.delete(`${url}/${data}`)

@@ -13,15 +13,15 @@ const columns = [
     key: 'name',
     render: text => <a>{text}</a>,
   },
-  {
-    title: 'Type',
-    dataIndex: 'type',
-    key: 'type',
-  },
+  // {
+  //   title: 'Type',
+  //   dataIndex: 'type',
+  //   key: 'type',
+  // },
   {
     title: 'Join Time',
-    dataIndex: 'joinTime',
-    key: 'joinTime',
+    dataIndex: 'createdAt',
+    key: 'createdAt',
   },
 ];
 
@@ -29,8 +29,11 @@ const data = [
 
 ];
 
-export const CourseForm = () => {
+export const CourseForm = (props) => {
+  console.log('courses', props);
+
   return (
-    <Table columns={columns} dataSource={data} />
+    
+    <Table columns={columns} dataSource={props.courses} />
   )
 }

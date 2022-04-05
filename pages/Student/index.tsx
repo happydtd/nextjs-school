@@ -3,7 +3,7 @@ import { Row, Col, Table, Tag, Space, Button, Input, message, Popconfirm,Modal} 
 import 'antd/dist/antd.css';
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import {Store} from '../../Utils/Store'
-import { GetStudents, DeleteStudentById, AddStudent, EditStudent } from '../../serverAPI';
+import { GetStudents, DeleteStudentById, AddStudent, EditStudent} from '../../serverAPI';
 import { formatDistanceToNow } from 'date-fns'
 import CommonLayout from '../../components/CommonLayout/CommonLayout';
 import StudentForm from '../../components/Student';
