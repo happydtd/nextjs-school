@@ -25,12 +25,19 @@ export default function Student() {
         return <Link href={'/student/' + record.id}>
           <a>{name}</a>
         </Link>
-      }
+      },
+      sorter:(r1, r2)=>{
+        return r1.name > r2.name
+      },
+
     },
     {
       title: 'Area',
       dataIndex: 'country',
       key: 'country',
+      sorter:(r1, r2)=>{
+        return r1.country > r2.country
+      },
     },
     {
       title: 'Email',
@@ -71,7 +78,7 @@ export default function Student() {
       key: 'action',
       render: (text, record) => (
         <Space size="middle">
-          <a onClick={()=>handleEdit(record.name, record.country, record.email, record.type )}>Edit</a>
+          <a onClick={()=>handleEdit(record.id, record.name, record.country, record.email, record.type )}>Edit</a>
           <Popconfirm
                 title="Are you sure to delete?"
                 okText="Confirm"
@@ -148,29 +155,31 @@ export default function Student() {
   }
 
   const handleOK = async (values) => {
-    const {name, email, area, studentType} = values;
+    console.log("values", values)
+    const { name, email, area, studentType} = values;
     setConfirmLoading(true);
     let result1;
     if(actionType === 'Add' )
-      result1  = await AddStudent(token, name, email, area, +studentType);
+      result1  = await AddStudent(token, name, area, email, +studentType);
     else
-      result1  = await EditStudent(token, name, email, area, +studentType);
+    {
+      result1  = await EditStudent(token, student.id, name, area, email, +studentType);
+    }
     const result  = await GetStudents(token, search, page, pageSize);
+    setVisible(false);
     setTotal(result.data.data.total)
     setStudents(result.data.data.students);
-    setVisible(false);
     setConfirmLoading(false);
   };
 
   const handleCancel = () => {
-    console.log('Clicked cancel button');
     setVisible(false);
   };
 
-  const handleEdit =(name, country, email, studentType )=>{
+  const handleEdit =(id, name, country, email, studentType )=>{
     setmodalTitle("Edit Student");
     setActionType("Edit");
-    setStudent({name, country, email, studentType})
+    setStudent({id, name, country, email, studentType})
     setVisible(true);
   }
 
@@ -218,11 +227,7 @@ export default function Student() {
           title={modalTitle}
           visible={visible}
           footer={null}
-          // onOk={handleOk}
-          // okText='Update'
-          // cancelText='Cancel'
           confirmLoading={confirmLoading}
-          // onCancel={handleCancel}
         >
           <StudentForm parentOnOK={handleOK} parentOnCancel={handleCancel} actionType={actionType} student= {student}></StudentForm>
         </Modal>
