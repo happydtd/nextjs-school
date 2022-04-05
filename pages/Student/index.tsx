@@ -1,15 +1,14 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
 import { Row, Col, Table, Tag, Space, Button, Input, message, Popconfirm,Modal} from 'antd';
 import 'antd/dist/antd.css';
-import {data} from '../../serverAPI/data'
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import {Store} from '../../Utils/Store'
 import { GetStudents, DeleteStudentById, AddStudent, EditStudent } from '../../serverAPI';
 import { formatDistanceToNow } from 'date-fns'
 import CommonLayout from '../../components/CommonLayout/CommonLayout';
 import StudentForm from '../../components/Student';
-import BreadcrumbSeparator from 'antd/lib/breadcrumb/BreadcrumbSeparator';
-import areIntervalsOverlappingWithOptions from 'date-fns/esm/fp/areIntervalsOverlappingWithOptions/index.js';
+import Link from 'next/link'
+
 
 export default function Student() {
   const columns = [
@@ -22,6 +21,11 @@ export default function Student() {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
+      render: (name, record) =>{
+        return <Link href={'/student/' + record.id}>
+          <a>{name}</a>
+        </Link>
+      }
     },
     {
       title: 'Area',
