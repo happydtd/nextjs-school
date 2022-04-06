@@ -144,4 +144,15 @@
                 <Col span={6}><Text strong>Type:</Text></Col>
                 <Col span={18}>{student.type?.name}</Col>
               </Row>
-              
+           问题13： 排版
+           我希望 Name label和Name 值垂直间距能够拉开。Row中设置gutter={[16, 16]}只对其中的子元素Col有效， 但对子元素Col中的Row无效
+           <Row>
+            <Col span={12}>
+              <Row justify="center"><Text strong>Name1</Text></Row>
+              <Row justify="center">{student.name}</Row>
+            </Col>
+            <Col span={12}>
+              <Row justify="center"><Text strong>Age</Text></Row>
+              <Row justify="center">{student.age}</Row>
+            </Col>
+          </Row>
