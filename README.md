@@ -130,6 +130,44 @@
           },[stype])
           
           4月6日
-          问题11. 接着上次的问题我修改后work了，value={1}的意思是不是不能直接存数值类型所以要用{1}这样把数值存入value？
+          问题11. 接着上次的问题我修改后work了，value={1}的意思是传入数值1，不是对象1吧？
           <Option value={1}>tester</Option>
           <Option value={2}>developer</Option>
+          
+          问题12. 写了一个student detail的组件，然后把student的信息作为参数传入。我发现student.name之类值类型的属性可以直接拿到值，但是student.type之类对象类型的值必须加判断是非          为空后才能取值，不然会报错，比如：
+          【studentid】.tsx中
+              <Row>
+                <Col span={6}><Text strong>Member Period:</Text></Col>
+                <Col span={18}>{student.memberStartAt} - {student.memberEndAt}</Col>
+              </Row>
+              <Row>
+                <Col span={6}><Text strong>Type:</Text></Col>
+                <Col span={18}>{student.type?.name}</Col>
+              </Row>
+           问题13： 排版
+           我希望 Name label和Name 值垂直间距能够拉开。Row中设置gutter={[16, 16]}只对其中的子元素Col有效， 但对子元素Col中的Row无效
+           <Row>
+            <Col span={12}>
+              <Row justify="center"><Text strong>Name1</Text></Row>
+              <Row justify="center">{student.name}</Row>
+            </Col>
+            <Col span={12}>
+              <Row justify="center"><Text strong>Age</Text></Row>
+              <Row justify="center">{student.age}</Row>
+            </Col>
+          </Row>
+          问题14: 排序时降序正确，升序错误
+            {
+              title: 'Name',
+              dataIndex: 'name',
+              key: 'name',
+              render: (name, record) =>{
+                return <Link href={'/student/' + record.id}>
+                  <a>{name}</a>
+                </Link>
+              },
+              sorter:(r1, r2)=>{
+                return r1.name > r2.name
+              },
+
+            },

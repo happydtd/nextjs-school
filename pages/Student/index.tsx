@@ -8,7 +8,7 @@ import { formatDistanceToNow } from 'date-fns'
 import CommonLayout from '../../components/CommonLayout/CommonLayout';
 import StudentForm from '../../components/Student';
 import Link from 'next/link'
-
+import { useRouter } from 'next/router';
 
 export default function Student() {
   const columns = [
@@ -101,7 +101,9 @@ export default function Student() {
   const [ modalTitle, setmodalTitle] = useState("");
   const [ actionType, setActionType] = useState("");
   const [ search, setSearch] = useState(null);
-  const { token } = state;
+  const { userInfo} = state;
+  const { token } = userInfo.userInfo;
+  const router = useRouter();
 
   const [visible, setVisible] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
@@ -126,6 +128,10 @@ export default function Student() {
   
 
   useEffect(()=>{
+    if (!userInfo) {
+      router.push('/signin');
+    }
+
     callAPI();
   },[page, pageSize])
 
