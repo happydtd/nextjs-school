@@ -156,3 +156,18 @@
               <Row justify="center">{student.age}</Row>
             </Col>
           </Row>
+          问题14: 排序时降序正确，升序错误
+            {
+              title: 'Name',
+              dataIndex: 'name',
+              key: 'name',
+              render: (name, record) =>{
+                return <Link href={'/student/' + record.id}>
+                  <a>{name}</a>
+                </Link>
+              },
+              sorter:(r1, r2)=>{
+                return r1.name > r2.name
+              },
+
+            },
