@@ -8,7 +8,7 @@ import {Store} from '../../Utils/Store'
 
 export default function StudentDetail() {
   const router = useRouter();
-  const { Text, Link } = Typography;
+  const { Text, Title } = Typography;
   const { TabPane } = Tabs;
   const studentId = router.query.studentId;
   const [ loading, setLoading] = useState(false);
@@ -16,6 +16,7 @@ export default function StudentDetail() {
   const { userInfo} = state;
   const { token } = userInfo.userInfo;
   const [ student, setStudent] = useState({});
+
 
   async function callAPI(){
     try{
@@ -43,35 +44,35 @@ export default function StudentDetail() {
   return (
     <CommonLayout>
       <Spin spinning={loading}/>
-      <Row>
+      <Row gutter={16}>
         <Col span={12}>
           <Row>
             <Col span={24}>picture</Col>
           </Row>
           <Row>
             <Col span={12}>
-              <Row>Name</Row>
-              <Row>{student.name}</Row>
+              <Row justify="center"><Text strong>Name1</Text></Row>
+              <Row justify="center">{student.name}</Row>
             </Col>
             <Col span={12}>
-              <Row>Age</Row>
-              <Row>{student.age}</Row>
+              <Row justify="center"><Text strong>Age</Text></Row>
+              <Row justify="center">{student.age}</Row>
             </Col>
           </Row>
           <Row>
             <Col span={12}>
-              <Row>Email</Row>
-              <Row>{student.email}</Row>
+              <Row justify="center"><Text strong>Email</Text></Row>
+              <Row justify="center">{student.email}</Row>
             </Col>
             <Col span={12}>
-              <Row>Phone</Row>
-              <Row>{student.phone}</Row>
+              <Row justify="center"><Text strong>Phone</Text></Row>
+              <Row justify="center">{student.phone}</Row>
             </Col>
           </Row>
           <Row>
             <Col span={24}>
-              <Row>Address</Row>
-              <Row>{student.address?.join(',')}</Row>
+              <Row justify="center"><Text strong>Address</Text></Row>
+              <Row justify="center">{student.address?.join(',')}</Row>
             </Col>
           </Row>  
         </Col>
@@ -79,44 +80,44 @@ export default function StudentDetail() {
           <Tabs defaultActiveKey="1">
             <TabPane tab="About" key="1">
               <Row>
-                <Col span={24}>Information</Col>
+                <Col span={24}><Title level={4} type="success">Information</Title></Col>
               </Row>
               <Row>
-                <Col span={6}>Eduction:</Col>
+                <Col span={6}><Text strong>Eduction:</Text></Col>
                 <Col span={18}>{student.education}</Col>
               </Row>
               <Row>
-                <Col span={6}>Area:</Col>
+                <Col span={6}><Text strong>Area:</Text></Col>
                 <Col span={18}>{student.country}</Col>
               </Row>
               <Row>
-                <Col span={6}>Gender:</Col>
+                <Col span={6}><Text strong>Gender:</Text></Col>
                 <Col span={18}>{student.gender}</Col>
               </Row>
               <Row>
-                <Col span={6}>Member Period:</Col>
-                <Col span={18}>col-12</Col>
+                <Col span={6}><Text strong>Member Period:</Text></Col>
+                <Col span={18}>{student.memberStartAt} - {student.memberEndAt}</Col>
               </Row>
               <Row>
-                <Col span={6}>Type:</Col>
+                <Col span={6}><Text strong>Type:</Text></Col>
                 <Col span={18}>{student.type?.name}</Col>
               </Row>
               <Row>
-                <Col span={6}>CreateTime:</Col>
+                <Col span={6}><Text strong>CreateTime:</Text></Col>
                 <Col span={18}>{student.createdAt}</Col>
               </Row>
               <Row>
-                <Col span={6}>Update Time:</Col>
+                <Col span={6}><Text strong>Update Time:</Text></Col>
                 <Col span={18}>{student.updatedAt}</Col>
               </Row>
               <Row>
-                <Col span={24}>Interesting</Col>
+                <Col span={24}><Title level={4} type="success">Interesting</Title></Col>
               </Row>
               <Row>
                 <Col span={24}>{student.interest?.join(',')}</Col>
               </Row>
               <Row>
-                <Col span={24}>Description</Col>
+                <Col span={24}><Title level={4} type="success">Description</Title></Col>
               </Row>
               <Row>
                 <Col span={24}>{student.description}</Col>
