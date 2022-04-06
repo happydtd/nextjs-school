@@ -26,9 +26,7 @@ export default function Student() {
           <a>{name}</a>
         </Link>
       },
-      sorter:(r1, r2)=>{
-        return r1.name > r2.name
-      },
+      sorter:(r1, r2)=>r1.name.localeCompare(r2.name),
 
     },
     {
