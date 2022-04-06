@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import 'antd/dist/antd.css';
 import {UserOutlined, LockOutlined } from '@ant-design/icons';
 import {Radio, Form, Input, Select, Button, message} from 'antd';
@@ -7,7 +7,7 @@ import NextLink from 'next/link';
 import { Typography, Space } from 'antd';
 import { useRouter } from 'next/router';
 import {Store} from '../../Utils/Store'
-import { useContext } from 'react';
+import Cookies from 'js-cookie';
 
 type LayoutType = Parameters<typeof Form>[0]['layout'];
 const { Text, Link } = Typography;
@@ -36,11 +36,11 @@ export default function LoginForm(){
         console.log('call signin api result' ,result)
         if (result.status === 201){
           var token = result.data.data.token;
-
+          var userInfo = result.data.data;
           dispatch({
-            type: 'ADD_TOKEN',
-            payload: { token },
-          });
+            type: 'USER_LOGIN',
+            payload: { userInfo },
+          })
 
           router.push('/student');
         }

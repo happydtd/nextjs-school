@@ -13,7 +13,8 @@ export default function StudentDetail() {
   const studentId = router.query.studentId;
   const [ loading, setLoading] = useState(false);
   const { state, dispatch } = useContext(Store);
-  const { token } = state;
+  const { userInfo} = state;
+  const { token } = userInfo.userInfo;
   const [ student, setStudent] = useState({});
 
   async function callAPI(){
@@ -33,6 +34,9 @@ export default function StudentDetail() {
   
 
   useEffect(()=>{
+    if (!userInfo) {
+      router.push('/signin');
+    }
     callAPI();
   },[])
 
