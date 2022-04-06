@@ -130,7 +130,7 @@
           },[stype])
           
           4月6日
-          问题11. 接着上次的问题我修改后work了，value={1}的意思是不是不能直接存数值类型所以要用{1}这样把数值存入value？
+          问题11. 接着上次的问题我修改后work了，value={1}的意思是传入数值1，不是对象1吧？
           <Option value={1}>tester</Option>
           <Option value={2}>developer</Option>
           
