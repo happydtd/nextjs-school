@@ -133,3 +133,15 @@
           问题11. 接着上次的问题我修改后work了，value={1}的意思是不是不能直接存数值类型所以要用{1}这样把数值存入value？
           <Option value={1}>tester</Option>
           <Option value={2}>developer</Option>
+          
+          问题12. 写了一个student detail的组件，然后把student的信息作为参数传入。我发现student.name之类值类型的属性可以直接拿到值，但是student.type之类对象类型的值必须加判断是非          为空后才能取值，不然会报错，比如：
+          【studentid】.tsx中
+              <Row>
+                <Col span={6}><Text strong>Member Period:</Text></Col>
+                <Col span={18}>{student.memberStartAt} - {student.memberEndAt}</Col>
+              </Row>
+              <Row>
+                <Col span={6}><Text strong>Type:</Text></Col>
+                <Col span={18}>{student.type?.name}</Col>
+              </Row>
+              
