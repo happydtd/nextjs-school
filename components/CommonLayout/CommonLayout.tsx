@@ -25,8 +25,8 @@ export default function CommonLayout({children} ) {
           defaultOpenKeys={['sub1']}
           style={{ height: '100%', borderRight: 0 }}
         >
-          <SubMenu key="Overview" icon={<UserOutlined />} title="Overview">
-          </SubMenu>
+          <Menu.Item key="Overview" icon={<UserOutlined />} title="Overview">
+          </Menu.Item>
           <SubMenu key="Student" icon={<LaptopOutlined />} title="Student">
             <Menu.Item key="1">Student List</Menu.Item>
           </SubMenu>
