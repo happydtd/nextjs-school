@@ -2,21 +2,25 @@ import Cookies from 'js-cookie';
 import { createContext, useReducer } from 'react';
 export const Store = createContext();
 
-
 const initialState = {
   userInfo: Cookies.get('userInfo')
-  ? JSON.parse(Cookies.get('userInfo'))
-  : null,
+    ? JSON.parse(Cookies.get('userInfo'))
+    : null,
+  path: '',
 };
 
 function reducer(state, action) {
-  let num = 2
-  let time=new Date(new Date().getTime() + num *60*60*1000);
+  let num = 2;
+  let time = new Date(new Date().getTime() + num * 60 * 60 * 1000);
 
   switch (action.type) {
     case 'USER_LOGIN':
-      Cookies.set('userInfo', JSON.stringify(action.payload), {expires: time});
+      Cookies.set('userInfo', JSON.stringify(action.payload), {
+        expires: time,
+      });
       return { ...state, userInfo: action.payload };
+    case 'PATH':
+      return { ...state, path: action.payload };
     default:
       return state;
   }

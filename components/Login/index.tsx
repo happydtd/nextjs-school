@@ -42,7 +42,11 @@ export default function LoginForm(){
             payload: { userInfo },
           })
 
-          router.push('/teacher');
+          router.push('/overview');
+          dispatch({
+            type: 'PATH',
+            payload: ['CMS MANAGER SYSTEM'],
+          })
         }
         else{
           message.error("error")
