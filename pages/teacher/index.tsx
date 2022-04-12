@@ -1,7 +1,13 @@
-import React from 'react'
+import React, { useRef } from 'react';
+import { Space, Popconfirm} from 'antd';
+import 'antd/dist/antd.css';
+import { GetTeachers, DeleteTeacherById, AddTeacher, EditTeacher} from '../../serverAPI';
+import { formatDistanceToNow } from 'date-fns'
+import CommonLayout from '../../components/CommonLayout/CommonLayout';
+import Link from 'next/link'
+import GenericTable from '../../components/GenericTable';
 
 export default function Teacher() {
-
   const columns = [
     {
       title: 'No.',
@@ -13,7 +19,7 @@ export default function Teacher() {
       dataIndex: 'name',
       key: 'name',
       render: (name, record) =>{
-        return <Link href={'/student/' + record.id}>
+        return <Link href={'/teacher/' + record.id}>
           <a>{name}</a>
         </Link>
       },
@@ -34,33 +40,24 @@ export default function Teacher() {
       key: 'email',
     },
     {
-      title: 'Selected Curriculum',
-      key: 'selectedCurriculum',
-      dataIndex: 'courses',
-      render: courses =>{
-        const cns =courses.map((c)=>{return c.name})
+      title: 'Skill',
+      key: 'skills',
+      dataIndex: 'skills',
+      render: skills =>{
+        const cns =skills.map((c)=>{return c.name})
         const result = cns.join(",")
         return <>{result}</>
       }
     },
     {
-      title: 'Student Type',
-      key: 'StudentType',
-      dataIndex: 'type',
-      render: type =>{
-        if (type)
-         { return <>{type.name}</>}
-         else
-         {return ''}
-        },
+      title: 'Course Amount',
+      dataIndex: 'courseAmount',
+      key: 'courseAmount',
     },
     {
-      title: 'Join Time',
-      key: 'joinTime',
-      dataIndex: 'createdAt',
-      render: jointime =>{
-         return <>{formatDistanceToNow(Date.parse(jointime))}</>
-      }
+      title: 'Phone',
+      dataIndex: 'phone',
+      key: 'phone',
     },
     {
       title: 'Action',
@@ -72,7 +69,7 @@ export default function Teacher() {
                 title="Are you sure to delete?"
                 okText="Confirm"
                 cancelText="Cancel"
-                onConfirm={()=>HandleDeleteStudent(record.id)}
+                onConfirm={()=>handleDeleteStudent(record.id)}
           >
             <a>Delete</a>
           </Popconfirm>
@@ -81,9 +78,29 @@ export default function Teacher() {
       ),
     },
   ];
+
+  const handleDeleteStudent = async (id) => {
+    childRef.current.handleDeleteItem(id);
+  };
+
+  const handleEdit =(id, name, country, email, studentType )=>{
+    childRef.current.handleEdit(id, name, country, email, studentType);
+  }
+
+  const childRef:any = useRef();
+
+  const GetItems = async(token, search, page, pageSize)=>await GetTeachers(token, search, page, pageSize);
+
+  const DeleteItemById = async(token, id)=>await DeleteTeacherById(token, id);
+
+  const AddItem = async(token, name, area, phone, email, skills) => await AddTeacher(token, name, area, phone, email, skills);
+
+  const EditItem = async(token, id, name, area, phone, email, skills) => await EditTeacher(token, id, name, area, phone, email, skills);
   
   return (
-    <div>teacher</div>
+    <CommonLayout>
+        <GenericTable onRef={childRef} columns={columns} dataType='teacher' GetItems={GetItems} DeleteItemById={DeleteItemById} AddItem={AddItem} EditItem={EditItem}/>
+    </CommonLayout>
   )
 }
 

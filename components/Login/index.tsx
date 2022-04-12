@@ -42,7 +42,7 @@ export default function LoginForm(){
             payload: { userInfo },
           })
 
-          router.push('/student');
+          router.push('/teacher');
         }
         else{
           message.error("error")
