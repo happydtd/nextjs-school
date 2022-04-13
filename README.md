@@ -175,3 +175,4 @@
            问题16: menu导航和breadcrumb如何互相协调？
                   menu导航组件的onclick方法参数中可以拿到keypath list，我把keypath list存入state，在render时拿state中的keypath list去生成breadcrumb。
                   反过来breadcrumbitem的onclick方法中拿到当前path， 然后在keypath list中找到当前path的index然后生成一个新的path list，再存回state， 但render时一直报错
+           问题17：上一个问题的报错说path.map()不是一个function，但是我已经用了path?.map()已经检查了path是否为null为什么还会报错？
