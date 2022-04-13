@@ -13,7 +13,7 @@ export default function CommonLayout({children} ) {
   const { state, dispatch } = useContext(Store);
   const { path } = state;
   //const [path, setPath] = useState([]);
-  console.log('path',path);
+  console.log('render path',path);
   const handleMenuClick = (props)=>{
     const {keyPath} = props;
     const newPath = ['CMS MANAGER SYSTEM',...keyPath.slice().reverse()];
@@ -22,6 +22,16 @@ export default function CommonLayout({children} ) {
       payload: newPath,
     })
     //setPath(newPath);
+  }
+
+  const handleBreadcrumbItemClick =(e, p)=>{
+    let indexNo = path?.indexOf(p);
+    const newPath = [...path.slice(0,indexNo+1)];
+    console.log('Breadcrumb path',newPath);
+    dispatch({
+      type: 'PATH',
+      payload: newPath,
+    })
   }
 
   return (
@@ -73,11 +83,12 @@ export default function CommonLayout({children} ) {
       <Layout style={{ padding: '0 24px 24px' }}>
         <Breadcrumb style={{ margin: '16px 0' }}>
         {
-          path?.map((p, i)=>{
+          path?.map((p)=>{
+            //console.log('path',path)
             const result = pathmapping.find((pm)=>pm.name === p)
-            console.log('result',result);
-            return (<Breadcrumb.Item key={i} >
-              <a href={result.path}>
+            //console.log('result',result);
+            return (<Breadcrumb.Item key={p} onClick={(e)=>handleBreadcrumbItemClick(e, p)}>
+              <a href={result?.path}>
               {p}
               </a>
               </Breadcrumb.Item>)
