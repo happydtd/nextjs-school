@@ -171,3 +171,7 @@
               },
 
             },
+           问题15: 父组件调用子组件的方法，目前我在GenericTable组件中使用了useImperativeHandle（）去暴露方法让父组件调用，还有其他办法吗？
+           问题16: menu导航和breadcrumb如何互相协调？
+                  menu导航组件的onclick方法参数中可以拿到keypath list，我把keypath list存入state，在render时拿state中的keypath list去生成breadcrumb。
+                  反过来breadcrumbitem的onclick方法中拿到当前path， 然后在keypath list中找到当前path的index然后生成一个新的path list，再存回state， 但render时一直报错
