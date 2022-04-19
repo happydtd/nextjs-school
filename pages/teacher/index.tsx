@@ -27,7 +27,7 @@ export default function Teacher() {
 
     },
     {
-      title: 'Area',
+      title: 'Country',
       dataIndex: 'country',
       key: 'country',
       sorter:(r1, r2)=>{
@@ -69,7 +69,7 @@ export default function Teacher() {
                 title="Are you sure to delete?"
                 okText="Confirm"
                 cancelText="Cancel"
-                onConfirm={()=>handleDeleteStudent(record.id)}
+                onConfirm={()=>handleDelete(record.id)}
           >
             <a>Delete</a>
           </Popconfirm>
@@ -79,7 +79,7 @@ export default function Teacher() {
     },
   ];
 
-  const handleDeleteStudent = async (id) => {
+  const handleDelete = async (id) => {
     childRef.current.handleDeleteItem(id);
   };
 

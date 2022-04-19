@@ -5,6 +5,7 @@ import StudentForm from '../../components/Student';
 import { useRouter } from 'next/router';
 import { Store } from '../../Utils/Store'
 import 'antd/dist/antd.css';
+import TeacherForm from '../Teacher';
 
 interface Props{
     onRef: any
@@ -75,23 +76,28 @@ const GenericTable: React.FC<Props> = (props: Props) => {
     handleEdit : (id, name, country, email, studentType )=>{
       setmodalTitle(`Edit ${dataType}`);
       setActionType("Edit");
-      setItem({id, name, country, email, studentType})
+      if (dataType === "student" )
+        setItem({id, name, country, email, studentType})
+      else
+        setItem({id, name, country, email, studentType})
       setVisible(true);
     },
   }));
 
   const handleOK = async (values) => {
     console.log("values", values)
-    const { name, email, area, studentType} = values;
+    return;
     setConfirmLoading(true);
+    const { name, email, country, studentType, } = values;
+
     let result1;
     if(actionType === 'Add' )
     {
-          result1  = await AddItem(token, name, area, email, +studentType);
+          result1  = await AddItem(token, name, country, email, +studentType);
     }
     else
     {
-          result1  = await EditItem(token, item.id, name, area, email, +studentType);
+          result1  = await EditItem(token, item.id, name, country, email, +studentType);
     }
     const result  = await GetItems(token, search, page, pageSize);
     setVisible(false);
@@ -163,7 +169,7 @@ const GenericTable: React.FC<Props> = (props: Props) => {
               {dataType === 'student'? 
                   <StudentForm parentOnOK={handleOK} parentOnCancel={handleCancel} actionType={actionType} student= {item}></StudentForm>
               :
-                  <StudentForm parentOnOK={handleOK} parentOnCancel={handleCancel} actionType={actionType} student= {item}></StudentForm>}
+                  <TeacherForm parentOnOK={handleOK} parentOnCancel={handleCancel} actionType={actionType} teacher= {item}></TeacherForm>}
           </Modal>
     </div>
   )

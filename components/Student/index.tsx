@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Form, Input, Button, Select } from 'antd';
 
 const { Option } = Select;
@@ -14,7 +14,6 @@ const tailLayout = {
 
 export default function StudentForm(props) {
   const [form] = Form.useForm();
-  const [stype, setStype] = useState(1);
 
   const onFinish = (values: any) => {
     props.parentOnOK(values);
@@ -29,27 +28,13 @@ export default function StudentForm(props) {
     console.log(props.student.studentType);
         form.setFieldsValue({
           name:props.student.name,
-          area: props.student.country,
+          country: props.student.country,
           email: props.student.email,
           studentType: props.student.studentType.id.toString()
         });
-
-        // console.log('stype1',stype)
-        // console.log('type1',props.student.studentType.name)
-        // if (stype !== props.student.studentType.name)
-        // {
-        //   setStype(props.student.studentType.name);
-        //   console.log('stype2',stype)
-        // }
   }
 
-  console.log('render3');
-  // const onFill = () => {
-  //   form.setFieldsValue({
-  //     note: 'Hello world!',
-  //     gender: 'male',
-  //   });
-  // };
+
   return (
 
     <Form {...layout} form={form} name="control-hooks" onFinish={onFinish}>
@@ -59,7 +44,7 @@ export default function StudentForm(props) {
     <Form.Item name="email" label="Email" rules={[{ required: true }]}>
       <Input />
     </Form.Item>
-        <Form.Item name="area" label="Area" rules={[{ required: true }]}>
+        <Form.Item name="country" label="Country" rules={[{ required: true }]}>
       <Input />
     </Form.Item>
     <Form.Item name="studentType" label="Student Type" rules={[{ required: true }]}>

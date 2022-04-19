@@ -88,9 +88,9 @@ export default function CommonLayout({children} ) {
             const result = pathmapping.find((pm)=>pm.name === p)
             //console.log('result',result);
             return (<Breadcrumb.Item key={p} onClick={(e)=>handleBreadcrumbItemClick(e, p)}>
-              <a href={result?.path}>
+              <Link href={result?.path??"/overview"}>
               {p}
-              </a>
+              </Link>
               </Breadcrumb.Item>)
           })
         }

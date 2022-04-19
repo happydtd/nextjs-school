@@ -27,7 +27,7 @@ export default function Student() {
 
     },
     {
-      title: 'Area',
+      title: 'Country',
       dataIndex: 'country',
       key: 'country',
       sorter:(r1, r2)=>{
@@ -78,7 +78,7 @@ export default function Student() {
                 title="Are you sure to delete?"
                 okText="Confirm"
                 cancelText="Cancel"
-                onConfirm={()=>handleDeleteStudent(record.id)}
+                onConfirm={()=>handleDelete(record.id)}
           >
             <a>Delete</a>
           </Popconfirm>
@@ -88,7 +88,7 @@ export default function Student() {
     },
   ];
 
-  const handleDeleteStudent = async (id) => {
+  const handleDelete = async (id) => {
     childRef.current.handleDeleteItem(id);
   };
 
@@ -102,9 +102,9 @@ export default function Student() {
 
   const DeleteItemById = async(token, id)=>await DeleteStudentById(token, id);
 
-  const AddItem = async(token, name, area, email, studentType) => await AddStudent(token, name, area, email, studentType);
+  const AddItem = async(token, name, country, email, studentType) => await AddStudent(token, name, country, email, studentType);
 
-  const EditItem = async(token, id, name, area, email, studentType) => await EditStudent(token, id, name, area, email, studentType);
+  const EditItem = async(token, id, name, country, email, studentType) => await EditStudent(token, id, name, country, email, studentType);
   
   return (
     <CommonLayout>
