@@ -1,6 +1,7 @@
 import React from 'react'
-import { Form, Input, Button, Select , InputNumber} from 'antd';
+import { Form, Input, Button, Select , Space, Slider} from 'antd';
 import DynamicField from './DynamicField';
+import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
 
@@ -75,9 +76,10 @@ export default function TeacherForm({teacher, parentOnOK, parentOnCancel, action
     //console.log(teacher.studentType);
     form.setFieldsValue({
         name:teacher.name,
-        area: teacher.country,
+        country: teacher.country,
         email: teacher.email,
-        //studentType: props.student.studentType.id.toString()
+        phone:teacher.phone,
+        skills: teacher.skills,
     });
   }
 
@@ -100,7 +102,36 @@ export default function TeacherForm({teacher, parentOnOK, parentOnCancel, action
     <Form.Item name="phone" label="Phone" rules={[{ required: true }]}>
         <Input addonBefore={prefixSelector} style={{ width: '100%' }} placeholder='mobile phone' />
     </Form.Item>
-    <DynamicField/>
+
+    <Form.List name="skills">
+        {(fields, { add, remove }) => (
+          <>
+            {fields.map(({ key, name, ...restField }) => (
+              <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
+                <Form.Item
+                  {...restField}
+                  name={[name, 'name']}
+                  rules={[{ required: true, message: 'Missing skill name' }]}
+                >
+                  <Input placeholder="Skill name" />
+                </Form.Item>
+                <Form.Item
+                  {...restField}
+                  name={[name, 'level']}                  
+                >
+                  <Slider defaultValue={1} max={5} style={{ width: '100%' }}/>
+                </Form.Item>
+                <MinusCircleOutlined onClick={() => remove(name)} />
+              </Space>
+            ))}
+            <Form.Item>
+              <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                Add field
+              </Button>
+            </Form.Item>
+          </>
+        )}
+      </Form.List>
 
 
     <Form.Item {...tailLayout}>

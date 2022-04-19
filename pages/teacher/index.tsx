@@ -64,7 +64,7 @@ export default function Teacher() {
       key: 'action',
       render: (text, record) => (
         <Space size="middle">
-          <a onClick={()=>handleEdit(record.id, record.name, record.country, record.email, record.type )}>Edit</a>
+          <a onClick={()=>handleEdit(record.id, record.name, record.country, record.email, record.skills, record.phone )}>Edit</a>
           <Popconfirm
                 title="Are you sure to delete?"
                 okText="Confirm"
@@ -83,8 +83,8 @@ export default function Teacher() {
     childRef.current.handleDeleteItem(id);
   };
 
-  const handleEdit =(id, name, country, email, studentType )=>{
-    childRef.current.handleEdit(id, name, country, email, studentType);
+  const handleEdit =(id, name, country, email, skills, phone )=>{
+    childRef.current.handleEdit(id, name, country, email, null, skills, phone);
   }
 
   const childRef:any = useRef();
@@ -93,9 +93,9 @@ export default function Teacher() {
 
   const DeleteItemById = async(token, id)=>await DeleteTeacherById(token, id);
 
-  const AddItem = async(token, name, area, phone, email, skills) => await AddTeacher(token, name, area, phone, email, skills);
+  const AddItem = async(token, name, country, phone, email, skills) => await AddTeacher(token, name, country, phone, email, skills);
 
-  const EditItem = async(token, id, name, area, phone, email, skills) => await EditTeacher(token, id, name, area, phone, email, skills);
+  const EditItem = async(token, id, name, country, phone, email, skills) => await EditTeacher(token, id, name, country, phone, email, skills);
   
   return (
     <CommonLayout>

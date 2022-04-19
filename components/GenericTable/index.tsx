@@ -73,36 +73,57 @@ const GenericTable: React.FC<Props> = (props: Props) => {
           setItems(result.data.data.teachers);
     },
 
-    handleEdit : (id, name, country, email, studentType )=>{
+    handleEdit : (id, name, country, email, studentType, skills, phone )=>{
       setmodalTitle(`Edit ${dataType}`);
       setActionType("Edit");
       if (dataType === "student" )
         setItem({id, name, country, email, studentType})
       else
-        setItem({id, name, country, email, studentType})
+        setItem({id, name, country,  phone, email, skills})
       setVisible(true);
     },
   }));
 
   const handleOK = async (values) => {
     console.log("values", values)
-    return;
     setConfirmLoading(true);
-    const { name, email, country, studentType, } = values;
-
+    const { name, email, country, studentType, phone, skills } = values;
     let result1;
-    if(actionType === 'Add' )
-    {
-          result1  = await AddItem(token, name, country, email, +studentType);
+
+    if (dataType === 'student'){
+      
+      if(actionType === 'Add' )
+      {
+            result1  = await AddItem(token, name, country, email, +studentType);
+      }
+      else
+      {
+            result1  = await EditItem(token, item.id, name, country, email, +studentType);
+      }
     }
-    else
-    {
-          result1  = await EditItem(token, item.id, name, country, email, +studentType);
+    else{
+      if(actionType === 'Add' )
+      {
+            result1  = await AddItem(token, name, country, phone, email, skills);
+      }
+      else
+      {
+            result1  = await EditItem(token, item.id, name, country, phone, email, skills);
+      }
     }
+
     const result  = await GetItems(token, search, page, pageSize);
+
+
     setVisible(false);
     setTotal(result.data.data.total)
+
+    if (dataType === 'student'){
     setItems(result.data.data.students);
+    }
+    else{
+      setItems(result.data.data.teachers);
+    }
     setConfirmLoading(false);
   };
 

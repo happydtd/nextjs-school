@@ -93,7 +93,7 @@ export default function Student() {
   };
 
   const handleEdit =(id, name, country, email, studentType )=>{
-    childRef.current.handleEdit(id, name, country, email, studentType);
+    childRef.current.handleEdit(id, name, country, email, studentType , null, null);
   }
 
   const childRef:any = useRef();
