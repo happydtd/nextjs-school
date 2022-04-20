@@ -186,6 +186,7 @@ const GenericTable: React.FC<Props> = (props: Props) => {
             visible={visible}
             footer={null}
             confirmLoading={confirmLoading}
+            onCancel={()=>setVisible(false)}
           >
               {dataType === 'student'? 
                   <StudentForm parentOnOK={handleOK} parentOnCancel={handleCancel} actionType={actionType} student= {item}></StudentForm>

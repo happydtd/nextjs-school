@@ -1,6 +1,5 @@
 import React from 'react'
 import { Form, Input, Button, Select , Space, Slider} from 'antd';
-import DynamicField from './DynamicField';
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
@@ -64,6 +63,7 @@ export default function TeacherForm({teacher, parentOnOK, parentOnCancel, action
   );
 
   const onFinish = (values: any) => {
+    console.log('form value', values);
     parentOnOK(values);
   };
 
@@ -102,11 +102,19 @@ export default function TeacherForm({teacher, parentOnOK, parentOnCancel, action
     <Form.Item name="phone" label="Phone" rules={[{ required: true }]}>
         <Input addonBefore={prefixSelector} style={{ width: '100%' }} placeholder='mobile phone' />
     </Form.Item>
+    {/* <Form.Item name="slider" label="Slider">
+        <Slider defaultValue={1} max={5} />
+    </Form.Item> */}
 
     <Form.List name="skills">
-        {(fields, { add, remove }) => (
+        {
+         (fields, { add, remove }) => (
           <>
-            {fields.map(({ key, name, ...restField }) => (
+            {fields.map(({ key, name, ...restField }) =>{
+              console.log('key', key);
+              console.log('name', name);
+              console.log('restField', restField);
+              return (
               <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
                 <Form.Item
                   {...restField}
@@ -119,11 +127,11 @@ export default function TeacherForm({teacher, parentOnOK, parentOnCancel, action
                   {...restField}
                   name={[name, 'level']}                  
                 >
-                  <Slider defaultValue={1} max={5} style={{ width: '100%' }}/>
+                  <Slider defaultValue={1} max={5}/>
                 </Form.Item>
                 <MinusCircleOutlined onClick={() => remove(name)} />
               </Space>
-            ))}
+            )})}
             <Form.Item>
               <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
                 Add field

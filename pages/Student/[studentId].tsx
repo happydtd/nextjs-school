@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState } from 'react'
 import {useRouter} from 'next/router'
 import CommonLayout from '../../components/CommonLayout/CommonLayout';
-import { Row, Col , Typography, Tabs, Spin } from 'antd';
+import { Row, Col , Typography, Tabs, Spin, Tag } from 'antd';
 import { CourseForm } from '../../components/Course';
 import { GetStudentById } from '../../serverAPI';
 import {Store} from '../../Utils/Store'
@@ -114,7 +114,12 @@ export default function StudentDetail() {
                 <Col span={24}><Title level={4} type="success">Interesting</Title></Col>
               </Row>
               <Row>
-                <Col span={24}>{student.interest?.join(',')}</Col>
+                {/* <Col span={24}>{student.interest?.join(',')}</Col> */}
+                <Col span={24}>
+                  {student.interest?.map((i)=>{
+                    return (<Tag color="magenta" key={i}>{i}</Tag>)
+                  })}
+                </Col>
               </Row>
               <Row>
                 <Col span={24}><Title level={4} type="success">Description</Title></Col>

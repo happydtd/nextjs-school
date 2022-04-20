@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState } from 'react'
 import {useRouter} from 'next/router'
 import CommonLayout from '../../components/CommonLayout/CommonLayout';
-import { Row, Col , Typography, Tabs, Spin, Rate, Paragraph } from 'antd';
+import { Row, Col , Typography, Tabs, Spin, Rate} from 'antd';
 import { CourseForm } from '../../components/Course';
 import { GetTeacherById } from '../../serverAPI';
 import {Store} from '../../Utils/Store'
@@ -88,7 +88,7 @@ export default function TeacherDetail() {
               </Row>
               <Row>
                 <Col span={6}><Text strong>Gender:</Text></Col>
-                <Col span={18}>{teacher.profile?.gender}</Col>
+                <Col span={18}>{teacher.profile?.gender === 1? 'male':'female'}</Col>
               </Row>
               <Row>
                 <Col span={6}><Text strong>Create Time:</Text></Col>
@@ -101,13 +101,21 @@ export default function TeacherDetail() {
               <Row>
                 <Col span={24}><Title level={4} type="success">Skills</Title></Col>
               </Row>
-              <Row>
-                <span>
-                    
-                    <Rate  value={3} />
-                </span>
-              </Row>
 
+                {
+                  teacher.skills?.map(
+                    (m)=>{
+                        return (
+                          <Row key={m.index}>
+                              <Col span={6}><Text strong>{m.name}</Text></Col>
+                              <Col span={18}>
+                                    <Rate value={m.level} />
+                              </Col>
+                          </Row>
+                        )
+                    }
+                  )
+                }
               <Row>
                 <Col span={24}><Title level={4} type="success">Description</Title></Col>
               </Row>
