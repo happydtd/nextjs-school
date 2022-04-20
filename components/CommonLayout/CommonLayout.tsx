@@ -75,6 +75,21 @@ export default function CommonLayout({children} ) {
             </Menu.Item>
           </SubMenu>
           <SubMenu key="Coures" icon={<NotificationOutlined />} title="Coures">
+            <Menu.Item key="All Courses">
+              <Link href="/courses">
+                <a>All Courses</a>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="Add Course">
+              <Link href="/add-course">
+                <a>All Courses</a>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="Edit Course">
+              <Link href="/edit-course">
+                <a>Edit Courses</a>
+              </Link>
+            </Menu.Item>
           </SubMenu>
           <SubMenu key="Message" icon={<NotificationOutlined />} title="Message">
           </SubMenu>
