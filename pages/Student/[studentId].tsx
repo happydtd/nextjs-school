@@ -6,6 +6,28 @@ import { CourseForm } from '../../components/Course';
 import { GetStudentById } from '../../serverAPI';
 import {Store} from '../../Utils/Store'
 
+interface Student{
+  name: string,
+  age: number,
+  email: string,
+  phone: string,
+  address: string[],
+  education: string,
+  country: string,
+  gender:string,
+  memberStartAt: Date,
+  memberEndAt: Date,
+  type:StudentType,
+  createdAt: Date,
+  updatedAt:Date,
+  interest: string[],
+  description: string
+}
+
+interface StudentType{
+  name: string,
+}
+
 export default function StudentDetail() {
   const router = useRouter();
   const { Text, Title } = Typography;
@@ -15,7 +37,7 @@ export default function StudentDetail() {
   const { state, dispatch } = useContext(Store);
   const { userInfo} = state;
   const { token } = userInfo.userInfo;
-  const [ student, setStudent] = useState({});
+  const [ student, setStudent] = useState<Student>();
 
 
   async function callAPI(){
@@ -40,6 +62,8 @@ export default function StudentDetail() {
     }
     callAPI();
   },[])
+
+  if (!student) return <h3>student not found...</h3>
 
   return (
     <CommonLayout>
@@ -128,9 +152,9 @@ export default function StudentDetail() {
                 <Col span={24}>{student.description}</Col>
               </Row>
             </TabPane>
-            <TabPane tab="Courses" key="2">
+            {/* <TabPane tab="Courses" key="2">
               <CourseForm courses = {student?.courses}/>
-            </TabPane>
+            </TabPane> */}
           </Tabs>
         </Col>
       </Row>

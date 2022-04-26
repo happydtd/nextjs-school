@@ -6,6 +6,31 @@ import { CourseForm } from '../../components/Course';
 import { GetTeacherById } from '../../serverAPI';
 import {Store} from '../../Utils/Store'
 
+interface Teacher{
+  name: string,
+  country: string,
+  email: string,
+  phone: string,
+  address: string[],
+  education: string,
+  profile: Profile,
+  skills: Skill[],
+}
+
+interface Profile{
+  birthday: Date,
+  gender: number,
+  createdAt: Date,
+  updatedAt: Date,
+  description: string,
+}
+
+interface Skill{
+  index:number,
+  name:string,
+  level:number,
+}
+
 export default function TeacherDetail() {
   const router = useRouter();
   const { Text, Title } = Typography;
@@ -15,7 +40,7 @@ export default function TeacherDetail() {
   const { state, dispatch } = useContext(Store);
   const { userInfo} = state;
   const { token } = userInfo.userInfo;
-  const [ teacher, setTeacher] = useState({});
+  const [ teacher, setTeacher] = useState<Teacher>();
 
 
   async function callAPI(){
@@ -40,6 +65,8 @@ export default function TeacherDetail() {
     }
     callAPI();
   },[])
+
+  if (!teacher) return <h3>teacher not found...</h3>
 
   return (
     <CommonLayout>
@@ -123,9 +150,9 @@ export default function TeacherDetail() {
                 <Col span={24}>{teacher.profile?.description}</Col>
               </Row>
             </TabPane>
-            <TabPane tab="Courses" key="2">
+            {/* <TabPane tab="Courses" key="2">
               <CourseForm courses = {teacher?.courses}/>
-            </TabPane>
+            </TabPane> */}
           </Tabs>
         </Col>
       </Row>

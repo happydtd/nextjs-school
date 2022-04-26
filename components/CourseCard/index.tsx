@@ -24,7 +24,7 @@ export default function CourseCard({course}:CourseCardProp) {
   const style = { background: '#0092ff', padding: '8px 0' };
   return (
     <>
-        <Card title="Default size card" hoverable 
+        <Card title="Default size card" hoverable
           cover={
               <Image
               alt="Next.js logo"
