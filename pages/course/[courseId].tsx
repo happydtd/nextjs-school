@@ -92,7 +92,16 @@ export default function CourseDetail() {
             </Row> 
           </Col>
           <Col span={12}>
-
+            <Row gutter={16}>
+              <Col className="gutter-row" span={24}>
+                  <div><Typography>Course Detail</Typography></div>
+              </Col>
+            </Row>
+            <Row gutter={16}>
+              <Col className="gutter-row" span={24}>
+                  <div><Typography>Create Time</Typography></div>
+              </Col>
+            </Row>
           </Col>
         </Row>
       </CommonLayout>
