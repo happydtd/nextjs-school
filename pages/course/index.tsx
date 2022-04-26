@@ -57,7 +57,7 @@ export default function Course() {
             <b>Yay! You have seen it all</b>
           </p>
         }
-        className='flex flex-wrap'
+
         // below props only if you need pull down functionality
         // refreshFunction={this.refresh}
         // pullDownToRefresh
@@ -69,21 +69,20 @@ export default function Course() {
         //   <h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
         // }
       >
-        { courses?.map((course, index)=>{
+        {/* { courses?.map((course, index)=>{
           return (
             <CourseCard key={index} course={course}/>
           )})
-        }
-      </InfiniteScroll>
-
-      {/* <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
+        } */}
+        <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
         { courses?.map((course, index)=>{
           console.log(course);
           return (
             <Col key={index} xs={12} sm={12} md={8} lg={6} ><CourseCard course={course}/></Col>
           )})
         }
-      </Row> */}
+      </Row>
+      </InfiniteScroll>
     </CommonLayout>
 
   )

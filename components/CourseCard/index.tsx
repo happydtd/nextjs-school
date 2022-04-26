@@ -2,23 +2,12 @@ import React from 'react'
 import { Card ,Row, Col, Divider, Typography, Button} from 'antd';
 import { HeartFilled ,UserOutlined } from '@ant-design/icons';
 import Image from 'next/image';
-
-interface Course{
-    name: string
-    createdAt: Date
-    detail:string
-    duration:number
-    id:number
-    maxStudents:number
-    price:number
-    star:number
-    teacherName:string
-  }
+import Course from '../../models/course.interface';
+import Link from 'next/link';
 
 interface CourseCardProp {
     course: Course
 }
-
 
 export default function CourseCard({course}:CourseCardProp) {
   const style = { background: '#0092ff', padding: '8px 0' };
@@ -75,7 +64,11 @@ export default function CourseCard({course}:CourseCardProp) {
             </Row>
             <Row gutter={16}>
               <Col className="gutter-row" span={12}>
-                <Button type="primary">Read More</Button>
+                <Button type="primary">
+                  <Link href={'/course/'+ course.id}>
+                    <a>Read More</a>
+                  </Link>
+                </Button>
               </Col>
               <Col className="gutter-row" span={6}/>
               <Col className="gutter-row" span={6}/>
