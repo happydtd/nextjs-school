@@ -76,12 +76,11 @@ export default function Course() {
         } */}
         <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
         { courses?.map((course, index)=>{
-          console.log(course);
           return (
             <Col key={index} xs={12} sm={12} md={8} lg={6} ><CourseCard course={course}/></Col>
           )})
         }
-      </Row>
+        </Row>
       </InfiniteScroll>
     </CommonLayout>
 

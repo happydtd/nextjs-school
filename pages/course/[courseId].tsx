@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { GetCoursesById } from '../../serverAPI';
 import Course from '../../models/course.interface';
 import CommonLayout from '../../components/CommonLayout/CommonLayout';
-import { Col, Divider, Row, Spin, Typography } from 'antd';
+import { Col, Collapse, Divider, Row, Spin, Tag, Typography } from 'antd';
 import { HeartFilled ,UserOutlined } from '@ant-design/icons';
 import { Store } from '../../Utils/Store';
 
@@ -17,7 +17,7 @@ export default function CourseDetail() {
     const { userInfo} = state;
     const { token } = userInfo.userInfo;
     const [ course, setCourse] = useState<Course>();
-  
+    const { Panel } = Collapse;
   
     async function callAPI(){
       try{
@@ -57,7 +57,7 @@ export default function CourseDetail() {
             <Divider orientation="left"></Divider>
             <Row gutter={16}>
             <Col className="gutter-row" span={12}>
-            <div><Typography>{course.createdAt}</Typography></div>
+            <div><Typography>{course.startTime}</Typography></div>
             </Col>
             <Col className="gutter-row" span={12}>
             <div><Typography><HeartFilled style={{color:'red'}}/> {course.star}</Typography></div>
@@ -100,6 +100,98 @@ export default function CourseDetail() {
             <Row gutter={16}>
               <Col className="gutter-row" span={24}>
                   <div><Typography>Create Time</Typography></div>
+              </Col>
+            </Row>
+            <Row gutter={16}>
+              <Col className="gutter-row" span={24}>
+                  <div><Typography>{course.createdAt}</Typography></div>
+              </Col>
+            </Row>
+            <Row gutter={16}>
+              <Col className="gutter-row" span={24}>
+                  <div><Typography>Start Time</Typography></div>
+              </Col>
+            </Row>
+            <Row gutter={16}>
+              <Col className="gutter-row" span={24}>
+                  <div><Typography>{course.startTime}</Typography></div>
+              </Col>
+            </Row>
+            <Row gutter={16}>
+              <Col className="gutter-row" span={24}>
+                  <div><Typography>Status</Typography></div>
+              </Col>
+            </Row>
+            <Row gutter={16}>
+              <Col className="gutter-row" span={24}>
+                <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
+                { course.schedule.chapters.map((chapter, index)=>{
+                  return (
+                    <Col key={index} xs={12} sm={12} md={8} lg={6} >
+                      {chapter.name}
+                    </Col>
+                  )})
+                }
+                </Row>
+              </Col>
+            </Row>
+            <Row gutter={16}>
+              <Col className="gutter-row" span={24}>
+                  <div><Typography>Course Code</Typography></div>
+              </Col>
+            </Row>
+            <Row gutter={16}>
+              <Col className="gutter-row" span={24}>
+                  <div><Typography>{course.uid}</Typography></div>
+              </Col>
+            </Row>
+            <Row gutter={16}>
+              <Col className="gutter-row" span={24}>
+                  <div><Typography>Class Time</Typography></div>
+              </Col>
+            </Row>
+            <Row gutter={16}>
+              <Col className="gutter-row" span={24}>
+                  <div><Typography>Category</Typography></div>
+              </Col>
+            </Row>
+            <Row gutter={16}>
+              <Col className="gutter-row" span={24}>
+                  {
+                    course.type.map((type,index)=>{
+                      return (<Tag color="magenta" key={index}>{type.name}</Tag>)
+                    })
+                  }
+              </Col>
+            </Row>
+            <Row gutter={16}>
+              <Col className="gutter-row" span={24}>
+                  <div><Typography>Description</Typography></div>
+              </Col>
+            </Row>
+            <Row gutter={16}>
+              <Col className="gutter-row" span={24}>
+                  <div><Typography>{course.detail}</Typography></div>
+              </Col>
+            </Row>
+            <Row gutter={16}>
+              <Col className="gutter-row" span={24}>
+                  <div><Typography>Chapter</Typography></div>
+              </Col>
+            </Row>
+            <Row gutter={16}>
+              <Col className="gutter-row" span={24}>
+                <Collapse>
+                  {
+                    course.schedule.chapters.map((chapter,index)=>{
+                      return (
+                        <Panel header={chapter.name} key={chapter.id}>
+                          <p>{chapter.content}</p>
+                        </Panel>
+                      )
+                    })
+                  }
+                </Collapse>
               </Col>
             </Row>
           </Col>
