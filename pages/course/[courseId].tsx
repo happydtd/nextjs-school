@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { GetCoursesById } from '../../serverAPI';
 import Course from '../../models/course.interface';
 import CommonLayout from '../../components/CommonLayout/CommonLayout';
-import { Col, Collapse, Divider, Row, Spin, Tag, Typography } from 'antd';
+import { Col, Collapse, Divider, Row, Spin, Steps, Tag, Typography } from 'antd';
 import { HeartFilled ,UserOutlined } from '@ant-design/icons';
 import { Store } from '../../Utils/Store';
 
@@ -18,7 +18,8 @@ export default function CourseDetail() {
     const { token } = userInfo.userInfo;
     const [ course, setCourse] = useState<Course>();
     const { Panel } = Collapse;
-  
+    const {Step} = Steps;
+    
     async function callAPI(){
       try{
           setLoading(true);
@@ -124,7 +125,20 @@ export default function CourseDetail() {
             </Row>
             <Row gutter={16}>
               <Col className="gutter-row" span={24}>
-                <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
+                <div>
+                  <div>
+                    <Steps>
+                      {
+                        course.schedule.chapters.map((chapter, index)=>{
+                          return (
+                            <Step key={index} title={chapter.name}>{chapter.name}</Step>
+                          )
+                        })
+                      }
+                    </Steps>
+                  </div>
+                </div>
+                {/* <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
                 { course.schedule.chapters.map((chapter, index)=>{
                   return (
                     <Col key={index} xs={12} sm={12} md={8} lg={6} >
@@ -132,7 +146,7 @@ export default function CourseDetail() {
                     </Col>
                   )})
                 }
-                </Row>
+                </Row> */}
               </Col>
             </Row>
             <Row gutter={16}>
