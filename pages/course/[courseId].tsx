@@ -44,8 +44,7 @@ export default function CourseDetail() {
   
     //if (!course) return <h3>course not found...</h3>
   
-    return (
-      {course!==null && 
+    return course!=null && (
       <CommonLayout>
         <Spin spinning={loading}/>
         <Row gutter={16}>
@@ -198,6 +197,5 @@ export default function CourseDetail() {
           </Col>
         </Row>
       </CommonLayout>
-      }
     )
   }
