@@ -42,9 +42,10 @@ export default function CourseDetail() {
       callAPI();
     },[])
   
-    if (!course) return <h3>course not found...</h3>
+    //if (!course) return <h3>course not found...</h3>
   
     return (
+      {course!==null && 
       <CommonLayout>
         <Spin spinning={loading}/>
         <Row gutter={16}>
@@ -197,5 +198,6 @@ export default function CourseDetail() {
           </Col>
         </Row>
       </CommonLayout>
+      }
     )
   }
