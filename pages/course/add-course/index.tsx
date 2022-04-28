@@ -2,6 +2,7 @@ import React from 'react'
 import CommonLayout from '../../../components/CommonLayout/CommonLayout'
 import { Steps, Button, message } from 'antd';
 import CourseDetail from '../../../components/CourseDetail';
+import CourseSchedule from '../../../components/CourseSchedule';
 
 const { Step } = Steps;
 const steps = [
@@ -10,8 +11,8 @@ const steps = [
       content: <CourseDetail/>,
     },
     {
-      title: 'Second',
-      content: 'Second-content',
+      title: 'Course Schedule',
+      content: <CourseSchedule/>,
     },
     {
       title: 'Last',
