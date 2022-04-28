@@ -9,7 +9,7 @@ const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
 
 export default function CommonLayout({children} ) {
-  const pathmapping = [{name:'CMS MANAGER SYSTEM', path:'/overview'},{name:'Overview', path:'/overview'},{name:'Student List', path:'/student'}, {name:'Teacher List', path:'/teacher'}, {name:'All Courses', path:'/course'} ]
+  const pathmapping = [{name:'CMS MANAGER SYSTEM', path:'/overview'},{name:'Overview', path:'/overview'},{name:'Student List', path:'/student'}, {name:'Teacher List', path:'/teacher'}, {name:'All Courses', path:'/course'}, {name:'Add Course', path:'/course/add-course'}, {name:'Edit Course', path:'/course/edit-course'} ]
   const { state, dispatch } = useContext(Store);
   const { path } = state;
   //const [path, setPath] = useState([]);
@@ -81,12 +81,12 @@ export default function CommonLayout({children} ) {
               </Link>
             </Menu.Item>
             <Menu.Item key="Add Course">
-              <Link href="/add-course">
+              <Link href="/course/add-course">
                 <a>Add Courses</a>
               </Link>
             </Menu.Item>
             <Menu.Item key="Edit Course">
-              <Link href="/edit-course">
+              <Link href="/course/edit-course">
                 <a>Edit Courses</a>
               </Link>
             </Menu.Item>
