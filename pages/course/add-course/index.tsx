@@ -5,23 +5,12 @@ import CourseDetail from '../../../components/CourseDetail';
 import CourseSchedule from '../../../components/CourseSchedule';
 
 const { Step } = Steps;
-const steps = [
-    {
-      title: 'Course Detail',
-      content: <CourseDetail/>,
-    },
-    {
-      title: 'Course Schedule',
-      content: <CourseSchedule/>,
-    },
-    {
-      title: 'Last',
-      content: 'Last-content',
-    },
-  ];
+
 
 export default function AddCourse() {
     const [current, setCurrent] = React.useState(0);
+
+
 
     const next = () => {
         setCurrent(current + 1);
@@ -30,6 +19,21 @@ export default function AddCourse() {
       const prev = () => {
         setCurrent(current - 1);
       };
+
+      const steps = [
+        {
+          title: 'Course Detail',
+          content: <CourseDetail next={next}/>,
+        },
+        {
+          title: 'Course Schedule',
+          content: <CourseSchedule/>,
+        },
+        {
+          title: 'Last',
+          content: 'Last-content',
+        },
+      ];
     
   return (
     <CommonLayout>
@@ -39,7 +43,7 @@ export default function AddCourse() {
         ))}
       </Steps>
       <div className="steps-content">{steps[current].content}</div>
-      <div className="steps-action">
+      {/* <div className="steps-action">
         {current < steps.length - 1 && (
           <Button type="primary" onClick={() => next()}>
             Next
@@ -55,7 +59,7 @@ export default function AddCourse() {
             Previous
           </Button>
         )}
-      </div>
+      </div> */}
     </CommonLayout>
     
   )
