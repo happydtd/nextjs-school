@@ -1,70 +1,92 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Row, Col, Divider, Space, Input ,Typography, Select ,DatePicker, Upload, message, Form, Button, InputNumber } from 'antd';
+import { useRouter } from 'next/router';
+import { Store } from '../../Utils/Store'
+import { GetTeachers, GetCourseTypes} from '../../serverAPI';
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
+import Teacher from '../../models/teacher.interface';
+import { Guid } from 'js-guid';
+import { CourseType } from '../../models/course.interface';
 
 const { Text} = Typography;
 const { Option } = Select;
 const { TextArea } = Input;
 const { Dragger } = Upload;
 
-// const props = {
-//     name: 'file',
-//     multiple: true,
-//     action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-//     onChange(info) {
-//       const { status } = info.file;
-//       if (status !== 'uploading') {
-//         console.log(info.file, info.fileList);
-//       }
-//       if (status === 'done') {
-//         message.success(`${info.file.name} file uploaded successfully.`);
-//       } else if (status === 'error') {
-//         message.error(`${info.file.name} file upload failed.`);
-//       }
-//     },
-//     onDrop(e) {
-//       console.log('Dropped files', e.dataTransfer.files);
-//     },
-//   };
-
 export default function CourseDetail(props) {
-    const {next} = props;
-    const [form] = Form.useForm();
-    
-      const onFinish = (values: any) => {
-        console.log('Received values of form: ', values);
-        next();
-      };
+  const {next} = props;
+  const [form] = Form.useForm();
+  const router = useRouter();
+  const { state, dispatch } = useContext(Store);
+  const { userInfo} = state;
+  const { token } = userInfo.userInfo;
+  const [ teachers, setTeachers] = useState<Teacher[]>();
+  const [ courseTypes, setCourseTypes] = useState<CourseType[]>();
+  const [courseCode, setCourseCode] = useState<string>(Guid.newGuid().toString())
 
-      const onGenderChange = (value: string) => {
-        switch (value) {
-          case 'male':
-            form.setFieldsValue({ note: 'Hi, man!' });
-            return;
-          case 'female':
-            form.setFieldsValue({ note: 'Hi, lady!' });
-            return;
-          case 'other':
-            form.setFieldsValue({ note: 'Hi there!' });
+  async function callAPI(){ 
+    try{
+        const teacherResult  = await GetTeachers(token);
+        setTeachers(teacherResult.data.data.teachers);
+
+        const courseTypeResult  = await GetCourseTypes(token);
+        setCourseTypes(courseTypeResult.data.data);
+        console.log('course type', courseTypeResult.data.data);
+    }
+    catch(error){
+      console.log("error", error)
+    }
+  };
+
+
+  useEffect(()=>{
+    if (!userInfo) {
+      router.push('/signin');
+    }
+    callAPI();
+  },[])
+
+  const onFinish = (values: any) => {
+    console.log('Received values of form: ', values);
+    next();
+  };
+
+  const onTeacherChange = (value: string) => {
+    switch (value) {
+      case 'male':
+        form.setFieldsValue({ note: 'Hi, man!' });
+        return;
+      case 'female':
+        form.setFieldsValue({ note: 'Hi, lady!' });
+        return;
+      case 'other':
+        form.setFieldsValue({ note: 'Hi there!' });
+    }
+  };
+
+  const suffixSelector = (
+    <Form.Item name="suffix" noStyle>
+      <Select style={{ width: 70 }}
+      defaultValue='day'
+      >
+        <Option value="day">day</Option>
+        <Option value="week">week</Option>
+        <Option value="month">month</Option>
+        <Option value="year">year</Option>
+      </Select>
+    </Form.Item>
+  );
+
+  const normFile = (e: any) => {
+        console.log('Upload event:', e);
+        if (Array.isArray(e)) {
+            return e;
         }
-      };
+        return e && e.fileList;
+    };
 
-      const suffixSelector = (
-        <Form.Item name="suffix" noStyle>
-          <Select style={{ width: 70 }}>
-            <Option value="USD">$</Option>
-            <Option value="CNY">¥</Option>
-          </Select>
-        </Form.Item>
-      );
-
-      const normFile = (e: any) => {
-            console.log('Upload event:', e);
-            if (Array.isArray(e)) {
-                return e;
-            }
-            return e && e.fileList;
-        };
+    if (!teachers) return (<h1>teacher is null</h1>)
+    if (!courseTypes) return (<h1>courseTypes is null</h1>)
 
   return (
     <Form
@@ -87,12 +109,17 @@ export default function CourseDetail(props) {
             <Form.Item name="teacher" label="Teacher" rules={[{ required: true }]}>
                 <Select
                 placeholder="Select a option and change input text above"
-                onChange={onGenderChange}
+                onChange={onTeacherChange}
+                defaultValue={teachers[0].name}
                 allowClear
                 >
-                <Option value="male">male</Option>
-                <Option value="female">female</Option>
-                <Option value="other">other</Option>
+                  {
+                    teachers.map((teacher, index)=>{
+                      return (
+                        <Option key={index} value={teacher.name}>{teacher.name}</Option>
+                      )
+                    })
+                  }
                 </Select>
             </Form.Item>
           </Col>
@@ -102,16 +129,22 @@ export default function CourseDetail(props) {
                 name="type"
                 rules={[{ required: true, message: 'Please input Type!' }]}
             >
-                <Input />
+                <Select
+                  mode="multiple"
+                  placeholder="Please select"
+                  defaultValue={courseTypes[0].name}
+                  style={{ width: '100%' }}
+                >
+                  {courseTypes.map((ct, index)=>{return (<Option key={index}>{ct.name}</Option>)})}
+                </Select>
             </Form.Item>
           </Col>
           <Col className="gutter-row" span={6}>
             <Form.Item
                 label="Course Code"
                 name="courseCode"
-                rules={[{ required: true, message: 'Please input Course Code!' }]}
             >
-                <Input />
+                <Input defaultValue={courseCode} disabled/>
             </Form.Item>
           </Col>
       </Row>
@@ -131,11 +164,22 @@ export default function CourseDetail(props) {
                 <Row gutter={16}>
                     <Col className="gutter-row" span={24}>
                         <Form.Item
+                            label="Price"
+                            name="price"
+                            rules={[{ required: true, message: 'Please input Price!' }]}
+                        >
+                            <InputNumber addonBefore="$" style={{ width: '100%' }}/>
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row gutter={16}>
+                    <Col className="gutter-row" span={24}>
+                        <Form.Item
                             label="Student Limit"
                             name="studentLimit"
                             rules={[{ required: true, message: 'Please input Student Limit!' }]}
                         >
-                            <Input />
+                            <InputNumber  />
                         </Form.Item>
                     </Col>
                 </Row>
@@ -164,7 +208,7 @@ export default function CourseDetail(props) {
             <Col className="gutter-row" span={8}>
                 <Form.Item label="Dragger">
                     <Form.Item name="dragger" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
-                    <Upload.Dragger name="files" action="/upload.do">
+                    <Upload.Dragger name="files" action="">
                         <p className="ant-upload-drag-icon">
                         <InboxOutlined />
                         </p>

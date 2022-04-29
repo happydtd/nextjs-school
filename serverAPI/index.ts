@@ -19,7 +19,7 @@ export const EditStudent = async (token:string, id:number, name:string, country:
 
 export const GetStudentById = async (token:string, id:number)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/students', token, "GET", "Query", id)
 
-export const GetTeachers = async (token:string, query: string = null, page:number, limit:number)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/teachers', token, "GET", "Body",{query, page, limit})
+export const GetTeachers = async (token:string, query?: string , page?:number, limit?:number)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/teachers', token, "GET", "Body",{query, page, limit})
 
 export const DeleteTeacherById = async (token:string, id:number)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/teachers', token, "DELETE", "Query",id)
 
@@ -32,3 +32,5 @@ export const GetTeacherById = async (token:string, id:number)  => await callAxio
 export const GetCourses = async (token:string, query: string = null, page:number=null, limit:number=null, name: string=null, type:string=null)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/courses', token, "GET", "Body",{query, page, limit, name, type})
 
 export const GetCoursesById = async (token:string, id:number)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/courses/detail', token, "GET", "Body", {id})
+
+export const GetCourseTypes = async (token:string)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/courses/type', token, "GET", "Body",{})

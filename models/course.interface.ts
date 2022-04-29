@@ -29,7 +29,7 @@ interface Chapter {
     content: string
   }
 
-interface type{
+export interface CourseType{
     id: number,
     name: string
   }
@@ -65,7 +65,7 @@ interface sales{
     teacherId: number,
     teacher: Teacher,
     schedule: Schedule,
-    type: type[],
+    type: CourseType[],
     sales: sales,
     teacherName: string
   }

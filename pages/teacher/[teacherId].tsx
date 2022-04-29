@@ -5,31 +5,9 @@ import { Row, Col , Typography, Tabs, Spin, Rate} from 'antd';
 import { CourseForm } from '../../components/CourseForm';
 import { GetTeacherById } from '../../serverAPI';
 import {Store} from '../../Utils/Store'
+import Teacher from '../../models/teacher.interface';
 
-interface Teacher{
-  name: string,
-  country: string,
-  email: string,
-  phone: string,
-  address: string[],
-  education: string,
-  profile: Profile,
-  skills: Skill[],
-}
 
-interface Profile{
-  birthday: Date,
-  gender: number,
-  createdAt: Date,
-  updatedAt: Date,
-  description: string,
-}
-
-interface Skill{
-  index:number,
-  name:string,
-  level:number,
-}
 
 export default function TeacherDetail() {
   const router = useRouter();
