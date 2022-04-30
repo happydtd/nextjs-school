@@ -53,7 +53,7 @@ export default function CourseDetail(props) {
     console.log('course: ', course);
     const addcourseresult = await AddCourse(token, course);
     console.log('addcourseresult: ', addcourseresult);
-    //next();
+    next();
   };
 
 
