@@ -13,11 +13,11 @@ export default function AddCourse() {
 
 
     const next = () => {
-        setCurrent(current + 1);
+        setCurrent(prev=> prev + 1);
       };
     
       const prev = () => {
-        setCurrent(current - 1);
+        setCurrent(prev=> prev  - 1);
       };
 
       const steps = [

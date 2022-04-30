@@ -49,7 +49,15 @@ export default function CourseDetail(props) {
 
   const onFinish = async (values: any) => {
     console.log('Received values of form: ', values);
-    const course:Course = {name : values.courseName, uid: values.courseCode, detail: values.description, teacherId: values.teacherId, type: [[...courseTypes][0]], price: values.price, maxStudents: values.studentLimit, duration:values.duration, durationUnit:1};
+    const course:Course = {name : values.courseName,
+       uid: values.courseCode, 
+       detail: values.description, 
+       teacherId: values.teacher, 
+       type: [[...courseTypes][0]], 
+       price: values.price, 
+       maxStudents: values.studentLimit, 
+       duration:values.duration, 
+       durationUnit:1};
     console.log('course: ', course);
     const addcourseresult = await AddCourse(token, course);
     console.log('addcourseresult: ', addcourseresult);
@@ -182,9 +190,9 @@ export default function CourseDetail(props) {
                 <Row gutter={16}>
                     <Col className="gutter-row" span={24}>
                         <Form.Item
-                            name="donation"
-                            label="Donation"
-                            rules={[{ required: true, message: 'Please input donation amount!' }]}
+                            name="duration"
+                            label="Duration"
+                            rules={[{ required: true, message: 'Please input Duration amount!' }]}
                         >
                             <InputNumber addonAfter={suffixSelector} style={{ width: '100%' }} />
                         </Form.Item>
