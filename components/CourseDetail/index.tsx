@@ -57,7 +57,9 @@ export default function CourseDetail(props) {
        price: values.price, 
        maxStudents: values.studentLimit, 
        duration:values.duration, 
-       durationUnit:1};
+       durationUnit:1,
+      startTime: new Date(),
+      cover:"test"};
     console.log('course: ', course);
     const addcourseresult = await AddCourse(token, course);
     console.log('addcourseresult: ', addcourseresult);
