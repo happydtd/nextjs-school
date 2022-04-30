@@ -188,5 +188,14 @@
            已答。问题21： get student等api要求地址栏传参，我发现body传参也能用
            
            4月27日
-           问题22： [courseid].tsx中我想检查course是否为null然后再显示组件，可是一直报错
+           已答。问题22： [courseid].tsx中我想检查course是否为null然后再显示组件，可是一直报错
            {course!==null && 。。。。。}这写法错在哪里？
+           
+           4月30日
+           问题23：course detail 页面纵向对齐问题
+           问题24：下拉框默认值设置问题
+           问题25：下拉框可否得到type对象，而不是typeid
+           问题26：上传course数据是可否用course对象传递，而不是一个个值
+
+           
+           
