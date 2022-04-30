@@ -2,11 +2,10 @@ import React, { useState, useContext, useEffect } from 'react'
 import { Row, Col, Divider, Space, Input ,Typography, Select ,DatePicker, Upload, message, Form, Button, InputNumber } from 'antd';
 import { useRouter } from 'next/router';
 import { Store } from '../../Utils/Store'
-import { GetTeachers, GetCourseTypes} from '../../serverAPI';
+import { GetTeachers, GetCourseTypes, GetCourseCode, AddCourse} from '../../serverAPI';
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 import Teacher from '../../models/teacher.interface';
-import { Guid } from 'js-guid';
-import { CourseType } from '../../models/course.interface';
+import Course, { CourseType } from '../../models/course.interface';
 
 const { Text} = Typography;
 const { Option } = Select;
@@ -22,7 +21,7 @@ export default function CourseDetail(props) {
   const { token } = userInfo.userInfo;
   const [ teachers, setTeachers] = useState<Teacher[]>();
   const [ courseTypes, setCourseTypes] = useState<CourseType[]>();
-  const [courseCode, setCourseCode] = useState<string>(Guid.newGuid().toString())
+  const [courseCode, setCourseCode] = useState<string>()
 
   async function callAPI(){ 
     try{
@@ -31,7 +30,9 @@ export default function CourseDetail(props) {
 
         const courseTypeResult  = await GetCourseTypes(token);
         setCourseTypes(courseTypeResult.data.data);
-        console.log('course type', courseTypeResult.data.data);
+
+        const courseCodeResult  = await GetCourseCode(token)
+        setCourseCode(courseCodeResult.data.data);
     }
     catch(error){
       console.log("error", error)
@@ -46,33 +47,24 @@ export default function CourseDetail(props) {
     callAPI();
   },[])
 
-  const onFinish = (values: any) => {
+  const onFinish = async (values: any) => {
     console.log('Received values of form: ', values);
-    next();
+    const course:Course = {name : values.courseName, uid: values.courseCode, detail: values.description, teacherId: values.teacherId, type: [[...courseTypes][0]], price: values.price, maxStudents: values.studentLimit, duration:values.duration, durationUnit:1};
+    console.log('course: ', course);
+    const addcourseresult = await AddCourse(token, course);
+    console.log('addcourseresult: ', addcourseresult);
+    //next();
   };
 
-  const onTeacherChange = (value: string) => {
-    switch (value) {
-      case 'male':
-        form.setFieldsValue({ note: 'Hi, man!' });
-        return;
-      case 'female':
-        form.setFieldsValue({ note: 'Hi, lady!' });
-        return;
-      case 'other':
-        form.setFieldsValue({ note: 'Hi there!' });
-    }
-  };
 
   const suffixSelector = (
     <Form.Item name="suffix" noStyle>
       <Select style={{ width: 70 }}
-      defaultValue='day'
       >
-        <Option value="day">day</Option>
-        <Option value="week">week</Option>
-        <Option value="month">month</Option>
-        <Option value="year">year</Option>
+        <Option value="1">day</Option>
+        <Option value="2">week</Option>
+        <Option value="3">month</Option>
+        <Option value="4">year</Option>
       </Select>
     </Form.Item>
   );
@@ -87,6 +79,7 @@ export default function CourseDetail(props) {
 
     if (!teachers) return (<h1>teacher is null</h1>)
     if (!courseTypes) return (<h1>courseTypes is null</h1>)
+    if (!courseCode) return (<h1>courseCode is null</h1>)
 
   return (
     <Form
@@ -94,6 +87,12 @@ export default function CourseDetail(props) {
       layout="vertical"
       name="course-detail"
       onFinish={onFinish}
+      initialValues={{
+        ["teacher"]: teachers[0].name,
+        ["type"]: courseTypes[0].name,
+        ["suffix"]:"day",
+        ["courseCode"]:courseCode
+      }}
     >
       <Row gutter={24}>
          <Col className="gutter-row" span={8}>
@@ -102,21 +101,19 @@ export default function CourseDetail(props) {
                 name="courseName"
                 rules={[{ required: true, message: 'Please input Course Name!' }]}
             >
-                <Input />
+                <Input/>
             </Form.Item>
          </Col>
          <Col className="gutter-row" span={5}>
             <Form.Item name="teacher" label="Teacher" rules={[{ required: true }]}>
                 <Select
                 placeholder="Select a option and change input text above"
-                onChange={onTeacherChange}
-                defaultValue={teachers[0].name}
                 allowClear
                 >
                   {
                     teachers.map((teacher, index)=>{
                       return (
-                        <Option key={index} value={teacher.name}>{teacher.name}</Option>
+                        <Option key={index} value={teacher.id}>{teacher.name}</Option>
                       )
                     })
                   }
@@ -132,10 +129,9 @@ export default function CourseDetail(props) {
                 <Select
                   mode="multiple"
                   placeholder="Please select"
-                  defaultValue={courseTypes[0].name}
                   style={{ width: '100%' }}
                 >
-                  {courseTypes.map((ct, index)=>{return (<Option key={index}>{ct.name}</Option>)})}
+                  {courseTypes.map((ct, index)=>{return (<Option key={index} value={ct.id}>{ct.name}</Option>)})}
                 </Select>
             </Form.Item>
           </Col>
@@ -144,7 +140,7 @@ export default function CourseDetail(props) {
                 label="Course Code"
                 name="courseCode"
             >
-                <Input defaultValue={courseCode} disabled/>
+                <Input disabled/>
             </Form.Item>
           </Col>
       </Row>

@@ -1,6 +1,7 @@
 import {callAxiosWithoutToken, callAxiosWithToken} from "../serverAPI/axios";
 import SignupType from "../models/signup.interface";
 import {AES} from 'crypto-js'
+import Course from "../models/course.interface";
 
 export const reqSignup = async (email:string, password:string, role:string)  => await callAxiosWithoutToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/signup', "POST", {email, password, role})
 
@@ -34,3 +35,7 @@ export const GetCourses = async (token:string, query: string = null, page:number
 export const GetCoursesById = async (token:string, id:number)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/courses/detail', token, "GET", "Body", {id})
 
 export const GetCourseTypes = async (token:string)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/courses/type', token, "GET", "Body",{})
+
+export const GetCourseCode = async (token:string)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/courses/code', token, "GET", "Body",{})
+
+export const AddCourse = async (token:string, course: Course)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/courses', token, "POST", "Body", course)

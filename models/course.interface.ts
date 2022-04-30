@@ -47,10 +47,10 @@ interface sales{
   }
 
   export default interface Course{
-    createdAt: string,
-    updatedAt: Date,
-    id: number,
-    cover: string,
+    createdAt?: string,
+    updatedAt?: Date,
+    id?: number,
+    cover?: string,
     detail: string,
     duration: number,
     durationUnit: number,
@@ -58,14 +58,14 @@ interface sales{
     name: string,
     price: number,
     uid: string,
-    star: number,
-    startTime: Date,
-    status: number,
-    scheduleId: number,
+    star?: number,
+    startTime?: Date,
+    status?: number,
+    scheduleId?: number,
     teacherId: number,
-    teacher: Teacher,
-    schedule: Schedule,
+    teacher?: Teacher,
+    schedule?: Schedule,
     type: CourseType[],
-    sales: sales,
-    teacherName: string
+    sales?: sales,
+    teacherName?: string
   }
