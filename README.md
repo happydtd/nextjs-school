@@ -196,6 +196,7 @@
            问题24：下拉框默认值设置问题
            问题25：下拉框可否得到type对象，而不是typeid
            问题26：上传course数据是可否用course对象传递，而不是一个个值
+           问题27：走到下一个步骤时显示“next-dev.js?3515:32 Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.”
 
            
            
