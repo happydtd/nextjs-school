@@ -197,7 +197,7 @@
            问题25：下拉框可否得到type对象，而不是typeid
            问题26：上传course数据是可否用course对象传递，而不是一个个值
            问题27：走到下一个步骤时显示“next-dev.js?3515:32 Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.”
-           问题28：add-course目录下，我想为AddCourse增加一个css，该怎么添加
+           问题28：page/add-course目录下，我想为AddCourse增加一个css，该怎么添加? 以前component中用XXX.module.css。
            问题29：add-course目录下，如果默认文件名不是index.tsx而是AddCourse.tsx。用http://localhost:3000/course/add-course会调用走到[courseId].tsx。如何访问AddCourse.tsx？
            
 
