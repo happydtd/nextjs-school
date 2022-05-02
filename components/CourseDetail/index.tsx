@@ -56,12 +56,12 @@ export default function CourseDetail(props) {
        uid: values.courseCode, 
        detail: values.description, 
        teacherId: values.teacher, 
-       type: [1,2], 
+       type: values.type, 
        price: values.price, 
        maxStudents: values.studentLimit, 
        duration:values.duration, 
        durationUnit:1,
-       startTime: moment(values.startDate).format('MM-DD-YYYY'),
+       startTime: moment(values.startDate).format('YYYY-MM-DD'),
        cover:"test"};
     console.log('course: ', course);
     // const addcourseresult = await AddCourse(token, course);
@@ -230,7 +230,7 @@ export default function CourseDetail(props) {
       </Row>
 
       <Row>
-        <Col span={24} style={{ textAlign: 'right' }}>
+        <Col span={24} style={{ textAlign: 'left' }}>
           <Button type="primary" htmlType="submit">
             Create Course
           </Button>
