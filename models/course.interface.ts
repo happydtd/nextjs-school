@@ -59,13 +59,13 @@ interface sales{
     price: number,
     uid: string,
     star?: number,
-    startTime?: Date,
+    startTime?: string,
     status?: number,
     scheduleId?: number,
     teacherId: number,
     teacher?: Teacher,
     schedule?: Schedule,
-    type: CourseType[],
+    type: number[],
     sales?: sales,
     teacherName?: string
   }

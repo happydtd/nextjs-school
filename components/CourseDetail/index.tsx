@@ -6,6 +6,7 @@ import { GetTeachers, GetCourseTypes, GetCourseCode, AddCourse} from '../../serv
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 import Teacher from '../../models/teacher.interface';
 import Course, { CourseType } from '../../models/course.interface';
+import moment from 'moment';
 
 const { Text} = Typography;
 const { Option } = Select;
@@ -22,6 +23,7 @@ export default function CourseDetail(props) {
   const [ teachers, setTeachers] = useState<Teacher[]>();
   const [ courseTypes, setCourseTypes] = useState<CourseType[]>();
   const [courseCode, setCourseCode] = useState<string>()
+  
 
   async function callAPI(){ 
     try{
@@ -49,20 +51,21 @@ export default function CourseDetail(props) {
 
   const onFinish = async (values: any) => {
     console.log('Received values of form: ', values);
+    
     const course:Course = {name : values.courseName,
        uid: values.courseCode, 
        detail: values.description, 
        teacherId: values.teacher, 
-       type: [[...courseTypes][0]], 
+       type: [1,2], 
        price: values.price, 
        maxStudents: values.studentLimit, 
        duration:values.duration, 
        durationUnit:1,
-      startTime: new Date(),
-      cover:"test"};
+       startTime: moment(values.startDate).format('MM-DD-YYYY'),
+       cover:"test"};
     console.log('course: ', course);
-    const addcourseresult = await AddCourse(token, course);
-    console.log('addcourseresult: ', addcourseresult);
+    // const addcourseresult = await AddCourse(token, course);
+    // console.log('addcourseresult: ', addcourseresult);
     next();
   };
 
@@ -98,9 +101,9 @@ export default function CourseDetail(props) {
       name="course-detail"
       onFinish={onFinish}
       initialValues={{
-        ["teacher"]: teachers[0].name,
-        ["type"]: courseTypes[0].name,
-        ["suffix"]:"day",
+        ["teacher"]: 1,
+        ["type"]: 1,
+        ["suffix"]:1,
         ["courseCode"]:courseCode
       }}
     >
