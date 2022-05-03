@@ -1,22 +1,38 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Row, Col, Divider, Space, Input ,Typography, Select ,DatePicker, Upload, message, Form, Button, InputNumber, TimePicker } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { Store } from '../../Utils/Store'
+import { AddOrUpdateSchedule } from '../../serverAPI';
+import { Schedule } from "../../models/course.interface"
+import moment from 'moment';
 
 export default function CourseSchedule(props) {
+  const { state, dispatch } = useContext(Store);
+  const { course, userInfo } = state;
+  const { token } = userInfo.userInfo;
   const { Option } = Select;
   const {next} = props;
-  const {prev} = props;
 
   const [form] = Form.useForm();
 
   const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 
-  const onFinish = (values: any) => {
-    //console.log('Received values of form: ', values);
-    
-    console.log('field values', form.getFieldsValue(true))
-    //next();
+  const onFinish = async (values: any) => {
+    const chapters = form.getFieldValue("chapters").map((c, i)=>{return {name:c.name, order:i, content: c.content}});
+    const classTime = form.getFieldValue("classTime").map((t)=>{return `${t.classDay} ${moment(t.classTime).format('HH:mm:ss')}`});
+    // console.log('chapters', chapters);
+    // console.log('classtime', classTime);
+    console.log('token', token);
+    const schedule : Schedule = {scheduleId: course.scheduleId,
+       courseId: course.id,
+        status: 0,
+         current:0,
+        chapters: chapters,
+      classTime : classTime };
+    const addcoursschedule = await  AddOrUpdateSchedule(token, schedule)
+    console.log('addcoursschedule', addcoursschedule);
+    next();
   };
 
   return (
@@ -39,17 +55,17 @@ export default function CourseSchedule(props) {
                   <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
                     <Form.Item
                       {...restField}
-                      name={[name, 'chapterName']}
+                      name={[name, 'name']}
                       rules={[{ required: true, message: 'Missing Chapter Name' }]}
                     >
                       <Input placeholder="Chapter Name" />
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, 'chapterContent']}
+                      name={[name, 'content']}
                       rules={[{ required: true, message: 'Missing Chapter Content' }]}
                     >
-                      <Input placeholder="Chapter Content" />
+                      <Input placeholder="Chapter content" />
                     </Form.Item>
                     <MinusCircleOutlined onClick={() => remove(name)} />
                   </Space>
@@ -64,7 +80,7 @@ export default function CourseSchedule(props) {
           </Form.List>
          </Col>
          <Col className="gutter-row" span={12}>
-          <Form.List name="classTimes">
+          <Form.List name="classTime">
               {(fields, { add, remove }) => (
                 <>
                   {fields.map(({ key, name, ...restField }) => (

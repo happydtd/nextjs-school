@@ -10,20 +10,22 @@ interface Teacher {
     profileId: number
   }
 
-interface Schedule{
-    createdAt: Date,
-    updatedAt: Date,
-    id: number,
+export interface Schedule{
+    scheduleId:number,
+    courseId:number,
+    createdAt?: Date,
+    updatedAt?: Date,
+    id?: number,
     status: number,
     current: number,
-    classTime: string[],
-    chapters: Chapter[],
+    classTime?: string[],
+    chapters?: Chapter[],
   }
 
 interface Chapter {
-    createdAt: Date,
-    updatedAt: Date,
-    id: number,
+    createdAt?: Date,
+    updatedAt?: Date,
+    id?: number,
     name: string,
     order: number,
     content: string

@@ -3,6 +3,8 @@ import CommonLayout from '../../../components/CommonLayout/CommonLayout'
 import { Steps, Button, message } from 'antd';
 import CourseDetail from '../../../components/CourseDetail';
 import CourseSchedule from '../../../components/CourseSchedule';
+import TestForm from '../../../components/TestForm';
+import { CourseResult } from '../../../components/CourseResult';
 
 const { Step } = Steps;
 
@@ -10,29 +12,26 @@ const { Step } = Steps;
 export default function AddCourse() {
     const [current, setCurrent] = React.useState(0);
 
-
+    const resetStep = ()=>{
+      setCurrent(0);
+    }
 
     const next = () => {
         setCurrent(prev=> prev + 1);
-      };
-    
-      const prev = () => {
-        setCurrent(prev=> prev  - 1);
       };
 
       const steps = [
         {
           title: 'Course Detail',
-          content: <CourseSchedule/>,
-          // content: <CourseDetail next={next}/>,
+          content: <CourseDetail next={next}/>,
         },
         {
           title: 'Course Schedule',
-          content: <CourseSchedule/>,
+          content: <CourseSchedule next={next}/>,
         },
         {
-          title: 'Last',
-          content: 'Last-content',
+          title: 'Success',
+          content: <CourseResult next={next} resetStep={resetStep}/>,
         },
       ];
     

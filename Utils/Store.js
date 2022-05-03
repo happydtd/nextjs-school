@@ -7,6 +7,7 @@ const initialState = {
     ? JSON.parse(Cookies.get('userInfo'))
     : null,
   path: '',
+  course: {}
 };
 
 function reducer(state, action) {
@@ -21,6 +22,8 @@ function reducer(state, action) {
       return { ...state, userInfo: action.payload };
     case 'PATH':
       return { ...state, path: action.payload };
+    case 'NEWCOURSE':
+      return { ...state, course: action.payload };
     default:
       return state;
   }

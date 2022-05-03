@@ -62,22 +62,23 @@ export default function CourseDetail(props) {
        duration:values.duration, 
        durationUnit:1,
        startTime: moment(values.startDate).format('YYYY-MM-DD'),
-       cover:"test"};
-    console.log('course: ', course);
-    // const addcourseresult = await AddCourse(token, course);
-    // console.log('addcourseresult: ', addcourseresult);
+       cover:"test cover"};
+    const addcourseresult = await AddCourse(token, course);
+    dispatch({
+      type: 'NEWCOURSE',
+      payload: addcourseresult.data.data,
+    })
     next();
   };
 
 
   const suffixSelector = (
     <Form.Item name="suffix" noStyle>
-      <Select style={{ width: 70 }}
-      >
-        <Option value="1">day</Option>
-        <Option value="2">week</Option>
-        <Option value="3">month</Option>
-        <Option value="4">year</Option>
+      <Select style={{ width: 70 }}>
+        <Option value='1'>day</Option>
+        <Option value='2'>week</Option>
+        <Option value='3'>month</Option>
+        <Option value='4'>year</Option>
       </Select>
     </Form.Item>
   );
@@ -102,8 +103,8 @@ export default function CourseDetail(props) {
       onFinish={onFinish}
       initialValues={{
         ["teacher"]: 1,
-        ["type"]: 1,
-        ["suffix"]:1,
+        ["type"]: [1],
+        // ["suffix"]: 1,
         ["courseCode"]:courseCode
       }}
     >
