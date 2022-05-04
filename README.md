@@ -210,6 +210,8 @@
                   },[])
 
                   if (!userInfo) return (<></>)
+          问题32：const  {token}  = userInfo?.userInfo; 这种写法如果userInfo为null会报错
+                 只能用这种写法吗？ const  token  = userInfo?.userInfo.token;
            
 
            
