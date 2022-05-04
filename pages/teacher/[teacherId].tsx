@@ -17,7 +17,7 @@ export default function TeacherDetail() {
   const [ loading, setLoading] = useState(false);
   const { state, dispatch } = useContext(Store);
   const { userInfo} = state;
-  const { token } = userInfo.userInfo;
+  const  token  = userInfo?.userInfo.token;
   const [ teacher, setTeacher] = useState<Teacher>();
 
 
@@ -43,6 +43,8 @@ export default function TeacherDetail() {
     }
     callAPI();
   },[])
+
+  if (!userInfo) return (<></>)
 
   if (!teacher) return <h3>teacher not found...</h3>
 

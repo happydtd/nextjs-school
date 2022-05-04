@@ -15,7 +15,7 @@ export default function Course() {
   const { state, dispatch } = useContext(Store);
   const router = useRouter();
   const { userInfo} = state;
-  const { token } = userInfo.userInfo;
+  const  token  = userInfo?.userInfo.token;
   const [ pageSize, setPageSize ] = useState(12);
   const [ page, setPage ] = useState(1);
   const [ courses, setCourses ] = useState(null);
@@ -40,6 +40,8 @@ export default function Course() {
     }
     callAPI();
   },[pageSize])
+
+  if (!userInfo) return (<></>)
 
   if (!courses) return <h3>teacher not found...</h3>
 

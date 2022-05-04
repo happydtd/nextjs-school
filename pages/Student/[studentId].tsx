@@ -36,7 +36,7 @@ export default function StudentDetail() {
   const [ loading, setLoading] = useState(false);
   const { state, dispatch } = useContext(Store);
   const { userInfo} = state;
-  const { token } = userInfo.userInfo;
+  const  token  = userInfo?.userInfo.token;
   const [ student, setStudent] = useState<Student>();
 
 
@@ -62,6 +62,8 @@ export default function StudentDetail() {
     }
     callAPI();
   },[])
+
+  if (!userInfo) return (<></>)
 
   if (!student) return <h3>student not found...</h3>
 

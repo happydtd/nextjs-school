@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, {  useRef, useContext, useEffect } from 'react';
 import { Space, Popconfirm} from 'antd';
 import 'antd/dist/antd.css';
 import { GetTeachers, DeleteTeacherById, AddTeacher, EditTeacher} from '../../serverAPI';
@@ -6,8 +6,15 @@ import { formatDistanceToNow } from 'date-fns'
 import CommonLayout from '../../components/CommonLayout/CommonLayout';
 import Link from 'next/link'
 import GenericTable from '../../components/GenericTable';
+import {Store} from '../../Utils/Store'
+import {useRouter} from 'next/router'
 
 export default function Teacher() {
+  const { state, dispatch } = useContext(Store);
+  const { userInfo} = state;
+  const token  = userInfo?.userInfo.token;
+  const router = useRouter();
+
   const columns = [
     {
       title: 'No.',
@@ -97,6 +104,15 @@ export default function Teacher() {
 
   const EditItem = async(token, id, name, country, phone, email, skills) => await EditTeacher(token, id, name, country, phone, email, skills);
   
+  useEffect(()=>{
+    if (!userInfo) {
+      router.push('/signin');
+    }
+  },[])
+
+  if (!userInfo) return (<></>)
+
+
   return (
     <CommonLayout>
         <GenericTable onRef={childRef} columns={columns} dataType='teacher' GetItems={GetItems} DeleteItemById={DeleteItemById} AddItem={AddItem} EditItem={EditItem}/>

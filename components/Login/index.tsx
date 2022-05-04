@@ -43,10 +43,10 @@ export default function LoginForm(){
           })
 
           router.push('/overview');
-          dispatch({
-            type: 'PATH',
-            payload: ['CMS MANAGER SYSTEM'],
-          })
+          // dispatch({
+          //   type: 'PATH',
+          //   payload: ['CMS MANAGER SYSTEM'],
+          // })
         }
         else{
           message.error("error")

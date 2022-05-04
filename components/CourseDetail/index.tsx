@@ -19,7 +19,7 @@ export default function CourseDetail(props) {
   const router = useRouter();
   const { state, dispatch } = useContext(Store);
   const { userInfo} = state;
-  const { token } = userInfo.userInfo;
+  const  token = userInfo?.userInfo.token;
   const [ teachers, setTeachers] = useState<Teacher[]>();
   const [ courseTypes, setCourseTypes] = useState<CourseType[]>();
   const [courseCode, setCourseCode] = useState<string>()
@@ -43,9 +43,7 @@ export default function CourseDetail(props) {
 
 
   useEffect(()=>{
-    if (!userInfo) {
-      router.push('/signin');
-    }
+    console.log("CourseDetail useeffect token", token);
     callAPI();
   },[])
 

@@ -15,7 +15,7 @@ export default function CourseDetail() {
     const { state, dispatch } = useContext(Store);
     console.log('state', state);
     const { userInfo} = state;
-    const { token } = userInfo.userInfo;
+    const  token  = userInfo?.userInfo.token;
     const [ course, setCourse] = useState<Course>();
     const { Panel } = Collapse;
     const {Step} = Steps;
@@ -42,6 +42,8 @@ export default function CourseDetail() {
       }
       callAPI();
     },[])
+
+    if (!userInfo) return (<></>)
   
     //if (!course) return <h3>course not found...</h3>
   

@@ -32,7 +32,7 @@ const GenericTable: React.FC<Props> = (props: Props) => {
   const [ visible, setVisible] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
   const { userInfo} = state;
-  const { token } = userInfo.userInfo;
+  const token  = userInfo?.userInfo.token;
   const inputRef = useRef(null);
   const router = useRouter();
 
@@ -56,9 +56,9 @@ const GenericTable: React.FC<Props> = (props: Props) => {
   };
 
   useEffect(()=>{
-    if (!userInfo) {
-      router.push('/signin');
-    }
+    // if (!userInfo) {
+    //   router.push('/signin');
+    // }
     callAPI();
   },[page, pageSize])
 

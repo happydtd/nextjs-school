@@ -1,11 +1,12 @@
 import { Result, Button } from 'antd';
-import Link from 'next/link'
+import { useRouter } from 'next/router';
 
 export const CourseResult = (props) => {
     const {next, resetStep} = props;
+    const router = useRouter();
 
     const goCourseHandler = ()=>{
-
+      router.push('/course');
     }
 
     const buyCourseHandler = ()=>{

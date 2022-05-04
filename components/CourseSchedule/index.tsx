@@ -9,7 +9,7 @@ import moment from 'moment';
 export default function CourseSchedule(props) {
   const { state, dispatch } = useContext(Store);
   const { course, userInfo } = state;
-  const { token } = userInfo.userInfo;
+  const  token  = userInfo?.userInfo.token;
   const { Option } = Select;
   const {next} = props;
 
@@ -17,13 +17,9 @@ export default function CourseSchedule(props) {
 
   const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-
   const onFinish = async (values: any) => {
-    const chapters = form.getFieldValue("chapters").map((c, i)=>{return {name:c.name, order:i, content: c.content}});
-    const classTime = form.getFieldValue("classTime").map((t)=>{return `${t.classDay} ${moment(t.classTime).format('HH:mm:ss')}`});
-    // console.log('chapters', chapters);
-    // console.log('classtime', classTime);
-    console.log('token', token);
+    const chapters = form.getFieldValue("chapters")?.map((c, i)=>{return {name:c.name, order:i, content: c.content}});
+    const classTime = form.getFieldValue("classTime")?.map((t)=>{return `${t.classDay} ${moment(t.classTime).format('HH:mm:ss')}`});
     const schedule : Schedule = {scheduleId: course.scheduleId,
        courseId: course.id,
         status: 0,

@@ -9,29 +9,28 @@ const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
 
 export default function CommonLayout({children} ) {
-  const pathmapping = [{name:'CMS MANAGER SYSTEM', path:'/overview'},{name:'Overview', path:'/overview'},{name:'Student List', path:'/student'}, {name:'Teacher List', path:'/teacher'}, {name:'All Courses', path:'/course'}, {name:'Add Course', path:'/course/add-course'}, {name:'Edit Course', path:'/course/edit-course'} ]
-  const { state, dispatch } = useContext(Store);
-  const { path } = state;
-  //const [path, setPath] = useState([]);
-  console.log('render path',path);
+  // const pathmapping = [{name:'CMS MANAGER SYSTEM', path:'/overview'},{name:'Overview', path:'/overview'},{name:'Student List', path:'/student'}, {name:'Teacher List', path:'/teacher'}, {name:'All Courses', path:'/course'}, {name:'Add Course', path:'/course/add-course'}, {name:'Edit Course', path:'/course/edit-course'} ]
+  // const { state, dispatch } = useContext(Store);
+  // const { path } = state;
+
+  // console.log('render path',path);
   const handleMenuClick = (props)=>{
-    const {keyPath} = props;
-    const newPath = ['CMS MANAGER SYSTEM',...keyPath.slice().reverse()];
-    dispatch({
-      type: 'PATH',
-      payload: newPath,
-    })
-    //setPath(newPath);
+  //   const {keyPath} = props;
+  //   const newPath = ['CMS MANAGER SYSTEM',...keyPath.slice().reverse()];
+  //   dispatch({
+  //     type: 'PATH',
+  //     payload: newPath,
+  //   })
   }
 
   const handleBreadcrumbItemClick =(e, p)=>{
-    let indexNo = path?.indexOf(p);
-    const newPath = [...path.slice(0,indexNo+1)];
-    console.log('Breadcrumb path',newPath);
-    dispatch({
-      type: 'PATH',
-      payload: newPath,
-    })
+    // let indexNo = path?.indexOf(p);
+    // const newPath = [...path.slice(0,indexNo+1)];
+    // console.log('Breadcrumb path',newPath);
+    // dispatch({
+    //   type: 'PATH',
+    //   payload: newPath,
+    // })
   }
 
   return (
@@ -96,7 +95,7 @@ export default function CommonLayout({children} ) {
         </Menu>
       </Sider>
       <Layout style={{ padding: '0 24px 24px' }}>
-        <Breadcrumb style={{ margin: '16px 0' }}>
+        {/* <Breadcrumb style={{ margin: '16px 0' }}>
         {
           path?.map((p)=>{
             //console.log('path',path)
@@ -109,7 +108,7 @@ export default function CommonLayout({children} ) {
               </Breadcrumb.Item>)
           })
         }
-        </Breadcrumb>
+        </Breadcrumb> */}
         <Content
           className="site-layout-background"
           style={{
