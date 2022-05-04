@@ -1,37 +1,18 @@
 import React, { Children, useContext, useState } from 'react'
+import { useRouter } from 'next/router'
 import { Layout, Menu, Breadcrumb } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
 import Link from 'next/link'
-import { Store } from '../../Utils/Store'
-//import './CommonLayout.css'
+
 
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
 
 export default function CommonLayout({children} ) {
-  // const pathmapping = [{name:'CMS MANAGER SYSTEM', path:'/overview'},{name:'Overview', path:'/overview'},{name:'Student List', path:'/student'}, {name:'Teacher List', path:'/teacher'}, {name:'All Courses', path:'/course'}, {name:'Add Course', path:'/course/add-course'}, {name:'Edit Course', path:'/course/edit-course'} ]
-  // const { state, dispatch } = useContext(Store);
-  // const { path } = state;
+  const router = useRouter()
+  const location = router.pathname // or router.asPath
+  const pathnames = location.split("/");
 
-  // console.log('render path',path);
-  const handleMenuClick = (props)=>{
-  //   const {keyPath} = props;
-  //   const newPath = ['CMS MANAGER SYSTEM',...keyPath.slice().reverse()];
-  //   dispatch({
-  //     type: 'PATH',
-  //     payload: newPath,
-  //   })
-  }
-
-  const handleBreadcrumbItemClick =(e, p)=>{
-    // let indexNo = path?.indexOf(p);
-    // const newPath = [...path.slice(0,indexNo+1)];
-    // console.log('Breadcrumb path',newPath);
-    // dispatch({
-    //   type: 'PATH',
-    //   payload: newPath,
-    // })
-  }
 
   return (
     <Layout>
@@ -52,7 +33,6 @@ export default function CommonLayout({children} ) {
           defaultSelectedKeys={['1']}
           defaultOpenKeys={['sub1']}
           style={{ height: '100%', borderRight: 0 }}
-          onClick={handleMenuClick}
         >
           <Menu.Item key="Overview" icon={<UserOutlined />}>
             <Link href="/overview">
@@ -95,20 +75,30 @@ export default function CommonLayout({children} ) {
         </Menu>
       </Sider>
       <Layout style={{ padding: '0 24px 24px' }}>
-        {/* <Breadcrumb style={{ margin: '16px 0' }}>
+      <Breadcrumb style={{ margin: '16px 0' }}>
         {
-          path?.map((p)=>{
-            //console.log('path',path)
-            const result = pathmapping.find((pm)=>pm.name === p)
-            //console.log('result',result);
-            return (<Breadcrumb.Item key={p} onClick={(e)=>handleBreadcrumbItemClick(e, p)}>
-              <Link href={result?.path??"/overview"}>
-              {p}
-              </Link>
-              </Breadcrumb.Item>)
+          pathnames.length >0? (
+            <Breadcrumb.Item>
+              <Link href="/overview">Home</Link> 
+            </Breadcrumb.Item>)
+          :(
+            <Breadcrumb.Item>Home</Breadcrumb.Item>)
+        }
+        {
+          pathnames.map((path, index)=>{
+            const routeTo = `/${pathnames.slice(0, index+1).join("/")}`;
+            const isLast = index === pathnames.length -1;
+            return isLast?(
+              <Breadcrumb.Item>{path}</Breadcrumb.Item>
+            )
+            :(
+              <Breadcrumb.Item>
+                <Link href={routeTo}>{path}</Link> 
+              </Breadcrumb.Item>
+            )
           })
         }
-        </Breadcrumb> */}
+      </Breadcrumb>
         <Content
           className="site-layout-background"
           style={{
