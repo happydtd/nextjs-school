@@ -1,5 +1,6 @@
 import React from 'react';
 import HomeLayout from '../components/HomeLayout';
+import 'antd/dist/antd.css';
 
 export default function Home1() {
   return (
