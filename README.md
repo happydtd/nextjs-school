@@ -202,8 +202,14 @@
            
            5月4日
            问题30：页面重新加载丢失style问题
-           问题31：检查用户是否登录该放在 父子组件中哪个组件内？
-           比如我有student组件，子组件是commonlayout组件，里面再包含generictable组件
+           问题31：检查用户是否登录，这样写对吗？我可以不在useEffect中跳转页面而在检查userinfo为空后直接跳转吗？
+                  useEffect(()=>{
+                    if (!userInfo) {
+                      router.push('/signin');
+                    }
+                  },[])
+
+                  if (!userInfo) return (<></>)
            
 
            
