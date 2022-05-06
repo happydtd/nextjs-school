@@ -22,7 +22,7 @@ export default function Course() {
 
   async function callAPI(){ 
     try{
-        const result  = await GetCourses(token, '', 1, pageSize);
+        const result  = await GetCourses(token, 1, pageSize);
         setCourses(result.data.data.courses);
     }
     catch(error){

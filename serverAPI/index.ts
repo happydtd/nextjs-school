@@ -30,7 +30,7 @@ export const EditTeacher = async (token:string, id:number, name:string, country:
 
 export const GetTeacherById = async (token:string, id:number)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/teachers', token, "GET", "Query", id)
 
-export const GetCourses = async (token:string, query: string = null, page:number=null, limit:number=null, name: string=null, type:string=null)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/courses', token, "GET", "Body",{query, page, limit, name, type})
+export const GetCourses = async (token:string, page:number=null, limit:number=null, name: string=null, type:string=null, uid: string = null, userId: number = null,)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/courses', token, "GET", "Body",{ page, limit, name, type, uid, userId})
 
 export const GetCoursesById = async (token:string, id:number)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/courses/detail', token, "GET", "Body", {id})
 
