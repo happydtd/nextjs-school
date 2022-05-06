@@ -7,6 +7,7 @@ import 'antd/dist/antd.css';
 import CourseDetail from '../../../components/CourseDetail';
 import CourseSchedule from '../../../components/CourseSchedule';
 import { GetTeachers, GetCourseTypes, GetCourseCode, GetCourses} from '../../../serverAPI';
+import SearchSelect from '../../../components/SearchSelect';
 
 export default function EditCourse() {
   const { state, dispatch } = useContext(Store);
@@ -52,14 +53,6 @@ export default function EditCourse() {
     await callAPI(e.target.value);
   }
 
-  const prefixSelector = (
-      <Select style={{ width: 120 }} onChange={searchCourseBy}>
-        <Option value="code">Code</Option>
-        <Option value="name">Name</Option>
-        <Option value="category">Category</Option>
-      </Select>
-  );
-
   if (!userInfo) return (<></>)
   
   return (
@@ -71,13 +64,14 @@ export default function EditCourse() {
                 <Option value="name">Name</Option>
                 <Option value="category">Category</Option>
               </Select>
-              <Select style={{ width: '70%' }}
+              {/* <Select style={{ width: '70%' }}
                   value={courseSearchValue}
                   showSearch
                   onSearch= {(value)=> setCourseSearchValue(value)}>
-                  <Option value={1}>1</Option>
-                  <Option value={2}>2</Option>
-              </Select>
+                  <Option value="test-111">test-111</Option>
+                  <Option value="asdf-222">asdf-222</Option>
+              </Select> */}
+              <SearchSelect/>
             </Col>
           </Row>
           <Row>
@@ -96,3 +90,4 @@ export default function EditCourse() {
     
   )
 }
+
