@@ -201,8 +201,8 @@
            已答。问题29：add-course目录下，如果默认文件名不是index.tsx而是AddCourse.tsx。用http://localhost:3000/course/add-course会调用走到[courseId].tsx。如何访问AddCourse.tsx？
            
            5月4日
-           问题30：addcourse页面重新刷新丢失style问题
-           问题31：检查用户是否登录，这样写对吗？我可以不在useEffect中跳转页面而在检查userinfo为空后直接跳转吗？
+           已答。问题30：addcourse页面重新刷新丢失style问题
+           已答。问题31：检查用户是否登录，这样写对吗？我可以不在useEffect中跳转页面而在检查userinfo为空后直接跳转吗？
                   useEffect(()=>{
                     if (!userInfo) {
                       router.push('/signin');
@@ -210,7 +210,7 @@
                   },[])
 
                   if (!userInfo) return (<></>)
-          问题32：const  {token}  = userInfo?.userInfo; 这种写法如果userInfo为null会报错
+          已答。问题32：const  {token}  = userInfo?.userInfo; 这种写法如果userInfo为null会报错
                  只能用这种写法吗？ const  token  = userInfo?.userInfo.token;
            
 
