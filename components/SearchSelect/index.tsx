@@ -24,13 +24,13 @@ function DebounceSelect({ fetchOptions, debounceTimeout = 800, ...props }) {
       setFetching(true);
       const newOptions = fetchOptions(value, token).then((newOptions)=>{
         console.log("newOptions", newOptions.data.data.courses );
-        newOptions.data.data.courses.map((c)=>{ 
+        const  o = newOptions.data.data.courses.map((c)=>{ 
           console.log("course", c);
           return {
           label: c.name,
           value: c.name,}
         });
-        setOptions(newOptions.data.data.courses);
+        setOptions(o);
         setFetching(false);
       });
 
