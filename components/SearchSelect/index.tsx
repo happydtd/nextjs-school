@@ -1,27 +1,41 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import 'antd/dist/antd.css';
 import { Select, Spin } from 'antd';
 import debounce from 'lodash/debounce';
+import { GetCourses } from '../../serverAPI';
+
+import { Store } from '../../Utils/Store'
+
 
 function DebounceSelect({ fetchOptions, debounceTimeout = 800, ...props }) {
+
+  const { state, dispatch } = useContext(Store);
+  const { userInfo} = state;
+  const token  = userInfo?.userInfo.token;
+
   const [fetching, setFetching] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const fetchRef = React.useRef(0);
-  const debounceFetcher = React.useMemo(() => {
+  const debounceFetcher = React.useMemo(() =>  {
     const loadOptions = (value) => {
       fetchRef.current += 1;
       const fetchId = fetchRef.current;
       setOptions([]);
       setFetching(true);
-      fetchOptions(value).then((newOptions) => {
-        if (fetchId !== fetchRef.current) {
-          // for fetch callback order
-          return;
-        }
-
-        setOptions(newOptions);
+      const newOptions = fetchOptions(value, token).then((newOptions)=>{
+        console.log("newOptions", newOptions.data.data.courses );
+        newOptions.data.data.courses.map((c)=>{ 
+          console.log("course", c);
+          return {
+          label: c.name,
+          value: c.name,}
+        });
+        setOptions(newOptions.data.data.courses);
         setFetching(false);
       });
+
+
+ 
     };
 
     return debounce(loadOptions, debounceTimeout);
@@ -38,26 +52,30 @@ function DebounceSelect({ fetchOptions, debounceTimeout = 800, ...props }) {
   );
 } // Usage of DebounceSelect
 
-async function fetchUserList(username) {
-  console.log('fetching user', username);
-  return fetch('https://randomuser.me/api/?results=5')
-    .then((response) => response.json())
-    .then((body) =>
-      body.results.map((user) => ({
-        label: `${user.name.first} ${user.name.last}`,
-        value: user.login.username,
-      })),
-    );
+async function fetchCourseList(coursename, token) {
+  return await GetCourses(token);
+
+  // console.log('fetching coursename', coursename);
+  // return fetch('https://randomuser.me/api/?results=5')
+  //   .then((response) => response.json())
+  //   .then((body) =>
+  //     body.results.map((user) => ({
+  //       label: `${user.name.first} ${user.name.last}`,
+  //       value: user.login.username,
+  //     })),
+  //   );
 }
 
 const SearchSelect = () => {
   const [value, setValue] = React.useState([]);
+
+
   return (
     <DebounceSelect
-      mode="multiple"
+    mode="multiple"
       value={value}
-      placeholder="Select users"
-      fetchOptions={fetchUserList}
+      placeholder="Select course"
+      fetchOptions={fetchCourseList}
       onChange={(newValue) => {
         setValue(newValue);
       }}
