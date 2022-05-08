@@ -50,7 +50,9 @@ function DebounceSelect({ fetchOptions, debounceTimeout = 800, ...props }) {
 } // Usage of DebounceSelect
 
 async function fetchCourseList(coursename, token) {
-  return await GetCourses(token);
+  return await GetCourses(token).then(result=>{
+    
+  });
 
   // console.log('fetching coursename', coursename);
   // return fetch('https://randomuser.me/api/?results=5')
