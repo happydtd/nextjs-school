@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import 'antd/dist/antd.css';
 import { Select, Spin } from 'antd';
 import debounce from 'lodash/debounce';
@@ -7,14 +7,13 @@ import { GetCourses } from '../../serverAPI';
 import { Store } from '../../Utils/Store'
 
 
-function DebounceSelect({ fetchOptions, debounceTimeout = 800, ...props }) {
-
+function DebounceSelect({ fetchOptions, debounceTimeout = 800, courseSearchType, ...props }) {
   const { state, dispatch } = useContext(Store);
   const { userInfo} = state;
   const token  = userInfo?.userInfo.token;
-
   const [fetching, setFetching] = React.useState(false);
   const [options, setOptions] = React.useState([]);
+  
   const fetchRef = React.useRef(0);
   const debounceFetcher = React.useMemo(() =>  {
     const loadOptions = (value) => {
@@ -22,21 +21,20 @@ function DebounceSelect({ fetchOptions, debounceTimeout = 800, ...props }) {
       const fetchId = fetchRef.current;
       setOptions([]);
       setFetching(true);
-      const newOptions = fetchOptions(value, token).then((result)=>{
-        console.log("newOptions", result.data.data.courses );
-        const  options = result.data.data.courses.map((c)=>{ 
-          console.log("course", c);
-          return {
-          label: c.name,
-          value: c.name,}
-        });
+      fetchOptions(value, courseSearchType, token).then((result)=>{
+        const  options = result;
         setOptions(options);
         setFetching(false);
       });
     };
 
     return debounce(loadOptions, debounceTimeout);
-  }, [fetchOptions, debounceTimeout]);
+  }, [fetchOptions, debounceTimeout, courseSearchType]);
+
+  useEffect(()=>{
+    setOptions([]);
+  }, [courseSearchType])
+  
   return (
     <Select
       labelInValue
@@ -49,38 +47,52 @@ function DebounceSelect({ fetchOptions, debounceTimeout = 800, ...props }) {
   );
 } // Usage of DebounceSelect
 
-async function fetchCourseList(coursename, token) {
-  return await GetCourses(token).then(result=>{
-    
-  });
+async function fetchCourseList(value, courseSearchType, token) {
+ console.log("courseSearchType", courseSearchType)
+ console.log("value", value)
+  let response;
 
-  // console.log('fetching coursename', coursename);
-  // return fetch('https://randomuser.me/api/?results=5')
-  //   .then((response) => response.json())
-  //   .then((body) =>
-  //     body.results.map((user) => ({
-  //       label: `${user.name.first} ${user.name.last}`,
-  //       value: user.login.username,
-  //     })),
-  //   );
+  switch(courseSearchType){
+    case "code":
+      response = await GetCourses(token, null , null, null, null, value );
+      break;
+    case "name":
+      response = await GetCourses(token, null , null, value);
+      break;
+    case "category":
+      response = await GetCourses(token, null , null, null , value);
+      break;
+  }
+  
+  
+  if (response?.data?.code !='200')
+  {
+    throw new Error("Can't get course data");
+  }
+  else{
+    return response.data.data.courses?.map((course)=>{
+      return {
+        label: `${course.name}-${course.teacherName}-${course.uid}`,
+        value: course.name,
+      }
+    })
+  }
 }
 
-const SearchSelect = () => {
+const SearchSelect = ({courseSearchType, ...props}) => {
   const [value, setValue] = React.useState([]);
-
 
   return (
     <DebounceSelect
-    mode="multiple"
+      mode="multiple"
       value={value}
       placeholder="Select course"
       fetchOptions={fetchCourseList}
       onChange={(newValue) => {
         setValue(newValue);
       }}
-      style={{
-        width: '100%',
-      }}
+      courseSearchType={courseSearchType}
+      {...props}
     />
   );
 };

@@ -30,9 +30,7 @@ export default function EditCourse() {
     try{
       switch(courseSearchType){
         case "code":
-          const result = await GetCourses(token, null, null, null, null, value, null);
-          courses = result.data.data.courses;
-          console.log(result);
+          break;
         case "name":
           break;
         case "Category":
@@ -54,24 +52,18 @@ export default function EditCourse() {
   }
 
   if (!userInfo) return (<></>)
+
   
   return (
     <CommonLayout>
           <Row>
-            <Col span={12}>
+            <Col span={24}>
               <Select style={{ width: '30%' }} onChange={searchCourseBy}>
                 <Option value="code">Code</Option>
                 <Option value="name">Name</Option>
                 <Option value="category">Category</Option>
               </Select>
-              {/* <Select style={{ width: '70%' }}
-                  value={courseSearchValue}
-                  showSearch
-                  onSearch= {(value)=> setCourseSearchValue(value)}>
-                  <Option value="test-111">test-111</Option>
-                  <Option value="asdf-222">asdf-222</Option>
-              </Select> */}
-              <SearchSelect/>
+              <SearchSelect style={{ width: '70%' }} courseSearchType={courseSearchType}/>
             </Col>
           </Row>
           <Row>
