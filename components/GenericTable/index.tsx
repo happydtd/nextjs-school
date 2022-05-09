@@ -36,7 +36,7 @@ const GenericTable: React.FC<Props> = (props: Props) => {
   const inputRef = useRef(null);
   const router = useRouter();
 
-  async function callAPI(){
+  const callAPI = async () =>{
     try{
         setLoading(true);
         const result  = await GetItems(token, search, page, pageSize);

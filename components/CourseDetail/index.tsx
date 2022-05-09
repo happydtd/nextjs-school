@@ -14,7 +14,7 @@ const { TextArea } = Input;
 const { Dragger } = Upload;
 
 export default function CourseDetail(props) {
-  const {next} = props;
+  const {next, details} = props;
   const [form] = Form.useForm();
   const router = useRouter();
   const { state, dispatch } = useContext(Store);
@@ -43,9 +43,27 @@ export default function CourseDetail(props) {
 
 
   useEffect(()=>{
-    console.log("CourseDetail useeffect token", token);
-    callAPI();
+    if (!details)
+      callAPI();
   },[])
+
+
+  if (details){
+    console.log("details",details);
+    form.setFieldsValue({
+        courseCode:details.uid,
+        description: details.detail,
+        teacher: details.teacherId,
+        type:details.type,
+        price: details.price,
+        studentLimit:details.maxStudents,
+        duration:details.duration,
+        suffix: details.durationUnit,
+        // startDate: details.startTime,
+    });
+  }
+
+
 
   const onFinish = async (values: any) => {
     console.log('Received values of form: ', values);

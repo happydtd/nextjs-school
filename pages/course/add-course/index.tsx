@@ -29,7 +29,7 @@ export default function AddCourse() {
     const steps = [
       {
         title: 'Course Detail',
-        content: <CourseDetail next={next}/>,
+        content: <CourseDetail next={next} details={null}/>,
       },
       {
         title: 'Course Schedule',

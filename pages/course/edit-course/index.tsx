@@ -17,7 +17,8 @@ export default function EditCourse() {
   const { TabPane } = Tabs;
   const { Option } = Select;
   const [courseSearchType, setCourseSearchType] = useState("");
-  const [courseSearchValue, setCourseSearchValue] = useState("");
+  const [courseSearchValue, setCourseSearchValue] = useState([]);
+  const [courseDetail, setCourseDetail] = useState(null);
   let courses = [];
 
   useEffect(()=>{
@@ -26,34 +27,44 @@ export default function EditCourse() {
     }
   },[])
 
-  async function callAPI(value){
+  const callAPI = async () =>{
     try{
-      switch(courseSearchType){
-        case "code":
-          break;
-        case "name":
-          break;
-        case "Category":
-          break;
-
-      }
+        if (!courseSearchValue) return;
+        const response  = await GetCourses(token, null , null, null, null, courseSearchValue[0].value);
+        console.log("response", response);
+        if (response?.data?.code !='200')
+        {
+          throw new Error("Can't get course data");
+        }
+        else{
+          if (response.data.data.courses.length >0){
+            setCourseDetail(response.data.data.courses[0]);
+          }
+        }
     }
     catch(error){
       console.log("error", error)
     }
   };
 
+  useEffect(()=>{
+
+    callAPI();
+  },[courseSearchValue])
+
+
+
   const searchCourseBy = (value)=>{
     setCourseSearchType(value);
   }
 
-  const searchCourseInput = async (e)=>{
-    await callAPI(e.target.value);
-  }
+  const next = () => {
+    
+  };
 
   if (!userInfo) return (<></>)
 
-  
+ 
   return (
     <CommonLayout>
           <Row>
@@ -63,14 +74,14 @@ export default function EditCourse() {
                 <Option value="name">Name</Option>
                 <Option value="category">Category</Option>
               </Select>
-              <SearchSelect style={{ width: '70%' }} courseSearchType={courseSearchType}/>
+              <SearchSelect style={{ width: '70%' }} courseSearchType={courseSearchType} courseSearchValue={courseSearchValue} setCourseSearchValue={setCourseSearchValue}/>
             </Col>
           </Row>
           <Row>
             <Col span={24}>
               <Tabs defaultActiveKey="1">
                 <TabPane tab="Course Detail" key="1">
-                  <CourseDetail />
+                  <CourseDetail details={courseDetail} next={next}/>
                 </TabPane>
                 <TabPane tab="Course Schedule" key="2">
                 <CourseSchedule/>

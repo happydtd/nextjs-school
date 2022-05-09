@@ -73,23 +73,24 @@ async function fetchCourseList(value, courseSearchType, token) {
     return response.data.data.courses?.map((course)=>{
       return {
         label: `${course.name}-${course.teacherName}-${course.uid}`,
-        value: course.name,
+        value: course.uid,
       }
     })
   }
 }
 
-const SearchSelect = ({courseSearchType, ...props}) => {
-  const [value, setValue] = React.useState([]);
+const SearchSelect = ({courseSearchType, courseSearchValue, setCourseSearchValue, ...props}) => {
+  // const [value, setValue] = React.useState([]);
+  // console.log("select value", value);
 
   return (
     <DebounceSelect
       mode="multiple"
-      value={value}
+      value={courseSearchValue}
       placeholder="Select course"
       fetchOptions={fetchCourseList}
       onChange={(newValue) => {
-        setValue(newValue);
+          setCourseSearchValue(newValue);
       }}
       courseSearchType={courseSearchType}
       {...props}
