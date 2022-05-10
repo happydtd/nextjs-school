@@ -29,15 +29,15 @@ export default function AddCourse() {
     const steps = [
       {
         title: 'Course Detail',
-        content: <CourseDetail next={next} details={null}/>,
+        content: <CourseDetail next={next} editDetail={null} addAction={true}/>,
       },
       {
         title: 'Course Schedule',
-        content: <CourseSchedule next={next}/>,
+        content: <CourseSchedule next={next} editSchedule={null} courseId={null} addAction={true}/>,
       },
       {
         title: 'Success',
-        content: <CourseResult next={next} resetStep={resetStep}/>,
+        content: <CourseResult next={next} resetStep={resetStep} />,
       },
     ];
 

@@ -14,7 +14,7 @@ const { TextArea } = Input;
 const { Dragger } = Upload;
 
 export default function CourseDetail(props) {
-  const {next, detail} = props;
+  const {next, editDetail , addAction} = props;
   const [form] = Form.useForm();
   const router = useRouter();
   const { state, dispatch } = useContext(Store);
@@ -24,8 +24,6 @@ export default function CourseDetail(props) {
   const [ courseTypes, setCourseTypes] = useState<CourseType[]>();
   const [courseCode, setCourseCode] = useState<string>()
   
-  let IsAddCourse = detail? false: true
-
   async function callAPI(){ 
     try{
         const teacherResult  = await GetTeachers(token);
@@ -34,7 +32,7 @@ export default function CourseDetail(props) {
         const courseTypeResult  = await GetCourseTypes(token);
         setCourseTypes(courseTypeResult.data.data);
 
-        if (IsAddCourse){
+        if (addAction){
           const courseCodeResult  = await GetCourseCode(token)
           setCourseCode(courseCodeResult.data.data);
         }
@@ -50,19 +48,19 @@ export default function CourseDetail(props) {
   },[])
 
 
-  if (detail){
-    console.log("detail",detail);
+  if (editDetail){
+    console.log("editDetail",editDetail);
     form.setFieldsValue({
-        courseName:detail.name,
-        courseCode:detail.uid,
-        description: detail.detail,
-        teacher: detail.teacherId,
-        type:detail.type?.map((t)=>{ return t.id }),
-        price: detail.price,
-        studentLimit:detail.maxStudents,
-        duration:detail.duration,
-        suffix: detail.durationUnit,
-        startDate: moment(detail.startTime),
+        courseName:editDetail.name,
+        courseCode:editDetail.uid,
+        description: editDetail.detail,
+        teacher: editDetail.teacherId,
+        type:editDetail.type?.map((t)=>{ return t.id }),
+        price: editDetail.price,
+        studentLimit:editDetail.maxStudents,
+        duration:editDetail.duration,
+        suffix: editDetail.durationUnit,
+        startDate: moment(editDetail.startTime),
     });
   }
 
@@ -84,7 +82,7 @@ export default function CourseDetail(props) {
        startTime: moment(values.startDate).format('YYYY-MM-DD'),
        cover:"test cover"};
 
-    if (IsAddCourse){
+    if (addAction){
       const addCourseresult = await AddCourse(token, course);
       dispatch({
         type: 'NEWCOURSE',
@@ -92,16 +90,16 @@ export default function CourseDetail(props) {
       })
     }
     else{
-      course.id = detail.id;
+      course.id = editDetail.id;
       const editCourseresult = await UpdateCourse(token, course);
       if (editCourseresult.status !== 200)
       {
         throw new Error("Could not update coures!");
       }
-      // dispatch({
-      //   type: 'NEWCOURSE',
-      //   payload: editCourseresult.data.data,
-      // })
+      dispatch({
+        type: 'NEWCOURSE',
+        payload: editCourseresult.data.data,
+      })
     }
 
     next();
@@ -129,7 +127,8 @@ export default function CourseDetail(props) {
 
     if (!teachers) return (<h1>teacher is null</h1>)
     if (!courseTypes) return (<h1>courseTypes is null</h1>)
-    if (!courseCode) return (<h1>courseCode is null</h1>)
+
+    if (!courseCode && addAction) return (<h1>courseCode is null</h1>)
 
   return (
     <Form
@@ -269,7 +268,7 @@ export default function CourseDetail(props) {
       <Row>
         <Col span={24} style={{ textAlign: 'left' }}>
           <Button type="primary" htmlType="submit">
-            {IsAddCourse? "Create Course" : "Update Course"}
+            {addAction? "Create Course" : "Update Course"}
           </Button>
         </Col>
       </Row>

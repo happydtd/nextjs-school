@@ -11,7 +11,7 @@ export default function CourseSchedule(props) {
   const { course, userInfo } = state;
   const  token  = userInfo?.userInfo.token;
   const { Option } = Select;
-  const {next} = props;
+  const {next, editSchedule, courseId, addAction} = props;
 
   const [form] = Form.useForm();
 
@@ -20,16 +20,25 @@ export default function CourseSchedule(props) {
   const onFinish = async (values: any) => {
     const chapters = form.getFieldValue("chapters")?.map((c, i)=>{return {name:c.name, order:i, content: c.content}});
     const classTime = form.getFieldValue("classTime")?.map((t)=>{return `${t.classDay} ${moment(t.classTime).format('HH:mm:ss')}`});
-    const schedule : Schedule = {scheduleId: course.scheduleId,
-       courseId: course.id,
+    const schedule : Schedule = {
+      scheduleId: addAction? course.scheduleId : editSchedule.id,
+       courseId: addAction? course.id : courseId,
         status: 0,
          current:0,
         chapters: chapters,
       classTime : classTime };
-    const addcoursschedule = await  AddOrUpdateSchedule(token, schedule)
+    const addcoursschedule = await AddOrUpdateSchedule(token, schedule)
     console.log('addcoursschedule', addcoursschedule);
     next();
   };
+
+  if (editSchedule){
+    console.log("editSchedule",editSchedule);
+    form.setFieldsValue({
+      chapters: editSchedule.chapters?.map((c)=>{return {name:c.name, content:c.content}}),
+      classTime: editSchedule.classTime?.map((t)=>{return {classDay: t.split(' ')[0], classTime: moment(t.split(' ')[1],'HH:mm:ss')}})
+    });
+  }
 
   return (
     <Form

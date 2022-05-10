@@ -20,7 +20,6 @@ export default function EditCourse() {
   const [courseSearchValue, setCourseSearchValue] = useState([]);
   const [courseDetail, setCourseDetail] = useState(null);
   const [courseSchedule, setCourseSchedule] = useState(null);
-  let courses = [];
 
   useEffect(()=>{
     if (!userInfo) {
@@ -30,9 +29,10 @@ export default function EditCourse() {
 
   const callAPI = async () =>{
     try{
+      console.log("courseSearchValue", courseSearchValue);
         if (!courseSearchValue) return;
         const response  = await GetCourses(token, null , null, null, null, courseSearchValue[0].value);
-        console.log("response", response);
+        console.log("courseSearchresponse", response);
         if (response?.status !=200)
         {
           throw new Error("Can't get course data");
@@ -47,6 +47,7 @@ export default function EditCourse() {
               throw new Error("Can't get course schedult");
             }
             else{
+              console.log("scheduleResponse", scheduleResponse);
               setCourseSchedule(scheduleResponse.data.data);
             }
           }
@@ -91,10 +92,10 @@ export default function EditCourse() {
             <Col span={24}>
               <Tabs defaultActiveKey="1">
                 <TabPane tab="Course Detail" key="1">
-                  <CourseDetail detail={courseDetail} next={next}/>
+                  <CourseDetail editDetail={courseDetail} next={next} addAction={false}/>
                 </TabPane>
                 <TabPane tab="Course Schedule" key="2">
-                <CourseSchedule Schedule={courseSchedule}/>
+                <CourseSchedule editSchedule={courseSchedule} courseId={courseDetail.id} addAction={false} next={next}/>
                 </TabPane>
               </Tabs>
             </Col>
