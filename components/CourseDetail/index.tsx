@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import { Row, Col, Divider, Space, Input ,Typography, Select ,DatePicker, Upload, message, Form, Button, InputNumber } from 'antd';
 import { useRouter } from 'next/router';
 import { Store } from '../../Utils/Store'
-import { GetTeachers, GetCourseTypes, GetCourseCode, AddCourse} from '../../serverAPI';
+import { GetTeachers, GetCourseTypes, GetCourseCode, AddCourse, UpdateCourse} from '../../serverAPI';
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 import Teacher from '../../models/teacher.interface';
 import Course, { CourseType } from '../../models/course.interface';
@@ -14,7 +14,7 @@ const { TextArea } = Input;
 const { Dragger } = Upload;
 
 export default function CourseDetail(props) {
-  const {next, details} = props;
+  const {next, detail} = props;
   const [form] = Form.useForm();
   const router = useRouter();
   const { state, dispatch } = useContext(Store);
@@ -24,6 +24,7 @@ export default function CourseDetail(props) {
   const [ courseTypes, setCourseTypes] = useState<CourseType[]>();
   const [courseCode, setCourseCode] = useState<string>()
   
+  let IsAddCourse = detail? false: true
 
   async function callAPI(){ 
     try{
@@ -33,8 +34,10 @@ export default function CourseDetail(props) {
         const courseTypeResult  = await GetCourseTypes(token);
         setCourseTypes(courseTypeResult.data.data);
 
-        const courseCodeResult  = await GetCourseCode(token)
-        setCourseCode(courseCodeResult.data.data);
+        if (IsAddCourse){
+          const courseCodeResult  = await GetCourseCode(token)
+          setCourseCode(courseCodeResult.data.data);
+        }
     }
     catch(error){
       console.log("error", error)
@@ -43,23 +46,23 @@ export default function CourseDetail(props) {
 
 
   useEffect(()=>{
-    if (!details)
-      callAPI();
+    callAPI();
   },[])
 
 
-  if (details){
-    console.log("details",details);
+  if (detail){
+    console.log("detail",detail);
     form.setFieldsValue({
-        courseCode:details.uid,
-        description: details.detail,
-        teacher: details.teacherId,
-        type:details.type,
-        price: details.price,
-        studentLimit:details.maxStudents,
-        duration:details.duration,
-        suffix: details.durationUnit,
-        // startDate: details.startTime,
+        courseName:detail.name,
+        courseCode:detail.uid,
+        description: detail.detail,
+        teacher: detail.teacherId,
+        type:detail.type?.map((t)=>{ return t.id }),
+        price: detail.price,
+        studentLimit:detail.maxStudents,
+        duration:detail.duration,
+        suffix: detail.durationUnit,
+        startDate: moment(detail.startTime),
     });
   }
 
@@ -68,7 +71,8 @@ export default function CourseDetail(props) {
   const onFinish = async (values: any) => {
     console.log('Received values of form: ', values);
     
-    const course:Course = {name : values.courseName,
+    const course:Course = {
+       name : values.courseName,
        uid: values.courseCode, 
        detail: values.description, 
        teacherId: values.teacher, 
@@ -79,11 +83,27 @@ export default function CourseDetail(props) {
        durationUnit:1,
        startTime: moment(values.startDate).format('YYYY-MM-DD'),
        cover:"test cover"};
-    const addcourseresult = await AddCourse(token, course);
-    dispatch({
-      type: 'NEWCOURSE',
-      payload: addcourseresult.data.data,
-    })
+
+    if (IsAddCourse){
+      const addCourseresult = await AddCourse(token, course);
+      dispatch({
+        type: 'NEWCOURSE',
+        payload: addCourseresult.data.data,
+      })
+    }
+    else{
+      course.id = detail.id;
+      const editCourseresult = await UpdateCourse(token, course);
+      if (editCourseresult.status !== 200)
+      {
+        throw new Error("Could not update coures!");
+      }
+      // dispatch({
+      //   type: 'NEWCOURSE',
+      //   payload: editCourseresult.data.data,
+      // })
+    }
+
     next();
   };
 
@@ -91,10 +111,10 @@ export default function CourseDetail(props) {
   const suffixSelector = (
     <Form.Item name="suffix" noStyle>
       <Select style={{ width: 70 }}>
-        <Option value='1'>day</Option>
-        <Option value='2'>week</Option>
-        <Option value='3'>month</Option>
-        <Option value='4'>year</Option>
+        <Option value={1}>day</Option>
+        <Option value={2}>week</Option>
+        <Option value={3}>month</Option>
+        <Option value={4}>year</Option>
       </Select>
     </Form.Item>
   );
@@ -118,9 +138,9 @@ export default function CourseDetail(props) {
       name="course-detail"
       onFinish={onFinish}
       initialValues={{
-        ["teacher"]: 1,
-        ["type"]: [1],
-        // ["suffix"]: 1,
+        // ["teacher"]: 1,
+        // ["type"]: [1],
+        ["suffix"]: 1,
         ["courseCode"]:courseCode
       }}
     >
@@ -249,7 +269,7 @@ export default function CourseDetail(props) {
       <Row>
         <Col span={24} style={{ textAlign: 'left' }}>
           <Button type="primary" htmlType="submit">
-            Create Course
+            {IsAddCourse? "Create Course" : "Update Course"}
           </Button>
         </Col>
       </Row>

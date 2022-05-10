@@ -18,7 +18,7 @@ export async function callAxiosWithToken(url, token, type, query, data={}) {
     if(token) config.headers.Authorization = `Bearer ${token}`;
     return config;
   })
-  console.log('data', data);
+
   if (type === 'GET'){
     if (query === 'Body')
       return await axios.get(url, { params: data })
@@ -29,7 +29,6 @@ export async function callAxiosWithToken(url, token, type, query, data={}) {
   } else if (type === 'DELETE'){
     return await axios.delete(`${url}/${data}`)
   }  else if (type ==='PUT'){
-    console.log(data)
     return await axios.put(url, data)
   }
 }
