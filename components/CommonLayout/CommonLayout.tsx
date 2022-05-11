@@ -3,12 +3,15 @@ import { useRouter } from 'next/router'
 import { Layout, Menu, Breadcrumb } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
 import Link from 'next/link'
-
+import {Store} from '../../Utils/Store'
 
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
 
 export default function CommonLayout({children} ) {
+  const { state, dispatch } = useContext(Store);
+  const { userInfo} = state;
+  const role  = userInfo?.userInfo.role;
   const router = useRouter()
   const location = router.pathname // or router.asPath
   const pathnames = location.split("/");
@@ -93,7 +96,7 @@ export default function CommonLayout({children} ) {
             )
             :(
               <Breadcrumb.Item>
-                <Link href={routeTo}>{path}</Link> 
+                <Link key={index} href={routeTo}>{path}</Link> 
               </Breadcrumb.Item>
             )
           })

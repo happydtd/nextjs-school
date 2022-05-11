@@ -90,7 +90,7 @@ export default function LoginForm(){
         ]}
       >
         <Radio.Group onChange={onChange} value={value}>
-          <Radio.Button  value={"student"}>Student</Radio.Button >
+          <Radio.Button value={"student"}>Student</Radio.Button >
           <Radio.Button value={"teacher"}>Teacher</Radio.Button>
           <Radio.Button value={"manager"}>Manager</Radio.Button>
         </Radio.Group>
