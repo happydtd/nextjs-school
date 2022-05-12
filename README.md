@@ -214,7 +214,9 @@
                  只能用这种写法吗？ const  token  = userInfo?.userInfo.token;
            
            5月11日
-           问题33: Token保存的安全性。我现在把token放在cookie中，下次不登录也可以访问保护数据，同时也很容易被窃取。实际项目该如何防护？
-           问题34：Error的处理。目前我直接把error写入console。实际项目中如何处理？
+           已答。问题33: Token保存的安全性。我现在把token放在cookie中，下次不登录也可以访问保护数据，同时也很容易被窃取。实际项目该如何防护？
+           已答。问题34：Error的处理。目前我直接把error写入console。实际项目中如何处理？
            
-           
+          5月14日
+              <Link href="/teachers">Teacher List</Link>和<Link href="teachers">Teacher List</Link>不同？
+
