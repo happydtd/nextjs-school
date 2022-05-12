@@ -1,13 +1,13 @@
 import React, { useEffect, useContext, useState, useRef } from 'react';
-import CommonLayout from '../../../components/CommonLayout/CommonLayout'
-import {Store} from '../../../Utils/Store'
+import CommonLayout from '../../../../../components/CommonLayout'
+import {Store} from '../../../../../Utils/Store'
 import {useRouter} from 'next/router'
 import { Tabs, Row, Col ,Input ,Select } from 'antd';
 import 'antd/dist/antd.css';
-import CourseDetail from '../../../components/CourseDetail';
-import CourseSchedule from '../../../components/CourseSchedule';
-import { GetTeachers, GetCourseTypes, GetCourseCode, GetCourses, GetSchedule} from '../../../serverAPI';
-import SearchSelect from '../../../components/SearchSelect';
+import CourseDetail from '../../../../../components/CourseDetail';
+import CourseSchedule from '../../../../../components/CourseSchedule';
+import { GetTeachers, GetCourseTypes, GetCourseCode, GetCourses, GetSchedule} from '../../../../../serverAPI';
+import SearchSelect from '../../../../../components/SearchSelect';
 
 export default function EditCourse() {
   const { state, dispatch } = useContext(Store);
@@ -95,7 +95,7 @@ export default function EditCourse() {
                   <CourseDetail editDetail={courseDetail} next={next} addAction={false}/>
                 </TabPane>
                 <TabPane tab="Course Schedule" key="2">
-                <CourseSchedule editSchedule={courseSchedule} courseId={courseDetail.id} addAction={false} next={next}/>
+                <CourseSchedule editSchedule={courseSchedule} courseId={courseDetail?.id} addAction={false} next={next}/>
                 </TabPane>
               </Tabs>
             </Col>

@@ -1,12 +1,12 @@
 import React, { useRef, useContext, useEffect } from 'react';
 import { Space, Popconfirm} from 'antd';
 import 'antd/dist/antd.css';
-import { GetStudents, DeleteStudentById, AddStudent, EditStudent} from '../../serverAPI';
+import { GetStudents, DeleteStudentById, AddStudent, EditStudent} from '../../../../serverAPI';
 import { formatDistanceToNow } from 'date-fns'
-import CommonLayout from '../../components/CommonLayout/CommonLayout';
+import CommonLayout from '../../../../components/CommonLayout';
 import Link from 'next/link'
-import GenericTable from '../../components/GenericTable';
-import {Store} from '../../Utils/Store'
+import GenericTable from '../../../../components/GenericTable';
+import {Store} from '../../../../Utils/Store'
 import {useRouter} from 'next/router'
 
 export default function Student() {
@@ -26,9 +26,7 @@ export default function Student() {
       dataIndex: 'name',
       key: 'name',
       render: (name, record) =>{
-        return <Link href={'/student/' + record.id}>
-          <a>{name}</a>
-        </Link>
+        return <Link href={'students/' + record.id}>{name}</Link>
       },
       sorter:(r1, r2)=>r1.name.localeCompare(r2.name),
 

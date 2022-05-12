@@ -65,7 +65,7 @@ export default function CourseCard({course}:CourseCardProp) {
             <Row gutter={16}>
               <Col className="gutter-row" span={12}>
                 <Button type="primary">
-                  <Link href={'/course/'+ course.id}>
+                  <Link href={'courses/'+ course.id}>
                     <a>Read More</a>
                   </Link>
                 </Button>

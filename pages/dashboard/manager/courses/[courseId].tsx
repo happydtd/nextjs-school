@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { GetCoursesById } from '../../serverAPI';
-import Course from '../../models/course.interface';
-import CommonLayout from '../../components/CommonLayout/CommonLayout';
+import { GetCoursesById } from '../../../../serverAPI';
+import Course from '../../../../models/course.interface';
+import CommonLayout from '../../../../components/CommonLayout';
 import { Col, Collapse, Divider, Row, Spin, Steps, Tag, Typography } from 'antd';
 import { HeartFilled ,UserOutlined } from '@ant-design/icons';
-import { Store } from '../../Utils/Store';
+import { Store } from '../../../../Utils/Store';
 
 export default function CourseDetail() {
     const router = useRouter();

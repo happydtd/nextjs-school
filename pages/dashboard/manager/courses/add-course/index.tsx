@@ -1,11 +1,11 @@
 import React, { useEffect, useContext, useState, useRef } from 'react';
-import CommonLayout from '../../../components/CommonLayout/CommonLayout'
+import CommonLayout from '../../../../../components/CommonLayout'
 import { Steps, Button, message } from 'antd';
-import CourseDetail from '../../../components/CourseDetail';
-import CourseSchedule from '../../../components/CourseSchedule';
-import TestForm from '../../../components/TestForm';
-import { CourseResult } from '../../../components/CourseResult';
-import {Store} from '../../../Utils/Store'
+import CourseDetail from '../../../../../components/CourseDetail';
+import CourseSchedule from '../../../../../components/CourseSchedule';
+import TestForm from '../../../../../components/TestForm';
+import { CourseResult } from '../../../../../components/CourseResult';
+import {Store} from '../../../../../Utils/Store'
 import {useRouter} from 'next/router'
 
 const { Step } = Steps;

@@ -1,10 +1,10 @@
 import React, {useContext, useEffect, useState } from 'react'
 import {useRouter} from 'next/router'
-import CommonLayout from '../../components/CommonLayout/CommonLayout';
+import CommonLayout from '../../../../components/CommonLayout';
 import { Row, Col , Typography, Tabs, Spin, Tag } from 'antd';
-import { CourseForm } from '../../components/CourseForm';
-import { GetStudentById } from '../../serverAPI';
-import {Store} from '../../Utils/Store'
+import { CourseForm } from '../../../../components/CourseForm';
+import { GetStudentById } from '../../../../serverAPI';
+import {Store} from '../../../../Utils/Store'
 
 interface Student{
   name: string,

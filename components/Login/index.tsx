@@ -7,7 +7,6 @@ import NextLink from 'next/link';
 import { Typography, Space } from 'antd';
 import { useRouter } from 'next/router';
 import {Store} from '../../Utils/Store'
-import Cookies from 'js-cookie';
 
 type LayoutType = Parameters<typeof Form>[0]['layout'];
 const { Text, Link } = Typography;
@@ -42,11 +41,7 @@ export default function LoginForm(){
             payload: { userInfo },
           })
 
-          router.push('/overview');
-          // dispatch({
-          //   type: 'PATH',
-          //   payload: ['CMS MANAGER SYSTEM'],
-          // })
+          router.push(`dashboard/${userInfo.role}/overview`);
         }
         else{
           message.error("error")

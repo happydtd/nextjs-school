@@ -2,11 +2,11 @@ import React, { useEffect, useContext, useState, useRef } from 'react';
 import { Row, Col } from 'antd';
 import { useRouter } from 'next/router';
 import 'antd/dist/antd.css';
-import CommonLayout from '../../components/CommonLayout/CommonLayout';
+import CommonLayout from '../../../../components/CommonLayout';
 import Link from 'next/link'
-import { Store } from '../../Utils/Store'
-import { GetCourses} from '../../serverAPI';
-import CourseCard from '../../components/CourseCard';
+import { Store } from '../../../../Utils/Store'
+import { GetCourses} from '../../../../serverAPI';
+import CourseCard from '../../../../components/CourseCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 export default function Course() {
@@ -59,23 +59,7 @@ export default function Course() {
             <b>Yay! You have seen it all</b>
           </p>
         }
-
-        // below props only if you need pull down functionality
-        // refreshFunction={this.refresh}
-        // pullDownToRefresh
-        // pullDownToRefreshThreshold={50}
-        // pullDownToRefreshContent={
-        //   <h3 style={{ textAlign: 'center' }}>&#8595; Pull down to refresh</h3>
-        // }
-        // releaseToRefreshContent={
-        //   <h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
-        // }
       >
-        {/* { courses?.map((course, index)=>{
-          return (
-            <CourseCard key={index} course={course}/>
-          )})
-        } */}
         <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
         { courses?.map((course, index)=>{
           return (

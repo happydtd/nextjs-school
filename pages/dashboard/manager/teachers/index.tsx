@@ -1,12 +1,12 @@
 import React, {  useRef, useContext, useEffect } from 'react';
 import { Space, Popconfirm} from 'antd';
 import 'antd/dist/antd.css';
-import { GetTeachers, DeleteTeacherById, AddTeacher, EditTeacher} from '../../serverAPI';
+import { GetTeachers, DeleteTeacherById, AddTeacher, EditTeacher} from '../../../../serverAPI';
 import { formatDistanceToNow } from 'date-fns'
-import CommonLayout from '../../components/CommonLayout/CommonLayout';
+import CommonLayout from '../../../../components/CommonLayout';
 import Link from 'next/link'
-import GenericTable from '../../components/GenericTable';
-import {Store} from '../../Utils/Store'
+import GenericTable from '../../../../components/GenericTable';
+import {Store} from '../../../../Utils/Store'
 import {useRouter} from 'next/router'
 
 export default function Teacher() {
@@ -26,7 +26,7 @@ export default function Teacher() {
       dataIndex: 'name',
       key: 'name',
       render: (name, record) =>{
-        return <Link href={'/teacher/' + record.id}>
+        return <Link href={'teachers/' + record.id}>
           <a>{name}</a>
         </Link>
       },

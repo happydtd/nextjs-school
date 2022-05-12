@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState } from 'react'
-import CommonLayout from '../../components/CommonLayout/CommonLayout';
-import {Store} from '../../Utils/Store'
+import CommonLayout from '../../../../components/CommonLayout';
+import {Store} from '../../../../Utils/Store'
 import {useRouter} from 'next/router'
 
 export default function OverviewForm() {
