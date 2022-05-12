@@ -218,5 +218,13 @@
            已答。问题34：Error的处理。目前我直接把error写入console。实际项目中如何处理？
            
           5月14日
-              <Link href="/teachers">Teacher List</Link>和<Link href="teachers">Teacher List</Link>不同？
+            问题35: <Link href="/teachers">Teacher List</Link>和<Link href="teachers">Teacher List</Link>不同？
+            下面的写法，第一次点击和第二次点击会去不同的地址？
+            <Menu.Item key="Add Course">
+              <Link href="courses/add-course">Add Courses</Link>
+            </Menu.Item>
+            http://localhost:3000/dashboard/manager/courses/add-course
+            http://localhost:3000/dashboard/manager/courses/courses/add-course
+            
+            
 
