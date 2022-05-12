@@ -219,12 +219,12 @@
            
           5月14日
             问题35: <Link href="/teachers">Teacher List</Link>和<Link href="teachers">Teacher List</Link>不同？
-            下面的写法，第一次点击和第二次点击会去不同的地址？
+            下面的写法，第一次点击打开addcourse页面再点击打开allcourse页面然后再点击addcourse页面会去不同的地址？
             <Menu.Item key="Add Course">
               <Link href="courses/add-course">Add Courses</Link>
             </Menu.Item>
-            http://localhost:3000/dashboard/manager/courses/add-course
-            http://localhost:3000/dashboard/manager/courses/courses/add-course
+            第一次地址：http://localhost:3000/dashboard/manager/courses/add-course
+            第二次地址：http://localhost:3000/dashboard/manager/courses/courses/add-course
             
             
 
