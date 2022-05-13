@@ -1,11 +1,14 @@
 import React, {useEffect, useState, useContext} from 'react'
 import classes from './CourseCalendarSchedule.module.css'
-import { Calendar, Badge } from 'antd';
+import { Calendar, Row, Col, Space} from 'antd';
 import { GetClassSchedule } from '../../serverAPI';
 import { useRouter } from 'next/router';
 import 'antd/dist/antd.css';
 import { Store } from '../../Utils/Store';
 import moment from 'moment';
+import {
+  ClockCircleOutlined
+} from '@ant-design/icons';
 
 const CourseCalendarScheduleForm = () => {
     const [classSchedule, setClassSchedule] = useState(null);
@@ -39,7 +42,7 @@ const CourseCalendarScheduleForm = () => {
     
     console.log("classSchedule", classSchedule);
 
-    function dayConvter(value){
+    function dayConvert(value){
       switch(value.day()){
         case 0:
           return 'Sunday';
@@ -55,57 +58,34 @@ const CourseCalendarScheduleForm = () => {
           return 'Friday';
         case 6:
           return 'Satursday'
+      }
     }
 
     function getListData(value) {
+      console.log('value', value);
         let listData;
-
-        var classScheduleMoment = classSchedule?.map((c)=>{return {classname: c.name, classTime: c.schedule?.classTime?.map(t=>t)}})
-
-        // console.log('classScheduleMoment', classScheduleMoment);
-        // console.log('value', value);
-        // console.log('value.day()', value.day());
-
-        //var filterresult = classScheduleMoment?.classTime?.filter(t=> t.day() === value.day())
         const filterresult = [];
-        classScheduleMoment.forEach (
-          i=> i.classTime.forEach (
-            t=> {
-                if (t.index(dayConvter(value))>0)
-                  filterresult.push({className: i.className, classTime: t.classTime});
+        if (classSchedule){
+            var classScheduleMoment = classSchedule?.map((c)=>{return {className: c.name, classTime: c.schedule?.classTime?.map(t=>t)}})
             
-            }
-          )
-        )
-
-        console.log('filterresult', filterresult);
-        listData = filterresult?.map(i=> {return {type: 'warning', content: i.className + ' ' + moment(i.classTime).format('HH:ss:mm')}})
-        switch (value.date()) {
-          case 8:
-            listData = [
-              { type: 'warning', content: <p>hello</p> },
-              { type: 'success', content: 'This is usual event.' },
-            ];
-            break;
-          case 10:
-            listData = [
-              { type: 'warning', content: 'This is warning event.' },
-              { type: 'success', content: 'This is usual event.' },
-              { type: 'error', content: 'This is error event.' },
-            ];
-            break;
-          case 15:
-            listData = [
-              { type: 'warning', content: 'This is warning event' },
-              { type: 'success', content: 'This is very long usual event。。....' },
-              { type: 'error', content: 'This is error event 1.' },
-              { type: 'error', content: 'This is error event 2.' },
-              { type: 'error', content: 'This is error event 3.' },
-              { type: 'error', content: 'This is error event 4.' },
-            ];
-            break;
-          default:
+            classScheduleMoment.forEach (
+              i=> {
+                i.classTime.forEach (
+                  t=> {
+                      if (t.includes(dayConvert(value)))
+                      {
+                        console.log('t', t);
+                        filterresult.push({className: i.className, classTime: t.split(' ')[1]});
+                        console.log('filterresult', filterresult);
+                      }
+                  }
+                )
+              }
+            )
         }
+
+        
+        listData = filterresult?.map(i=> {return {classTime: i.classTime, className: i.className}})
         return listData || [];
       }
       
@@ -113,9 +93,14 @@ const CourseCalendarScheduleForm = () => {
         const listData = getListData(value);
         return (
           <ul className={classes.events}>
-            {listData.map(item => (
-              <li key={item.content}>
-                <Badge status={item.type} text={item.content} />
+            {listData.map((item, index) => (
+              <li key={index}>
+                <Row>
+                  <Col span={8}><Space><ClockCircleOutlined />{item.classTime}</Space></Col>
+                  <Col span={8}></Col>
+                  <Col span={8}>{item.className}</Col>
+                </Row>
+                {/* <Badge status={item.type} text={item.content} /> */}
               </li>
             ))}
           </ul>
@@ -141,10 +126,8 @@ const CourseCalendarScheduleForm = () => {
   return (
     <Calendar dateCellRender={dateCellRender} monthCellRender={monthCellRender} />
   )
-
-
 }
-}
+
 
 export default CourseCalendarScheduleForm;
 
