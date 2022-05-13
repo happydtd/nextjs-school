@@ -45,3 +45,5 @@ export const AddOrUpdateSchedule = async (token:string, schedule: Schedule)  => 
 export const UpdateCourse = async (token:string, course: Course)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/courses', token, "PUT", "Body", course)
 
 export const GetSchedule = async (token:string, courseId: number, scheduleId: number = null)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/courses/schedule', token, "GET", "Body", {courseId, scheduleId})
+
+export const GetClassSchedule = async (token:string, userId: number)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/class/schedule', token, "GET", "Body", {userId})

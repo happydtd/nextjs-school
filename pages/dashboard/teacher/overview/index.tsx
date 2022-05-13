@@ -6,7 +6,6 @@ import {useRouter} from 'next/router'
 export default function OverviewForm() {
   const { state, dispatch } = useContext(Store);
   const { userInfo} = state;
-  //const {token}  = userInfo?.userInfo;
   const token  = userInfo?.userInfo.token;
   const router = useRouter();
 
@@ -17,6 +16,6 @@ export default function OverviewForm() {
   },[])
 
   return (
-    <CommonLayout>Manager Overview Form</CommonLayout>
+    <CommonLayout>Teacher Overview Form</CommonLayout>
   )
 }

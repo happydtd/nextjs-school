@@ -15,6 +15,8 @@ export default function CommonLayout({children} ) {
   const role  = userInfo?.userInfo.role;
   let hrefByRole = `/dashboard/${role}`;
 
+  console.log("hrefByRole", hrefByRole);
+
   const router = useRouter()
   const location = router.pathname // or router.asPath
   const pathnames = location.split("/").filter(p=>p!==''&& p!=='dashboard' && p!=='manager');
@@ -42,16 +44,21 @@ export default function CommonLayout({children} ) {
           <Menu.Item key="Overview" icon={<UserOutlined />}>
             <Link href={`${hrefByRole}/overview`}>Overview</Link>
           </Menu.Item>
+
+          {(role === 'teacher') &&  <Menu.Item key="Schedule" icon={<UserOutlined />}>
+            <Link href={`${hrefByRole}/schedule`}>Class Schedule</Link>
+          </Menu.Item>}
+
           <SubMenu key="Student" icon={<LaptopOutlined />} title="Student">
             <Menu.Item key="Student List">
               <Link href={`${hrefByRole}/students`}>Student List</Link>
             </Menu.Item>
           </SubMenu>
-          <SubMenu key="Teacher" icon={<NotificationOutlined />} title="Teacher">
+          {(role !== 'teacher') && <SubMenu key="Teacher" icon={<NotificationOutlined />} title="Teacher">
             <Menu.Item key="Teacher List">
               <Link href={`${hrefByRole}/teachers`}>Teacher List</Link>
             </Menu.Item>
-          </SubMenu>
+          </SubMenu>}
           <SubMenu key="Course" icon={<NotificationOutlined />} title="Course">
             <Menu.Item key="All Courses">
               {/* <Link href="courses">All Courses</Link> */}
