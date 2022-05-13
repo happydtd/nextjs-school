@@ -226,5 +226,8 @@
             第一次地址：http://localhost:3000/dashboard/manager/courses/add-course
             第二次地址：http://localhost:3000/dashboard/manager/courses/courses/add-course
             
-            
+            问题36：刷新时state内数据时有时无的问题
+            我通过state中存储的用户信息拿到role，再拼接对应访问地址
+            用teacher账户登录后光标放在overview menu， 显示链接地址为http://localhost:3000/dashboard/teacher/overview
+            按刷新按钮，再把光标放在overview menu，显示链接地址为http://localhost:3000/dashboard/undefined/overview
 
