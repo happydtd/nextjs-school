@@ -230,4 +230,6 @@
             我通过state中存储的用户信息拿到role，再拼接对应访问地址
             用teacher账户登录后光标放在overview menu， 显示链接地址为http://localhost:3000/dashboard/teacher/overview
             按刷新按钮，再把光标放在overview menu，显示链接地址为http://localhost:3000/dashboard/undefined/overview
+            
+            问题37 server side render()项目中使用？
 
