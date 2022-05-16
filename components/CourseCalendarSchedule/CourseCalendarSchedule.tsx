@@ -14,8 +14,24 @@ const CourseCalendarScheduleForm = () => {
     const [classSchedule, setClassSchedule] = useState(null);
     const { state, dispatch } = useContext(Store);
     const { userInfo} = state;
-    const  token  = userInfo?.userInfo.token;
+    const [token, setToken] = useState(null);
+    //const  token  = userInfo?.userInfo.token;
     const router = useRouter();
+
+    useEffect(()=>{
+      if (token)
+        async ()=> await callAPI();
+    },[token])
+
+    useEffect(()=>{
+      if (!userInfo) {
+        router.push('/signin');
+      }
+      else
+      {
+        setToken(userInfo?.userInfo.token);
+      }
+    },[])
 
     async function callAPI(){ 
       try{
@@ -33,12 +49,7 @@ const CourseCalendarScheduleForm = () => {
       }
     };
 
-    useEffect(()=>{
-      if (!userInfo) {
-        router.push('/signin');
-      }
-      callAPI();
-    },[])
+
     
     console.log("classSchedule", classSchedule);
 
@@ -62,7 +73,6 @@ const CourseCalendarScheduleForm = () => {
     }
 
     function getListData(value) {
-      console.log('value', value);
         let listData;
         const filterresult = [];
         if (classSchedule){
@@ -124,7 +134,12 @@ const CourseCalendarScheduleForm = () => {
       }
 
   return (
-    <Calendar dateCellRender={dateCellRender} monthCellRender={monthCellRender} />
+    <>
+    {
+      classSchedule && <Calendar dateCellRender={dateCellRender} monthCellRender={monthCellRender} />
+    }
+    </>
+    
   )
 }
 

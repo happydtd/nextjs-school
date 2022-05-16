@@ -41,7 +41,7 @@ export default function RegistrationForm(){
         console.log("error", error)
       }
     };
-    callAPI();
+    async ()=> await callAPI();
 
   };
 

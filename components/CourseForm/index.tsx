@@ -30,7 +30,6 @@ const data = [
 ];
 
 export const CourseForm = (props) => {
-  console.log('courses', props);
 
   return (
     

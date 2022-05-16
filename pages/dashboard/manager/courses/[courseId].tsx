@@ -30,7 +30,7 @@ export default function CourseDetail() {
 
     useEffect(()=>{
       if (token && courseId)
-        callAPI();
+        async ()=> await callAPI();
     },[courseId, token ])
 
     async function callAPI(){

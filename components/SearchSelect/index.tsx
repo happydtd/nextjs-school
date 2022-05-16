@@ -10,9 +10,16 @@ import { Store } from '../../Utils/Store'
 function DebounceSelect({ fetchOptions, debounceTimeout = 800, courseSearchType, ...props }) {
   const { state, dispatch } = useContext(Store);
   const { userInfo} = state;
-  const token  = userInfo?.userInfo.token;
+  //const token  = userInfo?.userInfo.token;
   const [fetching, setFetching] = React.useState(false);
   const [options, setOptions] = React.useState([]);
+  const [token, setToken] = React.useState([]);
+
+  useEffect(()=>{
+    if (userInfo)
+      setToken(userInfo?.userInfo.token);
+  },[])
+
   
   const fetchRef = React.useRef(0);
   const debounceFetcher = React.useMemo(() =>  {
@@ -48,8 +55,6 @@ function DebounceSelect({ fetchOptions, debounceTimeout = 800, courseSearchType,
 } // Usage of DebounceSelect
 
 async function fetchCourseList(value, courseSearchType, token) {
- console.log("courseSearchType", courseSearchType)
- console.log("value", value)
   let response;
 
   switch(courseSearchType){

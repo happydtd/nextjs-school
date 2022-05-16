@@ -23,7 +23,7 @@ export default function CourseDetail(props) {
 
   useEffect(()=>{
     if (token)
-      callAPI();
+      async ()=> await callAPI();
   },[editDetail])
 
   async function callAPI(){ 

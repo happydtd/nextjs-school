@@ -32,7 +32,7 @@ export default function Course() {
 
   useEffect(()=>{
     if (token)
-      callAPI();
+      async ()=> await callAPI();
   },[pageSize, token])
 
   async function callAPI(){ 

@@ -50,15 +50,15 @@ export default function EditCourse() {
           if (response.data.data.courses.length >0){
              setCourseDetail(response.data.data.courses[0]);
 
-            // const scheduleResponse = await GetSchedule(token, response.data.data.courses[0].id);
-            // if (scheduleResponse?.status !=200)
-            // {
-            //   throw new Error("Can't get course schedult");
-            // }
-            // else{
-            //   console.log("scheduleResponse", scheduleResponse);
-            //   setCourseSchedule(scheduleResponse.data.data);
-            // }
+            const scheduleResponse = await GetSchedule(token, response.data.data.courses[0].id);
+            if (scheduleResponse?.status !=200)
+            {
+              throw new Error("Can't get course schedult");
+            }
+            else{
+              console.log("scheduleResponse", scheduleResponse);
+              setCourseSchedule(scheduleResponse.data.data);
+            }
           }
         }
     }

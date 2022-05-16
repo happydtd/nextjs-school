@@ -51,7 +51,7 @@ export default function LoginForm(){
         console.log("error", error)
       }
     };
-    callAPI();
+    async()=> await callAPI();
 
   };
 

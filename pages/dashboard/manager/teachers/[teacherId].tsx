@@ -34,7 +34,7 @@ export default function TeacherDetail() {
 
   useEffect(()=>{
     if (token && teacherId)
-      callAPI();
+      async()=> await callAPI();
   },[token, teacherId])
 
   async function callAPI(){

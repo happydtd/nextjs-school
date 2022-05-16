@@ -31,10 +31,19 @@ const GenericTable: React.FC<Props> = (props: Props) => {
   const [ actionType, setActionType] = useState("");
   const [ visible, setVisible] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
+  const [token, setToken] = React.useState(null);
   const { userInfo} = state;
-  const token  = userInfo?.userInfo.token;
+  //const token  = userInfo?.userInfo.token;
   const inputRef = useRef(null);
-  const router = useRouter();
+
+  useEffect(()=>{
+    if(userInfo)
+      setToken(userInfo?.userInfo.token);
+  },[userInfo]);
+
+  useEffect(()=>{
+    callAPI();
+  },[page, pageSize, token])
 
   const callAPI = async () =>{
     try{
@@ -54,13 +63,6 @@ const GenericTable: React.FC<Props> = (props: Props) => {
       setLoading(false);
     }
   };
-
-  useEffect(()=>{
-    // if (!userInfo) {
-    //   router.push('/signin');
-    // }
-    callAPI();
-  },[page, pageSize])
 
   useImperativeHandle(onRef, ()=>({
     handleDeleteItem : async (id)=>{

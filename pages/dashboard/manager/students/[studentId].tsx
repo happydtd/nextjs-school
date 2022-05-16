@@ -50,8 +50,11 @@ export default function StudentDetail() {
   },[])
 
   useEffect(()=>{
-    if (token)
-      callAPI();
+    if (token){
+      async () => {
+        await callAPI();
+      }
+    }
   },[token])
 
   async function callAPI(){
