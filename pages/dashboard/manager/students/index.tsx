@@ -1,4 +1,4 @@
-import React, { useRef, useContext, useEffect } from 'react';
+import React, { useRef, useContext, useEffect, useState } from 'react';
 import { Space, Popconfirm} from 'antd';
 import 'antd/dist/antd.css';
 import { GetStudents, DeleteStudentById, AddStudent, EditStudent} from '../../../../serverAPI';
@@ -12,9 +12,8 @@ import {useRouter} from 'next/router'
 export default function Student() {
   const { state, dispatch } = useContext(Store);
   const { userInfo} = state;
-  const token  = userInfo?.userInfo.token;
+  const [token, setToken] = useState(null);
   const router = useRouter();
-
   const columns = [
     {
       title: 'No.',
@@ -115,14 +114,21 @@ export default function Student() {
     if (!userInfo) {
       router.push('/signin');
     }
+    else{
+      setToken(userInfo?.userInfo.token);
+    }
   },[])
 
-  if (!userInfo) return (<></>)
-  
   return (
-    <CommonLayout>
-        <GenericTable onRef={childRef} columns={columns} dataType='student' GetItems={GetItems} DeleteItemById={DeleteItemById} AddItem={AddItem} EditItem={EditItem}/>
-    </CommonLayout>
+    <>
+    {
+      userInfo && token &&
+      (<CommonLayout>
+          <GenericTable onRef={childRef} columns={columns} dataType='student' GetItems={GetItems} DeleteItemById={DeleteItemById} AddItem={AddItem} EditItem={EditItem}/>
+      </CommonLayout>)
+    }
+    </>
+
   )
 }
 

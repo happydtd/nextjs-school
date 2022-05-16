@@ -14,9 +14,9 @@ const { Step } = Steps;
 export default function AddCourse() {
   const { state, dispatch } = useContext(Store);
   const { userInfo} = state;
-  const token  = userInfo?.userInfo.token;
   const router = useRouter();
   const [current, setCurrent] = React.useState(0);
+  const [token, setToken] = useState(null);
 
     const resetStep = ()=>{
       setCurrent(0);
@@ -29,11 +29,11 @@ export default function AddCourse() {
     const steps = [
       {
         title: 'Course Detail',
-        content: <CourseDetail next={next} editDetail={null} addAction={true}/>,
+        content: <CourseDetail next={next} editDetail={null} addAction={true} token={token}/>,
       },
       {
         title: 'Course Schedule',
-        content: <CourseSchedule next={next} editSchedule={null} courseId={null} addAction={true}/>,
+        content: <CourseSchedule next={next} editSchedule={null} courseId={null} addAction={true} token={token}/>,
       },
       {
         title: 'Success',
@@ -45,19 +45,27 @@ export default function AddCourse() {
       if (!userInfo) {
         router.push('/signin');
       }
+      else
+      {
+        setToken(userInfo?.userInfo.token);
+      }
     },[])
   
-    if (!userInfo) return (<></>)
     
   return (
-    <CommonLayout>
-      <Steps current={current}>
-        {steps.map(item => (
-          <Step key={item.title} title={item.title} />
-        ))}
-      </Steps>
-      <div className="steps-content">{steps[current].content}</div>
-    </CommonLayout>
+    <>
+    {
+        token && <CommonLayout>
+          <Steps current={current}>
+            {steps.map(item => (
+              <Step key={item.title} title={item.title} />
+            ))}
+          </Steps>
+          <div className="steps-content">{steps[current].content}</div>
+        </CommonLayout>
+    }
+    </>
+
     
   )
 }

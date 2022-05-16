@@ -6,13 +6,12 @@ import { Tabs, Row, Col ,Input ,Select } from 'antd';
 import 'antd/dist/antd.css';
 import CourseDetail from '../../../../../components/CourseDetail';
 import CourseSchedule from '../../../../../components/CourseSchedule';
-import { GetTeachers, GetCourseTypes, GetCourseCode, GetCourses, GetSchedule} from '../../../../../serverAPI';
+import { GetCourses, GetSchedule} from '../../../../../serverAPI';
 import SearchSelect from '../../../../../components/SearchSelect';
 
 export default function EditCourse() {
   const { state, dispatch } = useContext(Store);
   const { userInfo} = state;
-  const token  = userInfo?.userInfo.token;
   const router = useRouter();
   const { TabPane } = Tabs;
   const { Option } = Select;
@@ -20,12 +19,22 @@ export default function EditCourse() {
   const [courseSearchValue, setCourseSearchValue] = useState([]);
   const [courseDetail, setCourseDetail] = useState(null);
   const [courseSchedule, setCourseSchedule] = useState(null);
+  const [token, setToken] = useState(null);
 
   useEffect(()=>{
     if (!userInfo) {
       router.push('/signin');
     }
+    else
+    {
+      setToken(userInfo?.userInfo.token);
+    }
   },[])
+
+  useEffect(()=>{
+    if (token && courseSearchValue)
+      callAPI();
+  },[courseSearchValue, token])
 
   const callAPI = async () =>{
     try{
@@ -39,17 +48,17 @@ export default function EditCourse() {
         }
         else{
           if (response.data.data.courses.length >0){
-            setCourseDetail(response.data.data.courses[0]);
+             setCourseDetail(response.data.data.courses[0]);
 
-            const scheduleResponse = await GetSchedule(token, response.data.data.courses[0].id);
-            if (scheduleResponse?.status !=200)
-            {
-              throw new Error("Can't get course schedult");
-            }
-            else{
-              console.log("scheduleResponse", scheduleResponse);
-              setCourseSchedule(scheduleResponse.data.data);
-            }
+            // const scheduleResponse = await GetSchedule(token, response.data.data.courses[0].id);
+            // if (scheduleResponse?.status !=200)
+            // {
+            //   throw new Error("Can't get course schedult");
+            // }
+            // else{
+            //   console.log("scheduleResponse", scheduleResponse);
+            //   setCourseSchedule(scheduleResponse.data.data);
+            // }
           }
         }
     }
@@ -57,13 +66,6 @@ export default function EditCourse() {
       console.log("error", error)
     }
   };
-
-  useEffect(()=>{
-
-    callAPI();
-  },[courseSearchValue])
-
-
 
   const searchCourseBy = (value)=>{
     setCourseSearchType(value);
@@ -73,11 +75,11 @@ export default function EditCourse() {
     
   };
 
-  if (!userInfo) return (<></>)
-
  
   return (
-    <CommonLayout>
+    <>
+    { token &&
+      <CommonLayout>
           <Row>
             <Col span={24}>
               <Select style={{ width: '30%' }} onChange={searchCourseBy}>
@@ -92,16 +94,17 @@ export default function EditCourse() {
             <Col span={24}>
               <Tabs defaultActiveKey="1">
                 <TabPane tab="Course Detail" key="1">
-                  <CourseDetail editDetail={courseDetail} next={next} addAction={false}/>
+                  <CourseDetail editDetail={courseDetail} next={next} addAction={false} token={token}/>
                 </TabPane>
                 <TabPane tab="Course Schedule" key="2">
-                <CourseSchedule editSchedule={courseSchedule} courseId={courseDetail?.id} addAction={false} next={next}/>
+                <CourseSchedule editSchedule={courseSchedule} courseId={courseDetail?.id} addAction={false} next={next} token={token}/>
                 </TabPane>
               </Tabs>
             </Col>
           </Row>
-    </CommonLayout>
-    
+      </CommonLayout>
+    }
+    </>
   )
 }
 

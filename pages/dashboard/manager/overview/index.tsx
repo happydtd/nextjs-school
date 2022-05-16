@@ -5,18 +5,22 @@ import {useRouter} from 'next/router'
 
 export default function OverviewForm() {
   const { state, dispatch } = useContext(Store);
-  const { userInfo} = state;
-  //const {token}  = userInfo?.userInfo;
-  const token  = userInfo?.userInfo.token;
+  const userInfo = state.userInfo;
+
   const router = useRouter();
 
   useEffect(()=>{
+
     if (!userInfo) {
       router.push('/signin');
     }
   },[])
 
   return (
-    <CommonLayout>Manager Overview Form</CommonLayout>
+    <>
+      {
+        userInfo && <CommonLayout>Manager Overview Form</CommonLayout>
+      }
+    </>
   )
 }
