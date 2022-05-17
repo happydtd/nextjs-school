@@ -29,26 +29,29 @@ const GenericTable: React.FC<Props> = (props: Props) => {
   const [ search, setSearch] = useState(null);
   const [ modalTitle, setmodalTitle] = useState("");
   const [ actionType, setActionType] = useState("");
-  const [ visible, setVisible] = React.useState(false);
-  const [confirmLoading, setConfirmLoading] = React.useState(false);
-  const [token, setToken] = React.useState(null);
+  const [ visible, setVisible] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [token, setToken] = useState(null);
+  const [userId, setUserId] = useState(null);
   const { userInfo} = state;
-  //const token  = userInfo?.userInfo.token;
   const inputRef = useRef(null);
 
   useEffect(()=>{
-    if(userInfo)
+    if(userInfo){
       setToken(userInfo?.userInfo.token);
+      setUserId(userInfo?.userInfo.userId);
+    }
   },[userInfo]);
 
   useEffect(()=>{
-    callAPI();
-  },[page, pageSize, token])
+    if (page && pageSize && token && userId)
+      callAPI();
+  },[page, pageSize, token, userId])
 
   const callAPI = async () =>{
     try{
         setLoading(true);
-        const result  = await GetItems(token, search, page, pageSize);
+        const result  = await GetItems(token, search, userId, page, pageSize);
         console.log(result);
         setTotal(result.data.data.total)
         if (dataType === "student" )

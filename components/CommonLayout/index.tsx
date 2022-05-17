@@ -56,16 +56,16 @@ export default function CommonLayout({children} ) {
                 <Link href={`${hrefByRole}/overview`}>Overview</Link>
               </Menu.Item>
 
-              {(role === 'teacher') &&  <Menu.Item key="Schedule" icon={<UserOutlined />}>
+              {(role === 'teacher' || role === 'student') &&  <Menu.Item key="Schedule" icon={<UserOutlined />}>
                 <Link href={`${hrefByRole}/schedule`}>Class Schedule</Link>
               </Menu.Item>}
 
-              <SubMenu key="Student" icon={<LaptopOutlined />} title="Student">
+              {(role === 'manager' || role === 'teacher') && <SubMenu key="Student" icon={<LaptopOutlined />} title="Student">
                 <Menu.Item key="Student List">
                   <Link href={`${hrefByRole}/students`}>Student List</Link>
                 </Menu.Item>
-              </SubMenu>
-              {(role !== 'teacher') && <SubMenu key="Teacher" icon={<NotificationOutlined />} title="Teacher">
+              </SubMenu>}
+              {(role === 'manager') && <SubMenu key="Teacher" icon={<NotificationOutlined />} title="Teacher">
                 <Menu.Item key="Teacher List">
                   <Link href={`${hrefByRole}/teachers`}>Teacher List</Link>
                 </Menu.Item>

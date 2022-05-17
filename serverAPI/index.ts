@@ -10,7 +10,7 @@ export const reqSignIn = async (email:string, password:string, role:string)  => 
     return await callAxiosWithoutToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/login', "POST", {email, password, role})
 }
 
-export const GetStudents = async (token:string, query: string = null, page:number, limit:number)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/students', token, "GET", "Body",{query, page, limit})
+export const GetStudents = async (token:string, query: string = null, userId:number =null, page:number, limit:number)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/students', token, "GET", "Body",{query, userId, page, limit})
 
 export const DeleteStudentById = async (token:string, id:number)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/students', token, "DELETE", "Query",id)
 
@@ -30,7 +30,7 @@ export const EditTeacher = async (token:string, id:number, name:string, country:
 
 export const GetTeacherById = async (token:string, id:number)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/teachers', token, "GET", "Query", id)
 
-export const GetCourses = async (token:string, page:number=null, limit:number=null, name: string=null, type:string=null, uid: string = null, userId: number = null,)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/courses', token, "GET", "Body",{ page, limit, name, type, uid, userId})
+export const GetCourses = async (token:string, page:number=null, limit:number=null, name: string=null, type:string=null, uid: string = null, userId: number = null)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/courses', token, "GET", "Body",{ page, limit, name, type, uid, userId})
 
 export const GetCoursesById = async (token:string, id:number)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/courses/detail', token, "GET", "Body", {id})
 

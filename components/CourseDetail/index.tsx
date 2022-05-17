@@ -23,10 +23,10 @@ export default function CourseDetail(props) {
 
   useEffect(()=>{
     if (token)
-      async ()=> await callAPI();
+      callAPI();
   },[editDetail])
 
-  async function callAPI(){ 
+  const callAPI = async ()=>{ 
     try{
         const teacherResult  = await GetTeachers(token);
         setTeachers(teacherResult.data.data.teachers);

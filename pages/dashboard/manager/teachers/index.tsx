@@ -96,7 +96,7 @@ export default function Teacher() {
 
   const childRef:any = useRef();
 
-  const GetItems = async(token, search, page, pageSize)=>await GetTeachers(token, search, page, pageSize);
+  const GetItems = async(token, search, userId, page, pageSize)=>await GetTeachers(token, search, page, pageSize);
 
   const DeleteItemById = async(token, id)=>await DeleteTeacherById(token, id);
 

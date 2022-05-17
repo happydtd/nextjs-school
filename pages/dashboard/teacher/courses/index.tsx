@@ -33,7 +33,7 @@ export default function Course() {
   },[])
 
   useEffect(()=>{
-    if (token)
+    if (token && userId)
       callAPI();
   },[pageSize, token])
 

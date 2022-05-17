@@ -23,7 +23,7 @@ export default function RegistrationForm(){
         }
       : null;
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     console.log('Received values of form: ', values);
     const {email, password, role} = values
     async function callAPI(){
@@ -41,7 +41,7 @@ export default function RegistrationForm(){
         console.log("error", error)
       }
     };
-    async ()=> await callAPI();
+    await callAPI();
 
   };
 

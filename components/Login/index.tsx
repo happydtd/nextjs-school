@@ -26,10 +26,10 @@ export default function LoginForm(){
         }
       : null;
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     console.log('Received values of login form: ', values);
     const {email, password, role} = values
-    async function callAPI(){
+    const callAPI = async ()=> {
       try{
         const result  = await reqSignIn(email,password,role)
         console.log('call signin api result' ,result)
@@ -51,7 +51,7 @@ export default function LoginForm(){
         console.log("error", error)
       }
     };
-    async()=> await callAPI();
+    await callAPI();
 
   };
 

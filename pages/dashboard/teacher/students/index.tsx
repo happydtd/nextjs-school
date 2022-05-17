@@ -103,7 +103,7 @@ export default function Student() {
 
   const childRef:any = useRef();
 
-  const GetItems = async(token,  search, userId, page, pageSize)=>await GetStudents(token,  search, userId, page, pageSize);
+  const GetItems = async(token, search, userId, page, pageSize)=>await GetStudents(token, search, userId, page, pageSize);
 
   const DeleteItemById = async(token, id)=>await DeleteStudentById(token, id);
 

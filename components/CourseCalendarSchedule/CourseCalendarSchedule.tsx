@@ -15,13 +15,14 @@ const CourseCalendarScheduleForm = () => {
     const { state, dispatch } = useContext(Store);
     const { userInfo} = state;
     const [token, setToken] = useState(null);
+    const [userId, setUserId] = useState(null);
     //const  token  = userInfo?.userInfo.token;
     const router = useRouter();
 
     useEffect(()=>{
-      if (token)
-        async ()=> await callAPI();
-    },[token])
+      if (token && userId)
+        callAPI();
+    },[token, userId])
 
     useEffect(()=>{
       if (!userInfo) {
@@ -30,12 +31,13 @@ const CourseCalendarScheduleForm = () => {
       else
       {
         setToken(userInfo?.userInfo.token);
+        setUserId(userInfo?.userInfo.userId);
       }
     },[])
 
-    async function callAPI(){ 
+    const callAPI = async ()=>{ 
       try{
-          const result  = await GetClassSchedule(token, 1);
+          const result  = await GetClassSchedule(token, userId);
           if (result.status === 200){
             if (result.data.data)
               setClassSchedule(result.data.data.filter(i=>i.schedule && i.schedule.classTime ));
@@ -48,8 +50,6 @@ const CourseCalendarScheduleForm = () => {
         console.log("error", error)
       }
     };
-
-
     
     console.log("classSchedule", classSchedule);
 
