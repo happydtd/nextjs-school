@@ -218,7 +218,7 @@
            已答。问题34：Error的处理。目前我直接把error写入console。实际项目中如何处理？
            
           5月14日
-            问题35: <Link href="/teachers">Teacher List</Link>和<Link href="teachers">Teacher List</Link>不同？
+            已答。问题35: <Link href="/teachers">Teacher List</Link>和<Link href="teachers">Teacher List</Link>不同？
             下面的写法，第一次点击打开addcourse页面再点击打开allcourse页面然后再点击addcourse页面会去不同的地址？
             <Menu.Item key="Add Course">
               <Link href="courses/add-course">Add Courses</Link>
@@ -226,10 +226,13 @@
             第一次地址：http://localhost:3000/dashboard/manager/courses/add-course
             第二次地址：http://localhost:3000/dashboard/manager/courses/courses/add-course
             
-            问题36：刷新时state内数据时有时无的问题
+            已答。问题36：刷新时state内数据时有时无的问题
             我通过state中存储的用户信息拿到role，再拼接对应访问地址
             用teacher账户登录后光标放在overview menu， 显示链接地址为http://localhost:3000/dashboard/teacher/overview
             按刷新按钮，再把光标放在overview menu，显示链接地址为http://localhost:3000/dashboard/undefined/overview
             
-            问题37 server side render()项目中使用？
+            已答。问题37 server side render()项目中使用？
+           
+           5月18日
+            问题38 get /api/courses by userid 500 错误
 
