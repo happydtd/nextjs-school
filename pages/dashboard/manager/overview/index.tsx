@@ -3,7 +3,7 @@ import { Chart } from "react-google-charts";
 import CommonLayout from '../../../../components/CommonLayout';
 import {Store} from '../../../../Utils/Store'
 import { useRouter} from 'next/router'
-import { Avatar, Card, Col, Row, Space, Typography, Progress  } from 'antd';
+import { Avatar, Card, Col, Row, Space, Typography, Progress ,Select } from 'antd';
 import { GetStatisticsOverView , GetStatisticsStudent, GetStatisticsTeacher, GetStatisticsCourse} from '../../../../serverAPI';
 import { LikeOutlined } from '@ant-design/icons';
 import OverviewCard from '../../../../components/OverviewCard'
@@ -11,6 +11,7 @@ import OverviewCard from '../../../../components/OverviewCard'
 
 export default function OverviewForm() {
   const { Text, Link } = Typography;
+  const { Option } = Select;
   const { state, dispatch } = useContext(Store);
   const userInfo = state.userInfo;
   const [token, setToken] = useState(null);
@@ -19,28 +20,53 @@ export default function OverviewForm() {
   const [statisticsStudent, setStatisticsStudent] = useState(null);
   const [statisticsCourse, setStatisticsCourse] = useState(null);
   const [statisticsTeacher, setStatisticsTeacher] = useState(null);
+  const [distribution, setDistribution] = useState('student');
+  const [type, setType] = useState('student');
   const { Meta } = Card;
   const router = useRouter();
-  let data_country = [
-    ["Country", "Popularity"],
+
+  let data_distribution = [
+    ["Country", "Number"],
     // ["Germany", 200],
-    // ["United States", 300],
-    // ["Brazil", 400],
-    // ["Canada", 500],
-    // ["France", 600],
-    // ["RU", 700],
   ];
 
-  if (statisticsStudent && statisticsStudent.country && statisticsStudent.country.length >0){
-    console.log('statisticsStudent push');
-    const test = statisticsStudent.country.map((c)=>{
-      data_country.push([c.name, c.amount])
-    })
+  let data_type = [
+    ["Type", "Number"],
+    // ["Germany", 200],
+  ];
+
+  const options_type = {
+    title: "",
+  };
+
+  switch (distribution){
+    case 'teacher':
+      if (statisticsTeacher && statisticsTeacher.country && statisticsTeacher.country.length >0){
+        statisticsTeacher.country.map((c)=>{
+          data_distribution.push([c.name, c.amount])
+        })
+      }
+      break;
+    case 'student':
+      if (statisticsStudent && statisticsStudent.country && statisticsStudent.country.length >0){
+        statisticsStudent.country.map((c)=>{
+          data_distribution.push([c.name, c.amount])
+        })
+      }
+      break;
   }
 
-  const options_country = {
-    title: "Country Popularity",
-  };
+  switch (type){
+    case 'student':
+      options_type.title = "Student Type"
+      if (statisticsStudent && statisticsStudent.type && statisticsStudent.type.length >0){
+        statisticsStudent.type.map((t)=>{
+          data_type.push([t.name, t.amount])
+        })
+      }
+      break;
+  }
+
 
   const data_ComboChart = [
     [
@@ -117,11 +143,16 @@ export default function OverviewForm() {
   const callAPI = async () =>{
     try{
         const overviewResult  = await GetStatisticsOverView(token);
-        //console.log(result.data.data);
         setOverview(overviewResult.data.data);
+        console.log('overviewResult', overviewResult);
 
-        const studentResult  = await GetStatisticsStudent(token, userId);
+        const studentResult  = await GetStatisticsStudent(token, null);
         setStatisticsStudent(studentResult.data.data);
+        console.log('studentResult', studentResult);
+
+        const teacherResult  = await GetStatisticsTeacher(token. null);
+        setStatisticsTeacher(teacherResult.data.data);
+        console.log('teacherresult', teacherResult);
     }
     catch(error){
       console.log("error", error)
@@ -129,7 +160,13 @@ export default function OverviewForm() {
 
   };
 
+  const distributionOnChangeHandle = (value)=>{
+    setDistribution(value);
+  }
 
+  const typeOnChangeHandle = (value)=>{
+
+  }
 
   return (
     <>
@@ -153,33 +190,67 @@ export default function OverviewForm() {
           
           <Row gutter={16}>
             <Col span={12}>
-              <Chart
-                chartEvents={[
-                  {
-                    eventName: "select",
-                    callback: ({ chartWrapper }) => {
-                      const chart = chartWrapper.getChart();
-                      const selection = chart.getSelection();
-                      if (selection.length === 0) return;
-                      const region = data_country[selection[0].row + 1];
-                      console.log("Selected : " + region);
-                    },
-                  },
-                ]}
-                chartType="GeoChart"
-                width="100%"
-                height="400px"
-                data={data_country}
-              />
+              <>
+                <Row gutter={16}>
+                  <Col span={16}>
+                    <Text>Distribution</Text>
+                  </Col>
+                  <Col span={8}>
+                    <Select defaultValue="student" style={{ width: '100%' }} onChange={distributionOnChangeHandle}>
+                      <Option value="student">Student</Option>
+                      <Option value="teacher">Teacher</Option>
+                    </Select>
+                  </Col>
+                </Row>
+                <Row  gutter={16} >
+                  <Col span={24}>
+                    <Chart
+                      chartEvents={[
+                        {
+                          eventName: "select",
+                          callback: ({ chartWrapper }) => {
+                            const chart = chartWrapper.getChart();
+                            const selection = chart.getSelection();
+                            if (selection.length === 0) return;
+                            const region = data_distribution[selection[0].row + 1];
+                            console.log("Selected : " + region);
+                          },
+                        },
+                      ]}
+                      chartType="GeoChart"
+                      width="100%"
+                      height="400px"
+                      data={data_distribution}
+                    />
+                  </Col>
+                </Row>
+              </>
+
             </Col>
             <Col span={12}>
-              <Chart
-                chartType="PieChart"
-                data={data_country}
-                options={options_country}
-                width={"100%"}
-                height={"400px"}
-              />
+              <>
+                <Row gutter={16}>
+                  <Col span={16}>
+                    <Text>Type</Text>
+                  </Col>
+                  <Col span={8}>
+                    <Select defaultValue="student" style={{ width: '100%' }} onChange={typeOnChangeHandle}>
+                      <Option value="student">Student Type</Option>
+                    </Select>
+                  </Col>
+                </Row>
+                <Row  gutter={16} >
+                  <Col span={24}>
+                    <Chart
+                      chartType="PieChart"
+                      data={data_type}
+                      options={options_type}
+                      width={"100%"}
+                      height={"400px"}
+                    />
+                  </Col>
+                </Row>
+              </>
             </Col>
           </Row>
           <Row gutter={16}>
