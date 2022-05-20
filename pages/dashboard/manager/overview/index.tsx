@@ -2,24 +2,41 @@ import React, {useContext, useEffect, useState } from 'react'
 import { Chart } from "react-google-charts";
 import CommonLayout from '../../../../components/CommonLayout';
 import {Store} from '../../../../Utils/Store'
-import {useRouter} from 'next/router'
-import { Avatar, Card, Col, Row, Space } from 'antd';
+import { useRouter} from 'next/router'
+import { Avatar, Card, Col, Row, Space, Typography, Progress  } from 'antd';
+import { GetStatisticsOverView , GetStatisticsStudent, GetStatisticsTeacher, GetStatisticsCourse} from '../../../../serverAPI';
+import { LikeOutlined } from '@ant-design/icons';
+import OverviewCard from '../../../../components/OverviewCard'
 
 
 export default function OverviewForm() {
+  const { Text, Link } = Typography;
   const { state, dispatch } = useContext(Store);
   const userInfo = state.userInfo;
+  const [token, setToken] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [overview, setOverview] = useState(null);
+  const [statisticsStudent, setStatisticsStudent] = useState(null);
+  const [statisticsCourse, setStatisticsCourse] = useState(null);
+  const [statisticsTeacher, setStatisticsTeacher] = useState(null);
   const { Meta } = Card;
   const router = useRouter();
-  const data_country = [
+  let data_country = [
     ["Country", "Popularity"],
-    ["Germany", 200],
-    ["United States", 300],
-    ["Brazil", 400],
-    ["Canada", 500],
-    ["France", 600],
-    ["RU", 700],
+    // ["Germany", 200],
+    // ["United States", 300],
+    // ["Brazil", 400],
+    // ["Canada", 500],
+    // ["France", 600],
+    // ["RU", 700],
   ];
+
+  if (statisticsStudent && statisticsStudent.country && statisticsStudent.country.length >0){
+    console.log('statisticsStudent push');
+    const test = statisticsStudent.country.map((c)=>{
+      data_country.push([c.name, c.amount])
+    })
+  }
 
   const options_country = {
     title: "Country Popularity",
@@ -85,42 +102,54 @@ export default function OverviewForm() {
     if (!userInfo) {
       router.push('/signin');
     }
+    else{
+      setToken(userInfo?.userInfo.token);
+      setUserId(userInfo?.userInfo.userId);
+    }
   },[])
+
+  useEffect(()=>{
+    if (token && userId){
+      callAPI();
+    }
+  },[token, userId])
+
+  const callAPI = async () =>{
+    try{
+        const overviewResult  = await GetStatisticsOverView(token);
+        //console.log(result.data.data);
+        setOverview(overviewResult.data.data);
+
+        const studentResult  = await GetStatisticsStudent(token, userId);
+        setStatisticsStudent(studentResult.data.data);
+    }
+    catch(error){
+      console.log("error", error)
+    }
+
+  };
+
+
 
   return (
     <>
       {
         userInfo && <CommonLayout>
           <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
-          <Row  gutter={16} >
-            <Col span={8}>
-              <Card style={{ width: 300 }}>
-                <Meta
-                  avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                  title={<p>TOTAL STUDENTS</p>}
-                  description={<p>This is the descriptio</p>}
-                />
-              </Card>
-            </Col>
-            <Col span={8}>
-              <Card style={{ width: 300 }}>
-                <Meta
-                  avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                  title={<p>TOTAL TEACHERS</p>}
-                  description={<p>This is the descriptio</p>}
-                />
-              </Card>
-            </Col>
-            <Col span={8}>
-              <Card style={{ width: 300 }}>
-                <Meta
-                  avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                  title={<p>TOTAL COURSES</p>}
-                  description={<p>This is the descriptio</p>}
-                />
-              </Card>
-            </Col>
-          </Row>
+          {overview && 
+            <Row  gutter={16} >
+              <Col span={8}>
+                <OverviewCard title='TOTAL STUDENTS' total={overview.student.total} percent={ Math.round(overview.student.lastMonthAdded / overview.student.total * 100)}/>
+              </Col>
+              <Col span={8}>
+                <OverviewCard title='TOTAL TEACHERS' total={overview.teacher.total} percent={ Math.round(overview.teacher.lastMonthAdded / overview.teacher.total * 100)}/>
+              </Col>
+              <Col span={8}>
+                <OverviewCard title='TOTAL COURSES' total={overview.course.total} percent={ Math.round(overview.course.lastMonthAdded / overview.course.total * 100)}/>
+              </Col>
+            </Row>
+          }
+
           
           <Row gutter={16}>
             <Col span={12}>

@@ -21,7 +21,9 @@ export async function callAxiosWithToken(url, token, type, query, data={}) {
 
   if (type === 'GET'){
     if (query === 'Body')
+    {
       return await axios.get(url, { params: data })
+    }
     else
       return await axios.get(`${url}/${data}`)
   } else if (type === 'POST'){
