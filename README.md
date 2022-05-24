@@ -237,6 +237,9 @@
             已答。问题38 get /api/courses by userid 500 错误
             
            5月21日
-            问题39 chart imcrement数据去哪里拿？ 
+            已答。问题39 chart imcrement数据去哪里拿？ 
                    没找到chart可以很好显示course schedule table的
+           
+           5月25日
+                跨域设置
 
