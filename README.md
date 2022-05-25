@@ -241,5 +241,6 @@
                    没找到chart可以很好显示course schedule table的
            
            5月25日
-                跨域设置
+           问题40 Header登出用什么控件做，排版如何写
+           问题41 跨域设置
 
