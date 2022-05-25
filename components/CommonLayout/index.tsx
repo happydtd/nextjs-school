@@ -8,12 +8,12 @@ import 'antd/dist/antd.css';
 import { logout } from '../../Store/AuthSlice';
 import { useDispatch} from 'react-redux';
 import {useAppSelector, useAppDispatch} from '../../Store/configureStore'
+import UserIconDropdown from '../UserIconDropdown/UserIconDropdown';
 
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
 
 export default function CommonLayout({children} ) {
-  console.log('into commonlayout')
   //const { state, dispatch } = useContext(Store);
   //const { userInfo} = state;
   const userInfo = useAppSelector(state  => state.auth.UserInfo); 
@@ -53,10 +53,11 @@ export default function CommonLayout({children} ) {
               </Link>
             </Menu.Item>
           </Menu> */}
-          <Link href="/overview">
+          <Link href={`${hrefByRole}/overview`}>
             <a>CMS</a>
           </Link>
-          <Button onClick={handleLogout}>Logout</Button>
+          <UserIconDropdown/>
+          {/* <Button onClick={handleLogout}>Logout</Button> */}
         </Header>
         <Layout>
           <Sider width={200} className="site-layout-background">
