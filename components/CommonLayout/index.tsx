@@ -1,48 +1,62 @@
 import React, { Children, useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu, Breadcrumb, Button } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
 import Link from 'next/link'
-import {Store} from '../../Utils/Store'
+// import {Store} from '../../Utils/Store'
 import 'antd/dist/antd.css';
+import { logout } from '../../Store/AuthSlice';
+import { useDispatch} from 'react-redux';
+import {useAppSelector, useAppDispatch} from '../../Store/configureStore'
 
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
 
 export default function CommonLayout({children} ) {
-  const { state, dispatch } = useContext(Store);
-  const { userInfo} = state;
+  console.log('into commonlayout')
+  //const { state, dispatch } = useContext(Store);
+  //const { userInfo} = state;
+  const userInfo = useAppSelector(state  => state.auth.UserInfo); 
   const [ role, setRole] = useState(null);
   const [ hrefByRole, setHrefByRole] = useState(null);
   const [ pathnames, setPathnames] = useState(null);
-  const router = useRouter()
+  const router = useRouter();
+  const reduxDispatch = useAppDispatch();
 
 
   useEffect(()=>{
-    setRole(userInfo?.userInfo.role);
-    setHrefByRole(`/dashboard/${userInfo?.userInfo.role}`);
+    if (userInfo){
+      setRole(userInfo.role);
+      setHrefByRole(`/dashboard/${userInfo.role}`);
+    }
   },[userInfo])
 
   useEffect(()=>{
     setPathnames(router.pathname.split("/").filter(p=>p!==''&& p!=='dashboard' && p!=='manager'));
   },[])
 
-  console.log("userInfo", userInfo)
-  console.log("pathnames", pathnames)
+  const handleLogout =()=>{
+    reduxDispatch(logout(null));
+    router.push(`/`);
+  }
 
   return (
     <>
       {
         role && pathnames && <Layout>
-        <Header className="header">
+        <Header className="header" >
           <div className="logo" />
-          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
+          {/* <Menu theme="dark" mode="horizontal">
             <Menu.Item key="Headeroverview">
               <Link href="/overview">
                 <a>CMS</a>
               </Link>
             </Menu.Item>
-          </Menu>
+          </Menu> */}
+          <Link href="/overview">
+            <a>CMS</a>
+          </Link>
+          <Button onClick={handleLogout}>Logout</Button>
         </Header>
         <Layout>
           <Sider width={200} className="site-layout-background">

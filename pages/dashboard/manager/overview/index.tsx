@@ -1,19 +1,20 @@
 import React, {useContext, useEffect, useState } from 'react'
 import { Chart } from "react-google-charts";
 import CommonLayout from '../../../../components/CommonLayout';
-import {Store} from '../../../../Utils/Store'
+// import {Store} from '../../../../Utils/Store'
 import { useRouter} from 'next/router'
 import { Avatar, Card, Col, Row, Space, Typography, Progress ,Select } from 'antd';
 import { GetStatisticsOverView , GetStatisticsStudent, GetStatisticsTeacher, GetStatisticsCourse} from '../../../../serverAPI';
 import { LikeOutlined } from '@ant-design/icons';
 import OverviewCard from '../../../../components/OverviewCard'
-
+import {useAppSelector, useAppDispatch} from '../../../../Store/configureStore'
 
 export default function OverviewForm() {
   const { Text, Link } = Typography;
   const { Option } = Select;
-  const { state, dispatch } = useContext(Store);
-  const userInfo = state.userInfo;
+  //const { state, dispatch } = useContext(Store);
+  //const userInfo = state.userInfo;
+  const userInfo = useAppSelector(state  => state.auth.UserInfo); 
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
   const [overview, setOverview] = useState(null);
@@ -129,8 +130,8 @@ export default function OverviewForm() {
       router.push('/signin');
     }
     else{
-      setToken(userInfo?.userInfo.token);
-      setUserId(userInfo?.userInfo.userId);
+      setToken(userInfo.token);
+      setUserId(userInfo.userId);
     }
   },[])
 
@@ -144,15 +145,12 @@ export default function OverviewForm() {
     try{
         const overviewResult  = await GetStatisticsOverView(token);
         setOverview(overviewResult.data.data);
-        console.log('overviewResult', overviewResult);
 
         const studentResult  = await GetStatisticsStudent(token, null);
         setStatisticsStudent(studentResult.data.data);
-        console.log('studentResult', studentResult);
 
         const teacherResult  = await GetStatisticsTeacher(token. null);
         setStatisticsTeacher(teacherResult.data.data);
-        console.log('teacherresult', teacherResult);
     }
     catch(error){
       console.log("error", error)

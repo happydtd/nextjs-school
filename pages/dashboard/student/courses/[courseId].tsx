@@ -5,14 +5,13 @@ import Course from '../../../../models/course.interface';
 import CommonLayout from '../../../../components/CommonLayout';
 import { Col, Collapse, Divider, Row, Spin, Steps, Tag, Typography } from 'antd';
 import { HeartFilled ,UserOutlined } from '@ant-design/icons';
-import { Store } from '../../../../Utils/Store';
+// import { Store } from '../../../../Utils/Store';
+import {useAppSelector, useAppDispatch} from '../../../../Store/configureStore'
 
 export default function CourseDetail() {
     const router = useRouter();
-    const { Text, Title } = Typography;
     const [ loading, setLoading] = useState(false);
-    const { state, dispatch } = useContext(Store);
-    const { userInfo} = state;
+    const userInfo = useAppSelector(state  => state.auth.UserInfo); 
     const [ course, setCourse] = useState<Course>(null);
     const { Panel } = Collapse;
     const {Step} = Steps;
@@ -24,7 +23,7 @@ export default function CourseDetail() {
         router.push('/signin');
       }
 
-      setToken(userInfo?.userInfo.token);
+      setToken(userInfo.token);
       setCourseId(router.query.courseId);
     },[])
 

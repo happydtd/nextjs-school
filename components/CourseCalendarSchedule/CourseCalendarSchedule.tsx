@@ -4,16 +4,18 @@ import { Calendar, Row, Col, Space} from 'antd';
 import { GetClassSchedule } from '../../serverAPI';
 import { useRouter } from 'next/router';
 import 'antd/dist/antd.css';
-import { Store } from '../../Utils/Store';
+// import { Store } from '../../Utils/Store';
 import moment from 'moment';
+import {useAppSelector, useAppDispatch} from '../../Store/configureStore'
 import {
   ClockCircleOutlined
 } from '@ant-design/icons';
 
 const CourseCalendarScheduleForm = () => {
     const [classSchedule, setClassSchedule] = useState(null);
-    const { state, dispatch } = useContext(Store);
-    const { userInfo} = state;
+    // const { state, dispatch } = useContext(Store);
+    // const { userInfo} = state;
+    const userInfo = useAppSelector(state  => state.auth.UserInfo); 
     const [token, setToken] = useState(null);
     const [userId, setUserId] = useState(null);
     //const  token  = userInfo?.userInfo.token;
@@ -30,8 +32,8 @@ const CourseCalendarScheduleForm = () => {
       }
       else
       {
-        setToken(userInfo?.userInfo.token);
-        setUserId(userInfo?.userInfo.userId);
+        setToken(userInfo.token);
+        setUserId(userInfo.userId);
       }
     },[])
 

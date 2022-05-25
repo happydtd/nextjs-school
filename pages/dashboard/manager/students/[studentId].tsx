@@ -4,7 +4,8 @@ import CommonLayout from '../../../../components/CommonLayout';
 import { Row, Col , Typography, Tabs, Spin, Tag } from 'antd';
 import { CourseForm } from '../../../../components/CourseForm';
 import { GetStudentById } from '../../../../serverAPI';
-import {Store} from '../../../../Utils/Store'
+// import {Store} from '../../../../Utils/Store'
+import {useAppSelector, useAppDispatch} from '../../../../Store/configureStore'
 
 interface Student{
   name: string,
@@ -33,8 +34,9 @@ export default function StudentDetail() {
   const { Text, Title } = Typography;
   const { TabPane } = Tabs;
   const [ loading, setLoading] = useState(false);
-  const { state, dispatch } = useContext(Store);
-  const { userInfo} = state;
+  //const { state, dispatch } = useContext(Store);
+  //const { userInfo} = state;
+  const userInfo = useAppSelector(state  => state.auth.UserInfo); 
   const [ student, setStudent] = useState<Student>();
   const [token, setToken] = useState(null);
   const [studentId, setStudentId] = useState(null);
@@ -44,7 +46,7 @@ export default function StudentDetail() {
       router.push('/signin');
     }
     else{
-      setToken(userInfo?.userInfo.token);
+      setToken(userInfo.token);
       setStudentId(router.query.studentId);
     }
   },[])

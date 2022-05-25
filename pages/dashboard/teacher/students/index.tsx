@@ -6,14 +6,12 @@ import { formatDistanceToNow } from 'date-fns'
 import CommonLayout from '../../../../components/CommonLayout';
 import Link from 'next/link'
 import GenericTable from '../../../../components/GenericTable';
-import {Store} from '../../../../Utils/Store'
+// import {Store} from '../../../../Utils/Store'
 import {useRouter} from 'next/router'
+import {useAppSelector, useAppDispatch} from '../../../../Store/configureStore'
 
 export default function Student() {
-  const { state, dispatch } = useContext(Store);
-  const { userInfo} = state;
-  // const [token, setToken] = useState(null);
-  // const [userId, setUserId] = useState(null);
+  const userInfo = useAppSelector(state  => state.auth.UserInfo); 
   const router = useRouter();
   const columns = [
     {

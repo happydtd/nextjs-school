@@ -3,9 +3,10 @@ import { Row, Col, Table, Tag, Space, Button, Input, message, Popconfirm,Modal} 
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import StudentForm from '../../components/Student';
 import { useRouter } from 'next/router';
-import { Store } from '../../Utils/Store'
+// import { Store } from '../../Utils/Store'
 import 'antd/dist/antd.css';
 import TeacherForm from '../Teacher';
+import {useAppSelector, useAppDispatch} from '../../Store/configureStore'
 
 interface Props{
     onRef: any
@@ -19,7 +20,7 @@ interface Props{
 
 const GenericTable: React.FC<Props> = (props: Props) => {
   const {onRef, columns, dataType, GetItems, DeleteItemById, AddItem, EditItem} = props;
-  const { state, dispatch } = useContext(Store);
+  // const { state, dispatch } = useContext(Store);
   const [ item, setItem] = useState(null);
   const [ loading, setLoading] = useState(false);
   const [ page, setPage] = useState(1);
@@ -33,13 +34,14 @@ const GenericTable: React.FC<Props> = (props: Props) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
-  const { userInfo} = state;
+  //const { userInfo} = state;
+  const userInfo = useAppSelector(state  => state.auth.UserInfo); 
   const inputRef = useRef(null);
 
   useEffect(()=>{
     if(userInfo){
-      setToken(userInfo?.userInfo.token);
-      setUserId(userInfo?.userInfo.userId);
+      setToken(userInfo.token);
+      setUserId(userInfo.userId);
     }
   },[userInfo]);
 

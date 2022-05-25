@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useState, useRef } from 'react';
 import CommonLayout from '../../../../../components/CommonLayout'
-import {Store} from '../../../../../Utils/Store'
+// import {Store} from '../../../../../Utils/Store'
 import {useRouter} from 'next/router'
 import { Tabs, Row, Col ,Input ,Select } from 'antd';
 import 'antd/dist/antd.css';
@@ -8,10 +8,10 @@ import CourseDetail from '../../../../../components/CourseDetail';
 import CourseSchedule from '../../../../../components/CourseSchedule';
 import { GetCourses, GetSchedule} from '../../../../../serverAPI';
 import SearchSelect from '../../../../../components/SearchSelect';
+import {useAppSelector, useAppDispatch} from '../../../../../Store/configureStore'
 
 export default function EditCourse() {
-  const { state, dispatch } = useContext(Store);
-  const { userInfo} = state;
+  const userInfo = useAppSelector(state  => state.auth.UserInfo); 
   const router = useRouter();
   const { TabPane } = Tabs;
   const { Option } = Select;
@@ -27,7 +27,7 @@ export default function EditCourse() {
     }
     else
     {
-      setToken(userInfo?.userInfo.token);
+      setToken(userInfo.token);
     }
   },[])
 

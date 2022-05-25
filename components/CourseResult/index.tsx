@@ -1,19 +1,21 @@
 import { Result, Button } from 'antd';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
-import { Store } from '../../Utils/Store';
+import {useAppSelector, useAppDispatch} from '../../Store/configureStore'
+// import { Store } from '../../Utils/Store';
 
 export const CourseResult = (props) => {
     const {next, resetStep} = props;
     const router = useRouter();
-    const { state, dispatch } = useContext(Store);
-    const { userInfo} = state;
+    // const { state, dispatch } = useContext(Store);
+    // const { userInfo} = state;
+    const userInfo = useAppSelector(state  => state.auth.UserInfo); 
     const [ role, setRole] = useState(null);
     const [ hrefByRole, setHrefByRole] = useState(null);
 
     useEffect(()=>{
-      setRole(userInfo?.userInfo.role);
-      setHrefByRole(`/dashboard/${userInfo?.userInfo.role}`);
+      setRole(userInfo.role);
+      setHrefByRole(`/dashboard/${userInfo.role}`);
     },[userInfo])
 
     const goCourseHandler = ()=>{

@@ -6,12 +6,14 @@ import { formatDistanceToNow } from 'date-fns'
 import CommonLayout from '../../../../components/CommonLayout';
 import Link from 'next/link'
 import GenericTable from '../../../../components/GenericTable';
-import {Store} from '../../../../Utils/Store'
+// import {Store} from '../../../../Utils/Store'
 import {useRouter} from 'next/router'
+import {useAppSelector, useAppDispatch} from '../../../../Store/configureStore'
 
 export default function Teacher() {
-  const { state, dispatch } = useContext(Store);
-  const { userInfo} = state;
+  // const { state, dispatch } = useContext(Store);
+  // const { userInfo} = state;
+  const userInfo = useAppSelector(state  => state.auth.UserInfo); 
   const router = useRouter();
   const [token, setToken] = useState(null);
 
@@ -109,7 +111,7 @@ export default function Teacher() {
       router.push('/signin');
     }
     else{
-      setToken(userInfo?.userInfo.token);
+      setToken(userInfo.token);
     }
   },[])
 

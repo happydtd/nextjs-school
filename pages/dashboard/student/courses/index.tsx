@@ -4,17 +4,15 @@ import { useRouter } from 'next/router';
 import 'antd/dist/antd.css';
 import CommonLayout from '../../../../components/CommonLayout';
 import Link from 'next/link'
-import { Store } from '../../../../Utils/Store'
+// import { Store } from '../../../../Utils/Store'
 import { GetCourses} from '../../../../serverAPI';
 import CourseCard from '../../../../components/CourseCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import {useAppSelector, useAppDispatch} from '../../../../Store/configureStore'
 
 export default function Course() {
-
-  const test=['col-6', 'col-6','col-6', 'col-6','col-6', 'col-6','col-6', 'col-6','col-6', 'col-6','col-6', 'col-6','col-6', 'col-6','col-6', 'col-6','col-6', 'col-6','col-6', 'col-6','col-6', 'col-6','col-6', 'col-6' , 'col-6']
-  const { state, dispatch } = useContext(Store);
   const router = useRouter();
-  const { userInfo} = state;
+  const userInfo = useAppSelector(state  => state.auth.UserInfo); 
   const [ pageSize, setPageSize ] = useState(12);
   const [ page, setPage ] = useState(1);
   const [ courses, setCourses ] = useState(null);
@@ -26,8 +24,8 @@ export default function Course() {
       router.push('/signin');
     }
     else{
-      setToken(userInfo?.userInfo.token);
-      setUserId(userInfo?.userInfo.userId);
+      setToken(userInfo.token);
+      setUserId(userInfo.userId);
       setPageSize(page*12)
     }
   },[])

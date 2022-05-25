@@ -3,21 +3,22 @@ import 'antd/dist/antd.css';
 import { Select, Spin } from 'antd';
 import debounce from 'lodash/debounce';
 import { GetCourses } from '../../serverAPI';
-
-import { Store } from '../../Utils/Store'
+import {useAppSelector, useAppDispatch} from '../../Store/configureStore'
+// import { Store } from '../../Utils/Store'
 
 
 function DebounceSelect({ fetchOptions, debounceTimeout = 800, courseSearchType, ...props }) {
-  const { state, dispatch } = useContext(Store);
-  const { userInfo} = state;
+  // const { state, dispatch } = useContext(Store);
+  // const { userInfo} = state;
   //const token  = userInfo?.userInfo.token;
+  const userInfo = useAppSelector(state  => state.auth.UserInfo); 
   const [fetching, setFetching] = React.useState(false);
   const [options, setOptions] = React.useState([]);
-  const [token, setToken] = React.useState([]);
+  const [token, setToken] = React.useState<string|null>(null);
 
   useEffect(()=>{
     if (userInfo)
-      setToken(userInfo?.userInfo.token);
+      setToken(userInfo.token);
   },[])
 
   

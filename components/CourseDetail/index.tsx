@@ -1,12 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { Row, Col, Divider, Space, Input ,Typography, Select ,DatePicker, Upload, message, Form, Button, InputNumber } from 'antd';
 import { useRouter } from 'next/router';
-import { Store } from '../../Utils/Store'
+// import { Store } from '../../Utils/Store'
 import { GetTeachers, GetCourseTypes, GetCourseCode, AddCourse, UpdateCourse} from '../../serverAPI';
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 import Teacher from '../../models/teacher.interface';
 import Course, { CourseType } from '../../models/course.interface';
 import moment from 'moment';
+import {useAppSelector, useAppDispatch} from '../../Store/configureStore'
+import {addOrUpdateCourse} from '../../Store/courseSlice'
 
 const { Text} = Typography;
 const { Option } = Select;
@@ -16,7 +18,8 @@ const { Dragger } = Upload;
 export default function CourseDetail(props) {
   const {next, editDetail , addAction, token} = props;
   const [form] = Form.useForm();
-  const { state, dispatch } = useContext(Store);
+  // const { state, dispatch } = useContext(Store);
+  const dispatch = useAppDispatch();
   const [ teachers, setTeachers] = useState<Teacher[]>();
   const [ courseTypes, setCourseTypes] = useState<CourseType[]>();
   const [ courseCode, setCourseCode] = useState<string>();
@@ -81,10 +84,11 @@ export default function CourseDetail(props) {
 
     if (addAction){
       const addCourseresult = await AddCourse(token, course);
-      dispatch({
-        type: 'NEWCOURSE',
-        payload: addCourseresult.data.data,
-      })
+      dispatch(addOrUpdateCourse(addCourseresult.data.data));
+      // dispatch({
+      //   type: 'NEWCOURSE',
+      //   payload: addCourseresult.data.data,
+      // })
     }
     else{
       course.id = editDetail.id;
@@ -93,10 +97,11 @@ export default function CourseDetail(props) {
       {
         throw new Error("Could not update coures!");
       }
-      dispatch({
-        type: 'NEWCOURSE',
-        payload: editCourseresult.data.data,
-      })
+      dispatch(addOrUpdateCourse(editCourseresult.data.data));
+      // dispatch({
+      //   type: 'NEWCOURSE',
+      //   payload: editCourseresult.data.data,
+      // })
     }
 
     next();

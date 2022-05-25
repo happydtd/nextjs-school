@@ -1,14 +1,17 @@
 import React, { useContext } from 'react'
 import { Row, Col, Divider, Space, Input ,Typography, Select ,DatePicker, Upload, message, Form, Button, InputNumber, TimePicker } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Store } from '../../Utils/Store'
+// import { Store } from '../../Utils/Store'
 import { AddOrUpdateSchedule } from '../../serverAPI';
 import { Schedule } from "../../models/course.interface"
 import moment from 'moment';
+import {useAppSelector, useAppDispatch} from '../../Store/configureStore'
+import { CourseState } from '../../Store/courseSlice';
 
 export default function CourseSchedule(props) {
-  const { state, dispatch } = useContext(Store);
-  const { course} = state;
+  // const { state, dispatch } = useContext(Store);
+  // const { course} = state;
+  const course = useAppSelector(state=> state.course.course);
   const { Option } = Select;
   const {next, editSchedule, courseId, addAction, token} = props;
 

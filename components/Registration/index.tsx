@@ -1,17 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import 'antd/dist/antd.css';
 import {UserOutlined, LockOutlined } from '@ant-design/icons';
 import {Radio, Form, Input, Select, Button, message} from 'antd';
 import {reqSignup} from '../../serverAPI/'
 import NextLink from 'next/link';
 import { Typography, Space } from 'antd';
+// import {Store} from '../../Utils/Store';
+import {useAppSelector, useAppDispatch} from '../../Store/configureStore'
+import {login} from '../../Store/AuthSlice';
+import { useRouter } from 'next/router';
 
 type LayoutType = Parameters<typeof Form>[0]['layout'];
 const { Text, Link } = Typography;
 
 export default function RegistrationForm(){
+  const reduxDispatch = useAppDispatch();
+  // const { state, dispatch } = useContext(Store);
   const [form] = Form.useForm();
   const [value, setValue] = React.useState(1);
+  const router = useRouter();
 
   const [formLayout, setFormLayout] = useState<LayoutType>('vertical');
 
@@ -32,6 +39,15 @@ export default function RegistrationForm(){
         console.log('call signup api result' ,result)
         if (result.status === 201){
           message.success("success")
+          var token = result.data.data.token;
+          var userInfo = result.data.data;
+          console.log('userInfo',userInfo);
+          // dispatch({
+          //   type: 'USER_LOGIN',
+          //   payload: { userInfo },
+          // })
+          reduxDispatch(login(userInfo))
+          router.push(`dashboard/${userInfo.role}/overview`);
         }
         else{
           message.error("error")

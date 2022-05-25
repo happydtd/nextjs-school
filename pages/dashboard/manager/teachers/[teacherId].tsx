@@ -4,9 +4,9 @@ import CommonLayout from '../../../../components/CommonLayout';
 import { Row, Col , Typography, Tabs, Spin, Rate} from 'antd';
 import { CourseForm } from '../../../../components/CourseForm';
 import { GetTeacherById } from '../../../../serverAPI';
-import {Store} from '../../../../Utils/Store'
+// import {Store} from '../../../../Utils/Store'
 import Teacher from '../../../../models/teacher.interface';
-
+import {useAppSelector, useAppDispatch} from '../../../../Store/configureStore'
 
 
 export default function TeacherDetail() {
@@ -14,8 +14,9 @@ export default function TeacherDetail() {
   const { Text, Title } = Typography;
   const { TabPane } = Tabs;
   const [ loading, setLoading] = useState(false);
-  const { state, dispatch } = useContext(Store);
-  const { userInfo} = state;
+  // const { state, dispatch } = useContext(Store);
+  // const { userInfo} = state;
+  const userInfo = useAppSelector(state  => state.auth.UserInfo); 
   const [token, setToken] = useState(null);
   const [ teacher, setTeacher] = useState<Teacher>(null);
   const [teacherId, setTeacherId] = useState(null);
@@ -26,7 +27,7 @@ export default function TeacherDetail() {
       router.push('/signin');
     }
     else{
-      setToken(userInfo?.userInfo.token);
+      setToken(userInfo.token);
       setTeacherId(router.query.teacherId);
     }
 

@@ -4,15 +4,17 @@ import { Steps, Button, message } from 'antd';
 import CourseDetail from '../../../../../components/CourseDetail';
 import CourseSchedule from '../../../../../components/CourseSchedule';
 import { CourseResult } from '../../../../../components/CourseResult';
-import {Store} from '../../../../../Utils/Store'
+// import {Store} from '../../../../../Utils/Store'
 import {useRouter} from 'next/router'
+import {useAppSelector, useAppDispatch} from '../../../../../Store/configureStore'
 
 const { Step } = Steps;
 
 
 export default function AddCourse() {
-  const { state, dispatch } = useContext(Store);
-  const { userInfo} = state;
+  // const { state, dispatch } = useContext(Store);
+  // const { userInfo} = state;
+  const userInfo = useAppSelector(state  => state.auth.UserInfo); 
   const router = useRouter();
   const [current, setCurrent] = React.useState(0);
   const [token, setToken] = useState(null);
@@ -46,7 +48,7 @@ export default function AddCourse() {
       }
       else
       {
-        setToken(userInfo?.userInfo.token);
+        setToken(userInfo.token);
       }
     },[])
   

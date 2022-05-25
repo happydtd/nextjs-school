@@ -6,13 +6,16 @@ import {reqSignIn} from '../../serverAPI/'
 import NextLink from 'next/link';
 import { Typography, Space } from 'antd';
 import { useRouter } from 'next/router';
-import {Store} from '../../Utils/Store'
+// import {Store} from '../../Utils/Store';
+import {useAppSelector, useAppDispatch} from '../../Store/configureStore'
+import {login} from '../../Store/AuthSlice';
 
 type LayoutType = Parameters<typeof Form>[0]['layout'];
 const { Text, Link } = Typography;
 
 export default function LoginForm(){
-  const { state, dispatch } = useContext(Store);
+  const reduxDispatch = useAppDispatch();
+  //const { state, dispatch } = useContext(Store);
   const [form] = Form.useForm();
   const [value, setValue] = React.useState(1);
   const router = useRouter();
@@ -36,11 +39,12 @@ export default function LoginForm(){
         if (result.status === 201){
           var token = result.data.data.token;
           var userInfo = result.data.data;
-          dispatch({
-            type: 'USER_LOGIN',
-            payload: { userInfo },
-          })
-
+          console.log('userInfo',userInfo);
+          // dispatch({
+          //   type: 'USER_LOGIN',
+          //   payload: { userInfo },
+          // })
+          reduxDispatch(login(userInfo))
           router.push(`dashboard/${userInfo.role}/overview`);
         }
         else{
