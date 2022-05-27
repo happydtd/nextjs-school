@@ -245,5 +245,5 @@
            已答。问题41 跨域设置
            
            5月29日
-           问题41 老师熟悉redux toolkit吗？
+           问题42 老师熟悉redux toolkit吗？
 
