@@ -5,15 +5,27 @@ import 'antd/dist/antd.css';
 import { Menu, Dropdown } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import { UserOutlined } from '@ant-design/icons';
+import { useAppDispatch } from '../../Store/configureStore';
+import { logout } from '../../Store/AuthSlice';
+import { useRouter } from 'next/router'
 
 const UserIconDropdown = () => {
+  const router = useRouter();
+
+  const handleLogout =()=>{
+    reduxDispatch(logout(null));
+    router.push(`/`);
+  }
+  
+  const reduxDispatch = useAppDispatch();
+
     const userMenu = (
         <Menu>
           <Menu.Item key="1">Item 1</Menu.Item>
           <Menu.Item key="2">Item 2</Menu.Item>
           <Menu.Item key="3">Item 3</Menu.Item>
           <Menu.Divider />
-          <Menu.Item key="3">Logout</Menu.Item>
+          <Menu.Item key="3" onClick={handleLogout}>Logout</Menu.Item>
         </Menu>
       );
 
