@@ -1,13 +1,22 @@
-import React, {useContext, useEffect, useState } from 'react'
+import React, {useCallback, useContext, useEffect, useState } from 'react'
 import { Chart } from "react-google-charts";
 import CommonLayout from '../../../../components/CommonLayout';
 // import {Store} from '../../../../Utils/Store'
 import { useRouter} from 'next/router'
-import { Avatar, Card, Col, Row, Space, Typography, Progress ,Select } from 'antd';
+import { Avatar, Card, Col, Row, Space, Typography, message ,Select } from 'antd';
 import { GetStatisticsOverView , GetStatisticsStudent, GetStatisticsTeacher, GetStatisticsCourse} from '../../../../serverAPI';
-import { LikeOutlined } from '@ant-design/icons';
 import OverviewCard from '../../../../components/OverviewCard'
 import {useAppSelector, useAppDispatch} from '../../../../Store/configureStore'
+
+enum Distribution {
+  student = "student",
+  teacher = "teacher",
+}
+
+enum PieChartType {
+  student = "student",
+  teacher = "teacher",
+}
 
 export default function OverviewForm() {
   const { Text, Link } = Typography;
@@ -19,11 +28,9 @@ export default function OverviewForm() {
   const [userId, setUserId] = useState(null);
   const [overview, setOverview] = useState(null);
   const [statisticsStudent, setStatisticsStudent] = useState(null);
-  const [statisticsCourse, setStatisticsCourse] = useState(null);
   const [statisticsTeacher, setStatisticsTeacher] = useState(null);
-  const [distribution, setDistribution] = useState('student');
-  const [type, setType] = useState('student');
-  const { Meta } = Card;
+  const [distribution, setDistribution] = useState<Distribution.student|Distribution.teacher>(Distribution.student);
+  const [type, setType] = useState<PieChartType.student|PieChartType.teacher>(PieChartType.student);
   const router = useRouter();
 
   let data_distribution = [
@@ -41,14 +48,14 @@ export default function OverviewForm() {
   };
 
   switch (distribution){
-    case 'teacher':
+    case Distribution.teacher:
       if (statisticsTeacher && statisticsTeacher.country && statisticsTeacher.country.length >0){
         statisticsTeacher.country.map((c)=>{
           data_distribution.push([c.name, c.amount])
         })
       }
       break;
-    case 'student':
+    case Distribution.student:
       if (statisticsStudent && statisticsStudent.country && statisticsStudent.country.length >0){
         statisticsStudent.country.map((c)=>{
           data_distribution.push([c.name, c.amount])
@@ -58,7 +65,7 @@ export default function OverviewForm() {
   }
 
   switch (type){
-    case 'student':
+    case PieChartType.student:
       options_type.title = "Student Type"
       if (statisticsStudent && statisticsStudent.type && statisticsStudent.type.length >0){
         statisticsStudent.type.map((t)=>{
@@ -87,7 +94,7 @@ export default function OverviewForm() {
   ];
   
   const options_ComboChart = {
-    title: "Monthly Coffee Production by Country",
+    title: "Test bar chart",
     vAxis: { title: "Cups" },
     hAxis: { title: "Month" },
     seriesType: "bars",
@@ -119,8 +126,8 @@ export default function OverviewForm() {
   
   const options_Line = {
     chart: {
-      title: "Box Office Earnings in First Two Weeks of Opening",
-      subtitle: "in millions of dollars (USD)",
+      title: "Test line chart",
+      subtitle: "Test line chart",
     },
   };
 
@@ -133,30 +140,31 @@ export default function OverviewForm() {
       setToken(userInfo.token);
       setUserId(userInfo.userId);
     }
-  },[])
+  },[router,userInfo])
+
+  const callAPI = useCallback(async () =>{
+    try{
+        const overviewResult  = await GetStatisticsOverView(token);
+        setOverview(overviewResult);
+
+        const studentResult  = await GetStatisticsStudent(token, null);
+        setStatisticsStudent(studentResult);
+
+        const teacherResult  = await GetStatisticsTeacher(token. null);
+        setStatisticsTeacher(teacherResult);
+    }
+    catch(error){
+      message.error("Can't fetch statistics data")
+    }
+
+  },[token]);
 
   useEffect(()=>{
     if (token && userId){
       callAPI();
     }
-  },[token, userId])
+  },[callAPI, token, userId])
 
-  const callAPI = async () =>{
-    try{
-        const overviewResult  = await GetStatisticsOverView(token);
-        setOverview(overviewResult.data.data);
-
-        const studentResult  = await GetStatisticsStudent(token, null);
-        setStatisticsStudent(studentResult.data.data);
-
-        const teacherResult  = await GetStatisticsTeacher(token. null);
-        setStatisticsTeacher(teacherResult.data.data);
-    }
-    catch(error){
-      console.log("error", error)
-    }
-
-  };
 
   const distributionOnChangeHandle = (value)=>{
     setDistribution(value);

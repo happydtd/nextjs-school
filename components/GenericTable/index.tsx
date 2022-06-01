@@ -1,22 +1,28 @@
-import React, { useEffect, useContext, useState, useImperativeHandle, useRef} from 'react'
+import React, { useEffect, useContext, useState, useImperativeHandle, useRef, useCallback} from 'react'
 import { Row, Col, Table, Tag, Space, Button, Input, message, Popconfirm,Modal} from 'antd';
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import StudentForm from '../../components/Student';
-import { useRouter } from 'next/router';
+
 // import { Store } from '../../Utils/Store'
 import 'antd/dist/antd.css';
 import TeacherForm from '../Teacher';
 import {useAppSelector, useAppDispatch} from '../../Store/configureStore'
+import { AxiosResponseStudentData } from '../../models/AxiosResponseStudent.interface';
 
 interface Props{
     onRef: any
     columns: any
-    dataType: string
+    dataType: TableDataType
     GetItems: any
     DeleteItemById: any
     AddItem:any
     EditItem:any
   }
+
+export enum TableDataType{
+  Student = 'student',
+  Teacher = 'teacher',
+}
 
 const GenericTable: React.FC<Props> = (props: Props) => {
   const {onRef, columns, dataType, GetItems, DeleteItemById, AddItem, EditItem} = props;
@@ -34,9 +40,10 @@ const GenericTable: React.FC<Props> = (props: Props) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
-  //const { userInfo} = state;
   const userInfo = useAppSelector(state  => state.auth.UserInfo); 
   const inputRef = useRef(null);
+
+
 
   useEffect(()=>{
     if(userInfo){
@@ -45,21 +52,15 @@ const GenericTable: React.FC<Props> = (props: Props) => {
     }
   },[userInfo]);
 
-  useEffect(()=>{
-    if (page && pageSize && token && userId)
-      callAPI();
-  },[page, pageSize, token, userId])
-
-  const callAPI = async () =>{
+  const callAPI = useCallback(async () =>{
     try{
         setLoading(true);
         const result  = await GetItems(token, search, userId, page, pageSize);
-        console.log(result);
-        setTotal(result.data.data.total)
-        if (dataType === "student" )
-            setItems(result.data.data.students);
+        setTotal(result.total)
+        if (dataType === TableDataType.Student )
+            setItems(result.students);
         else
-            setItems(result.data.data.teachers);
+            setItems(result.teachers);
     }
     catch(error){
       console.log("error", error)
@@ -67,23 +68,31 @@ const GenericTable: React.FC<Props> = (props: Props) => {
     finally{
       setLoading(false);
     }
-  };
+  },[GetItems, dataType, page, pageSize, search, token, userId]);
+
+  useEffect(()=>{
+    if (page && pageSize && token && userId)
+      callAPI();
+  },[page, pageSize, token, userId, callAPI])
+
+
 
   useImperativeHandle(onRef, ()=>({
     handleDeleteItem : async (id)=>{
       await DeleteItemById(token, id);
-      const result  = await GetItems(token, search, page, pageSize);
-      setTotal(result.data.data.total)
-      if (dataType === "student" )
-          setItems(result.data.data.students);
+      const result  = await GetItems(token, search, userId, page, pageSize);
+      console.log('result', result);
+      setTotal(result.total)
+      if (dataType === TableDataType.Student )
+          setItems(result.students);
       else
-          setItems(result.data.data.teachers);
+          setItems(result.teachers);
     },
 
     handleEdit : (id, name, country, email, studentType, skills, phone )=>{
       setmodalTitle(`Edit ${dataType}`);
       setActionType("Edit");
-      if (dataType === "student" )
+      if (dataType === TableDataType.Student )
         setItem({id, name, country, email, studentType})
       else
         setItem({id, name, country,  phone, email, skills})
@@ -97,7 +106,7 @@ const GenericTable: React.FC<Props> = (props: Props) => {
     const { name, email, country, studentType, phone, skills } = values;
     let result1;
 
-    if (dataType === 'student'){
+    if (dataType === TableDataType.Student){
       
       if(actionType === 'Add' )
       {
@@ -111,6 +120,7 @@ const GenericTable: React.FC<Props> = (props: Props) => {
     else{
       if(actionType === 'Add' )
       {
+        console.log('add teacher');
             result1  = await AddItem(token, name, country, phone, email, skills);
       }
       else
@@ -119,17 +129,18 @@ const GenericTable: React.FC<Props> = (props: Props) => {
       }
     }
 
-    const result  = await GetItems(token, search, page, pageSize);
+
+    const result  = await GetItems(token, search, userId, page, pageSize);
 
 
     setVisible(false);
-    setTotal(result.data.data.total)
+    setTotal(result.total)
 
-    if (dataType === 'student'){
-    setItems(result.data.data.students);
+    if (dataType === TableDataType.Student){
+    setItems(result.students);
     }
     else{
-      setItems(result.data.data.teachers);
+      setItems(result.teachers);
     }
     setConfirmLoading(false);
   };
@@ -141,9 +152,9 @@ const GenericTable: React.FC<Props> = (props: Props) => {
   const handleSearch = async ()=>{
 
       setSearch(inputRef.current.input.value);
-      const result  = await GetItems(token, inputRef.current.input.value, page, pageSize);
-      setTotal(result.data.data.total)
-      setItems(result.data.data.students);
+      const result  = await GetItems(token, inputRef.current.input.value, userId, page, pageSize);
+      setTotal(result.total)
+      setItems(result.students);
   }
 
   const handleAdd = ()=>{
@@ -195,7 +206,7 @@ const GenericTable: React.FC<Props> = (props: Props) => {
             confirmLoading={confirmLoading}
             onCancel={()=>setVisible(false)}
           >
-              {dataType === 'student'? 
+              {dataType === TableDataType.Student? 
                   <StudentForm parentOnOK={handleOK} parentOnCancel={handleCancel} actionType={actionType} student= {item}></StudentForm>
               :
                   <TeacherForm parentOnOK={handleOK} parentOnCancel={handleCancel} actionType={actionType} teacher= {item}></TeacherForm>}

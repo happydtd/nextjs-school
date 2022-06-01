@@ -1,5 +1,5 @@
 import axios, {AxiosResponse} from "axios"
-import SignupType from "../models/signup.interface"
+
 
 export async function callAxiosWithoutToken(url, type='GET', data={}) {
     if (type === 'GET'){
@@ -7,7 +7,6 @@ export async function callAxiosWithoutToken(url, type='GET', data={}) {
         params: data
       })
     } else{
-      console.log(data)
       return await axios.post(url, data)
     }
 }

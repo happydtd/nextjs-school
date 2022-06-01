@@ -30,29 +30,19 @@ export default function LoginForm(){
       : null;
 
   const onFinish = async (values) => {
-    console.log('Received values of login form: ', values);
     const {email, password, role} = values
     const callAPI = async ()=> {
       try{
-        const result  = await reqSignIn(email,password,role)
-        console.log('call signin api result' ,result)
-        if (result.status === 201){
-          var token = result.data.data.token;
-          var userInfo = result.data.data;
-          console.log('userInfo',userInfo);
+          const userInfo  = await reqSignIn(email,password,role)
           // dispatch({
           //   type: 'USER_LOGIN',
           //   payload: { userInfo },
           // })
           reduxDispatch(login(userInfo))
           router.push(`dashboard/${userInfo.role}/overview`);
-        }
-        else{
-          message.error("error")
-        }
       }
       catch(error){
-        console.log("error", error)
+        message.error("Can't sign in")
       }
     };
     await callAPI();
@@ -60,7 +50,6 @@ export default function LoginForm(){
   };
 
   const onChange = e => {
-    console.log('radio checked', e.target.value);
     setValue(e.target.value);
   };
 

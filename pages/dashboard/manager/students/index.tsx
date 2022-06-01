@@ -5,17 +5,16 @@ import { GetStudents, DeleteStudentById, AddStudent, EditStudent} from '../../..
 import { formatDistanceToNow } from 'date-fns'
 import CommonLayout from '../../../../components/CommonLayout';
 import Link from 'next/link'
-import GenericTable from '../../../../components/GenericTable';
+import GenericTable, { TableDataType } from '../../../../components/GenericTable';
 // import {Store} from '../../../../Utils/Store'
 import {useRouter} from 'next/router'
 import {useAppSelector, useAppDispatch} from '../../../../Store/configureStore'
+import { AxiosResponseStudentData } from '../../../../models/AxiosResponseStudent.interface';
 
 export default function Student() {
   // const { state, dispatch } = useContext(Store);
   // const { userInfo} = state;
   const userInfo = useAppSelector(state  => state.auth.UserInfo); 
-  // const [token, setToken] = useState(null);
-  // const [userId, setUserId] = useState(null);
   const router = useRouter();
   const columns = [
     {
@@ -105,7 +104,7 @@ export default function Student() {
 
   const childRef:any = useRef();
 
-  const GetItems = async(token,  search, userId, page, pageSize)=>await GetStudents(token,  search, userId, page, pageSize);
+  const GetItems = async(token:string,  search: string, userId: number, page: number, pageSize: number) : Promise<AxiosResponseStudentData> =>await GetStudents(token,  search, userId, page, pageSize);
 
   const DeleteItemById = async(token, id)=>await DeleteStudentById(token, id);
 
@@ -117,18 +116,14 @@ export default function Student() {
     if (!userInfo) {
       router.push('/signin');
     }
-    // else{
-    //   setToken(userInfo?.userInfo.token);
-    //   setUserId(userInfo?.userInfo.userId);
-    // }
-  },[])
+  },[router,userInfo])
 
   return (
     <>
     {
       userInfo && 
       (<CommonLayout>
-          <GenericTable onRef={childRef} columns={columns} dataType='student' GetItems={GetItems} DeleteItemById={DeleteItemById} AddItem={AddItem} EditItem={EditItem}/>
+          <GenericTable onRef={childRef} columns={columns} dataType={TableDataType.Student}  GetItems={GetItems} DeleteItemById={DeleteItemById} AddItem={AddItem} EditItem={EditItem}/>
       </CommonLayout>)
     }
     </>

@@ -6,7 +6,7 @@ import Link from 'next/link'
 // import {Store} from '../../Utils/Store'
 import 'antd/dist/antd.css';
 import { logout } from '../../Store/AuthSlice';
-import { useDispatch} from 'react-redux';
+// import { useDispatch} from 'react-redux';
 import {useAppSelector, useAppDispatch} from '../../Store/configureStore'
 import UserIconDropdown from '../UserIconDropdown/UserIconDropdown';
 
@@ -17,12 +17,10 @@ export default function CommonLayout({children} ) {
   //const { state, dispatch } = useContext(Store);
   //const { userInfo} = state;
   const userInfo = useAppSelector(state  => state.auth.UserInfo); 
-  const [ role, setRole] = useState(null);
-  const [ hrefByRole, setHrefByRole] = useState(null);
-  const [ pathnames, setPathnames] = useState(null);
+  const [ role, setRole] = useState<string|null>(null);
+  const [ hrefByRole, setHrefByRole] = useState<string|null>(null);
+  const [ pathnames, setPathnames] = useState<string[]|null>(null);
   const router = useRouter();
-  const reduxDispatch = useAppDispatch();
-
 
   useEffect(()=>{
     if (userInfo){
@@ -33,12 +31,7 @@ export default function CommonLayout({children} ) {
 
   useEffect(()=>{
     setPathnames(router.pathname.split("/").filter(p=>p!==''&& p!=='dashboard' && p!=='manager'));
-  },[])
-
-  const handleLogout =()=>{
-    reduxDispatch(logout(null));
-    router.push(`/`);
-  }
+  },[router])
 
   return (
     <>
@@ -46,18 +39,10 @@ export default function CommonLayout({children} ) {
         role && pathnames && <Layout>
         <Header className="header" >
           <div className="logo" />
-          {/* <Menu theme="dark" mode="horizontal">
-            <Menu.Item key="Headeroverview">
-              <Link href="/overview">
-                <a>CMS</a>
-              </Link>
-            </Menu.Item>
-          </Menu> */}
           <Link href={`${hrefByRole}/overview`}>
             <a>CMS</a>
           </Link>
           <UserIconDropdown/>
-          {/* <Button onClick={handleLogout}>Logout</Button> */}
         </Header>
         <Layout>
           <Sider width={200} className="site-layout-background">

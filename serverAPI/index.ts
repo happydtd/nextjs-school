@@ -1,16 +1,22 @@
 import {callAxiosWithoutToken, callAxiosWithToken} from "../serverAPI/axios";
-import SignupType from "../models/signup.interface";
 import {AES} from 'crypto-js'
 import Course, { Schedule } from "../models/course.interface";
+import { AxiosResponse } from "axios";
+import { AxiosResponseStudentData } from "../models/AxiosResponseStudent.interface";
+import { AxiosResponseTeacherData } from "../models/AxiosResponseTeacher.interface";
+
+const responseBody = (response: AxiosResponse) => {
+    var result = response.data.data;
+    return result};
 
 export const reqSignup = async (email:string, password:string, role:string)  => await callAxiosWithoutToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/signup', "POST", {email, password, role})
 
 export const reqSignIn = async (email:string, password:string, role:string)  => {
     password = AES.encrypt(password,"cms").toString();
-    return await callAxiosWithoutToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/login', "POST", {email, password, role})
+    return await callAxiosWithoutToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/login', "POST", {email, password, role}).then(responseBody);
 }
 
-export const GetStudents = async (token:string, query: string = null, userId:number =null, page:number, limit:number)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/students', token, "GET", "Body",{query, userId, page, limit})
+export const GetStudents = async (token:string, query: string = null, userId:number =null, page:number, limit:number) : Promise<AxiosResponseStudentData> => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/students', token, "GET", "Body",{query, userId, page, limit}).then(responseBody);
 
 export const DeleteStudentById = async (token:string, id:number)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/students', token, "DELETE", "Query",id)
 
@@ -20,7 +26,7 @@ export const EditStudent = async (token:string, id:number, name:string, country:
 
 export const GetStudentById = async (token:string, id:number)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/students', token, "GET", "Query", id)
 
-export const GetTeachers = async (token:string, query?: string , page?:number, limit?:number)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/teachers', token, "GET", "Body",{query, page, limit})
+export const GetTeachers = async (token:string, query?: string , page?:number, limit?:number) : Promise<AxiosResponseTeacherData> => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/teachers', token, "GET", "Body",{query, page, limit}).then(responseBody);
 
 export const DeleteTeacherById = async (token:string, id:number)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/teachers', token, "DELETE", "Query",id)
 
@@ -48,10 +54,10 @@ export const GetSchedule = async (token:string, courseId: number, scheduleId: nu
 
 export const GetClassSchedule = async (token:string, userId: number)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/class/schedule', token, "GET", "Body", {userId})
 
-export const GetStatisticsOverView = async (token:string)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/statistics/overview', token, "GET", "Body", {})
+export const GetStatisticsOverView = async (token:string)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/statistics/overview', token, "GET", "Body", {}).then(responseBody);
 
-export const GetStatisticsStudent = async (token:string, userId: number = null)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/statistics/student', token, "GET", "Body", {userId})
+export const GetStatisticsStudent = async (token:string, userId: number = null)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/statistics/student', token, "GET", "Body", {userId}).then(responseBody);
 
-export const GetStatisticsTeacher = async (token:string, userId: number = null)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/statistics/teacher', token, "GET", "Body", {userId})
+export const GetStatisticsTeacher = async (token:string, userId: number = null)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/statistics/teacher', token, "GET", "Body", {userId}).then(responseBody);
 
 export const GetStatisticsCourse = async (token:string, userId: number = null)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/statistics/course', token, "GET", "Body", {userId})

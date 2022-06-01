@@ -5,10 +5,11 @@ import { GetTeachers, DeleteTeacherById, AddTeacher, EditTeacher} from '../../..
 import { formatDistanceToNow } from 'date-fns'
 import CommonLayout from '../../../../components/CommonLayout';
 import Link from 'next/link'
-import GenericTable from '../../../../components/GenericTable';
+import GenericTable, { TableDataType } from '../../../../components/GenericTable';
 // import {Store} from '../../../../Utils/Store'
 import {useRouter} from 'next/router'
 import {useAppSelector, useAppDispatch} from '../../../../Store/configureStore'
+import { AxiosResponseTeacherData } from '../../../../models/AxiosResponseTeacher.interface';
 
 export default function Teacher() {
   // const { state, dispatch } = useContext(Store);
@@ -98,7 +99,7 @@ export default function Teacher() {
 
   const childRef:any = useRef();
 
-  const GetItems = async(token, search, userId, page, pageSize)=>await GetTeachers(token, search, page, pageSize);
+  const GetItems = async(token: string, search: string, userId: number, page, pageSize) : Promise<AxiosResponseTeacherData> =>await GetTeachers(token, search, page, pageSize);
 
   const DeleteItemById = async(token, id)=>await DeleteTeacherById(token, id);
 
@@ -119,7 +120,7 @@ export default function Teacher() {
     <>
     {
       userInfo && token && <CommonLayout>
-          <GenericTable onRef={childRef} columns={columns} dataType='teacher' GetItems={GetItems} DeleteItemById={DeleteItemById} AddItem={AddItem} EditItem={EditItem}/>
+          <GenericTable onRef={childRef} columns={columns} dataType={TableDataType.Teacher} GetItems={GetItems} DeleteItemById={DeleteItemById} AddItem={AddItem} EditItem={EditItem}/>
       </CommonLayout>
     }
     </>

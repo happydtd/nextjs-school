@@ -19,7 +19,7 @@ const HomePage = () => {
             </Col>
             <Col lg={6}>
             <div className="mt-5 mt-lg-0">
-                <Image src="/Images/ps.jpg" layout='fill' alt="" className="img-fluid mx-auto d-block"/>
+                {/* <Image src="/Images/ps.jpg" layout='fill' alt="" className="img-fluid mx-auto d-block"/> */}
             </div>
             </Col>
         </Row>
