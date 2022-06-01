@@ -144,7 +144,7 @@
                 <Col span={6}><Text strong>Type:</Text></Col>
                 <Col span={18}>{student.type?.name}</Col>
               </Row>
-           已答。问题13： 排版
+           13： 排版
            我希望 Name label和Name 值垂直间距能够拉开。Row中设置gutter={[16, 16]}只对其中的子元素Col有效， 但对子元素Col中的Row无效
            <Row>
             <Col span={12}>
@@ -195,14 +195,14 @@
            23：course detail 页面纵向对齐问题
            24：下拉框默认值设置问题
            25：下拉框可否得到type对象，而不是typeid
-           已答。问题26：上传course数据是可否用course对象传递，而不是一个个值
-           已答。问题27：走到下一个步骤时显示“next-dev.js?3515:32 Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.”
-           已答。问题28：page/add-course目录下，我想为AddCourse增加一个css，该怎么添加? 以前component中用XXX.module.css。
-           已答。问题29：add-course目录下，如果默认文件名不是index.tsx而是AddCourse.tsx。用http://localhost:3000/course/add-course会调用走到[courseId].tsx。如何访问AddCourse.tsx？
+           26：上传course数据是可否用course对象传递，而不是一个个值
+           27：走到下一个步骤时显示“next-dev.js?3515:32 Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.”
+           28：page/add-course目录下，我想为AddCourse增加一个css，该怎么添加? 以前component中用XXX.module.css。
+           29：add-course目录下，如果默认文件名不是index.tsx而是AddCourse.tsx。用http://localhost:3000/course/add-course会调用走到[courseId].tsx。如何访问AddCourse.tsx？
            
            5月4日
-           已答。问题30：addcourse页面重新刷新丢失style问题
-           已答。问题31：检查用户是否登录，这样写对吗？我可以不在useEffect中跳转页面而在检查userinfo为空后直接跳转吗？
+           30：addcourse页面重新刷新丢失style问题
+           31：检查用户是否登录，这样写对吗？我可以不在useEffect中跳转页面而在检查userinfo为空后直接跳转吗？
                   useEffect(()=>{
                     if (!userInfo) {
                       router.push('/signin');
@@ -210,15 +210,15 @@
                   },[])
 
                   if (!userInfo) return (<></>)
-          已答。问题32：const  {token}  = userInfo?.userInfo; 这种写法如果userInfo为null会报错
+          32：const  {token}  = userInfo?.userInfo; 这种写法如果userInfo为null会报错
                  只能用这种写法吗？ const  token  = userInfo?.userInfo.token;
            
            5月11日
-           已答。问题33: Token保存的安全性。我现在把token放在cookie中，下次不登录也可以访问保护数据，同时也很容易被窃取。实际项目该如何防护？
-           已答。问题34：Error的处理。目前我直接把error写入console。实际项目中如何处理？
+           33: Token保存的安全性。我现在把token放在cookie中，下次不登录也可以访问保护数据，同时也很容易被窃取。实际项目该如何防护？
+           34：Error的处理。目前我直接把error写入console。实际项目中如何处理？
            
           5月14日
-            已答。问题35: <Link href="/teachers">Teacher List</Link>和<Link href="teachers">Teacher List</Link>不同？
+            35: <Link href="/teachers">Teacher List</Link>和<Link href="teachers">Teacher List</Link>不同？
             下面的写法，第一次点击打开addcourse页面再点击打开allcourse页面然后再点击addcourse页面会去不同的地址？
             <Menu.Item key="Add Course">
               <Link href="courses/add-course">Add Courses</Link>
@@ -226,29 +226,29 @@
             第一次地址：http://localhost:3000/dashboard/manager/courses/add-course
             第二次地址：http://localhost:3000/dashboard/manager/courses/courses/add-course
             
-            已答。问题36：刷新时state内数据时有时无的问题
+            36：刷新时state内数据时有时无的问题
             我通过state中存储的用户信息拿到role，再拼接对应访问地址
             用teacher账户登录后光标放在overview menu， 显示链接地址为http://localhost:3000/dashboard/teacher/overview
             按刷新按钮，再把光标放在overview menu，显示链接地址为http://localhost:3000/dashboard/undefined/overview
             
-            已答。问题37 server side render()项目中使用？
+            37 server side render()项目中使用？
            
            5月18日
-            已答。问题38 get /api/courses by userid 500 错误
+            38 get /api/courses by userid 500 错误
             
            5月21日
-            已答。问题39 chart imcrement数据去哪里拿？ 
+            39 chart imcrement数据去哪里拿？ 
                    没找到chart可以很好显示course schedule table的
            
            5月25日
-           已答。问题40 Header登出用什么控件做，排版如何写
-           已答。问题41 跨域设置
+           40 Header登出用什么控件做，排版如何写
+           41 跨域设置
            
            5月29日
-           已答。问题42 熟悉redux toolkit吗？
+           42 熟悉redux toolkit吗？
            
            6月1日
-           问题43， antd首页制作
+           43， antd首页制作
            我想做个首页，下载和配置了antd模板，https://github.com/happydtd/Antd-landing.git，可以显示首页页面。
            但是antd要用到react-app-rewired来启动，和nextjs不同。我在网上搜索很久也没找到如何把首页整合到nextjs中。不知道老师有没有什么建议
            
