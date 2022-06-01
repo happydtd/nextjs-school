@@ -249,5 +249,7 @@
            
            6月1日
            问题43， antd首页制作
+           我想做个首页，下载和配置了antd模板，https://github.com/happydtd/Antd-landing.git，可以显示首页页面。
+           但是antd要用到react-app-rewired来启动，和nextjs不同。我在网上搜索很久也没找到如何把首页整合到nextjs中。不知道老师有没有什么建议
            
 
