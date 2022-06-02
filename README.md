@@ -252,4 +252,34 @@
            我想做个首页，下载和配置了antd模板，https://github.com/happydtd/Antd-landing.git，可以显示首页页面。
            但是antd要用到react-app-rewired来启动，和nextjs不同。我在网上搜索很久也没找到如何把首页整合到nextjs中。不知道老师有没有什么建议
            
+           6月4日 下面这段代码，我用useEffect更新count，useEffec发生在render之后，按理我不应该立刻看到这次更新后的count
+                import React from 'react';
+                import { useState, useEffect, useRef } from "react";
+
+                export function App(props) {
+                  const [inputValue, setInputValue] = useState("");
+                  const count = useRef(0);
+
+                  useEffect(() => {
+                    console.log('useEffect count.current',count.current)
+                    count.current = count.current + 1;
+                  });
+
+                console.log('here')
+                console.log('count.current',count.current)
+                  return (
+                    <>
+                      <input
+                        type="text"
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                      />
+                      <h1>Render Count: {count.current}</h1>
+                    </>
+                  );
+                }
+
+                // Log to console
+                console.log('Hello console')
+           
 
