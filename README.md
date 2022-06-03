@@ -252,7 +252,8 @@
            我想做个首页，下载和配置了antd模板，https://github.com/happydtd/Antd-landing.git，可以显示首页页面。
            但是antd要用到react-app-rewired来启动，和nextjs不同。我在网上搜索很久也没找到如何把首页整合到nextjs中。不知道老师有没有什么建议
            
-           6月4日 下面这段代码，我用useEffect更新count，useEffec发生在render之后，按理我不应该立刻看到这次更新后的count
+           6月4日 
+           44. 下面这段代码，我用useEffect更新count，useEffec发生在render之后，按理我不应该立刻看到这次更新后的count
                 import React from 'react';
                 import { useState, useEffect, useRef } from "react";
 
@@ -281,5 +282,13 @@
 
                 // Log to console
                 console.log('Hello console')
+               45. 我做了interface去接收成功的axios返回，是否需要做另一个interface去接收axios失败返回？
+               {
+                  "code": 403,
+                  "msg": "Forbidden resource",
+                  "timestamp": "2022-06-03T21:20:32.170Z",
+                  "path": "/api/students",
+                  "data": null
+                }
            
 
