@@ -291,5 +291,10 @@
                   "path": "/api/students",
                   "data": null
                 }
+                46. 在serviceAPI的index.cs
+                这样写ts会报错
+                export const AddStudent = async (token:string, name:string, country:string, email:string, type: number) :Promise<AxiosResponsePostStudentData> => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/students', token, "POST", "Body", {name, country, email, type});
+                在末尾加上.then(responseBody);不会报错。但我在responseBody中也是返回一个promise呀，为什么就对了？
+                export const AddStudent = async (token:string, name:string, country:string, email:string, type: number) :Promise<AxiosResponsePostStudentData> => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/students', token, "POST", "Body", {name, country, email, type}).then(responseBody);
            
 
