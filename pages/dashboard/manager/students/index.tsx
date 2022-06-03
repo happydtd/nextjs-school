@@ -109,9 +109,9 @@ export default function Student() {
 
   const DeleteItemById = async(token:string, id: number) : Promise<AxiosResponseDeleteStudent> => await DeleteStudentById(token, id);
 
-  const AddItem = async(token, name, country, email, studentType) => await AddStudent(token, name, country, email, studentType);
+  const AddItem = async(token:string, name:string, country:string, email:string, type: number) => await AddStudent(token, name, country, email, type);
 
-  const EditItem = async(token, id, name, country, email, studentType) => await EditStudent(token, id, name, country, email, studentType);
+  const EditItem = async(token:string, id:number, name:string, country:string, email:string, studentType) => await EditStudent(token, id, name, country, email, studentType);
   
   useEffect(()=>{
     if (!userInfo) {

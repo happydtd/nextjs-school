@@ -7,8 +7,8 @@ import StudentForm from '../../components/Student';
 import 'antd/dist/antd.css';
 import TeacherForm from '../Teacher';
 import {useAppSelector, useAppDispatch} from '../../Store/configureStore'
-import { StudentData, Student, Type, AxiosResponseGetStudentsData } from '../../models/AxiosResponseGetStudents.interface';
-import { TeacherData, Teacher, AxiosResponseGetTeachersData } from '../../models/AxiosResponseGetTeachers.interface';
+import { StudentsData, Student, Type, AxiosResponseGetStudentsData } from '../../models/AxiosResponseGetStudents.interface';
+import { TeachersData, Teacher, AxiosResponseGetTeachersData } from '../../models/AxiosResponseGetTeachers.interface';
 import { AxiosResponseDeleteStudent } from '../../models/AxiosResponseDeleteStudent.interface';
 
 interface Props{
@@ -60,10 +60,10 @@ const GenericTable: React.FC<Props> = (props: Props) => {
         const result  = await GetItems(token, search, userId, page, pageSize);
         setTotal(result.data.total)
         if (dataType === TableDataType.Student ){
-          setItems((result.data as StudentData).students);
+          setItems((result.data as StudentsData).students);
         }
         else{
-          setItems((result.data as TeacherData).teachers);
+          setItems((result.data as TeachersData).teachers);
         }
             
     }
@@ -88,9 +88,9 @@ const GenericTable: React.FC<Props> = (props: Props) => {
       const result  = await GetItems(token, search, userId, page, pageSize);
       setTotal(result.data.total)
       if (dataType === TableDataType.Student )
-          setItems((result.data as StudentData).students);
+          setItems((result.data as StudentsData).students);
       else
-          setItems((result.data as TeacherData).teachers);
+          setItems((result.data as TeachersData).teachers);
     },
 
     handleEdit : (id, name, country, email, type, skills, phone )=>{
@@ -141,10 +141,10 @@ const GenericTable: React.FC<Props> = (props: Props) => {
     setTotal(result.data.total)
 
     if (dataType === TableDataType.Student){
-    setItems((result.data as StudentData).students);
+    setItems((result.data as StudentsData).students);
     }
     else{
-      setItems((result.data as TeacherData).teachers);
+      setItems((result.data as TeachersData).teachers);
     }
     setConfirmLoading(false);
   };
@@ -157,8 +157,8 @@ const GenericTable: React.FC<Props> = (props: Props) => {
 
       setSearch(inputRef.current.input.value);
       const result  = await GetItems(token, inputRef.current.input.value, userId, page, pageSize);
-      setTotal((result.data as StudentData).total)
-      setItems((result.data as StudentData).students);
+      setTotal((result.data as StudentsData).total)
+      setItems((result.data as StudentsData).students);
   }
 
   const handleAdd = ()=>{

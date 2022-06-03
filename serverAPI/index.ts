@@ -5,6 +5,7 @@ import { AxiosResponse } from "axios";
 import { AxiosResponseGetStudentsData } from "../models/AxiosResponseGetStudents.interface";
 import { AxiosResponseGetTeachersData } from "../models/AxiosResponseGetTeachers.interface";
 import { AxiosResponseDeleteStudent } from "../models/AxiosResponseDeleteStudent.interface";
+import { AxiosResponsePostStudentData } from "../models/AxiosResponsePostStudent.interface";
 
 const responseBody = (response: AxiosResponse) => {
     var result = response.data;
@@ -21,7 +22,7 @@ export const GetStudents = async (token:string, query: string = null, userId:num
 
 export const DeleteStudentById = async (token:string, id:number) : Promise<AxiosResponseDeleteStudent>  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/students', token, "DELETE", "Query",id).then(responseBody);
 
-export const AddStudent = async (token:string, name:string, country:string, email:string, type: number)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/students', token, "POST", "Body", {name, country, email, type})
+export const AddStudent = async (token:string, name:string, country:string, email:string, type: number) :Promise<AxiosResponsePostStudentData> => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/students', token, "POST", "Body", {name, country, email, type}).then(responseBody);
 
 export const EditStudent = async (token:string, id:number, name:string, country:string, email:string, type: number)  => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/students', token, "PUT", "Body", {id, name, country, email, type})
 

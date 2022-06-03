@@ -21,14 +21,14 @@ interface Paginator {
     limit: number;
 }
 
-export interface TeacherData {
+export interface TeachersData {
     total: number;
     teachers: Teacher[];
     paginator: Paginator;
 }
 
 export interface AxiosResponseGetTeachersData {
-    data: TeacherData;
+    data: TeachersData;
     code: number;
     msg: string;
 }
