@@ -145,13 +145,13 @@ export default function OverviewForm() {
   const callAPI = useCallback(async () =>{
     try{
         const overviewResult  = await GetStatisticsOverView(token);
-        setOverview(overviewResult);
+        setOverview(overviewResult.data);
 
         const studentResult  = await GetStatisticsStudent(token, null);
-        setStatisticsStudent(studentResult);
+        setStatisticsStudent(studentResult.data);
 
         const teacherResult  = await GetStatisticsTeacher(token. null);
-        setStatisticsTeacher(teacherResult);
+        setStatisticsTeacher(teacherResult.data);
     }
     catch(error){
       message.error("Can't fetch statistics data")

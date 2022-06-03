@@ -31,15 +31,17 @@ export default function LoginForm(){
 
   const onFinish = async (values) => {
     const {email, password, role} = values
+    console.log('onFinish')
     const callAPI = async ()=> {
       try{
           const userInfo  = await reqSignIn(email,password,role)
+          console.log('userinfo', userInfo)
           // dispatch({
           //   type: 'USER_LOGIN',
           //   payload: { userInfo },
           // })
-          reduxDispatch(login(userInfo))
-          router.push(`dashboard/${userInfo.role}/overview`);
+          reduxDispatch(login(userInfo.data))
+          router.push(`dashboard/${userInfo.data.role}/overview`);
       }
       catch(error){
         message.error("Can't sign in")
