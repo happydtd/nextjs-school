@@ -283,6 +283,7 @@
                 // Log to console
                 console.log('Hello console')
                45. 我做了interface去接收成功的axios返回，是否需要做另一个interface去接收axios失败返回？
+                   还有比如student的增删改查都有不同的返回，是否每个返回都要写对应的interface去对应。如果是就会有很多重复的sub interface。
                {
                   "code": 403,
                   "msg": "Forbidden resource",
