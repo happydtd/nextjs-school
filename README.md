@@ -252,7 +252,9 @@
            我想做个首页，下载和配置了antd模板，https://github.com/happydtd/Antd-landing.git，可以显示首页页面。
            但是antd要用到react-app-rewired来启动，和nextjs不同。我在网上搜索很久也没找到如何把首页整合到nextjs中。不知道老师有没有什么建议
            
-           6月4日 下面这段代码，我用useEffect更新count，useEffec发生在render之后，按理我不应该立刻看到这次更新后的count
+           6月4日 
+           44. 下面这段代码，用useEffect更新count，useEffec发生在render之后，count.current = count.current + 1后并没刷新页面，应该显示是上一次的count，为什么count会显示最新的？
+           实际例子在这里： https://www.w3schools.com/react/showreact.asp?filename=demo2_react_useref
                 import React from 'react';
                 import { useState, useEffect, useRef } from "react";
 
@@ -281,5 +283,21 @@
 
                 // Log to console
                 console.log('Hello console')
+               45. 我做了interface去接收成功的axios返回，是否需要做另一个interface去接收axios失败返回？
+                   还有比如student的增删改查都有不同的返回，是否每个返回都要写对应的interface去对应。如果是就会有很多重复的sub interface。
+               {
+                  "code": 403,
+                  "msg": "Forbidden resource",
+                  "timestamp": "2022-06-03T21:20:32.170Z",
+                  "path": "/api/students",
+                  "data": null
+                }
+                46. 在serviceAPI的index.cs
+                这样写ts会报错
+                export const AddStudent = async (token:string, name:string, country:string, email:string, type: number) :Promise<AxiosResponsePostStudentData> => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/students', token, "POST", "Body", {name, country, email, type});
+                在末尾加上.then(responseBody);不会报错。但我在responseBody中也是返回一个promise呀，为什么就对了？
+                export const AddStudent = async (token:string, name:string, country:string, email:string, type: number) :Promise<AxiosResponsePostStudentData> => await callAxiosWithToken('http://ec2-13-239-60-161.ap-southeast-2.compute.amazonaws.com:3001/api/students', token, "POST", "Body", {name, country, email, type}).then(responseBody);
+                47. GenericTable同时需要支持student和teacher两个type，我需要generic写法。
+                目前我是用 <Student[]|Teacher[]>的写法，后面set数据时用as转换setItems((result.data as StudentsData).students);这样写正确吗？如何改进？比如 <T>
            
 
