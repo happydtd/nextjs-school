@@ -1,6 +1,6 @@
-interface Type {
+export interface Type {
     id: number;
-    name: string;
+    name?: string;
 }
 
 interface Course {
@@ -9,16 +9,16 @@ interface Course {
     name: string;
 }
 
-interface Student {
-    createdAt: string;
-    updatedAt: string;
+export interface Student {
+    createdAt?: string;
+    updatedAt?: string;
     id: number;
     email: string;
     name: string;
     country: string;
-    profileId: number;
+    profileId?: number;
     type: Type;
-    courses: Course[];
+    courses?: Course[];
 }
 
 interface Paginator {
@@ -26,9 +26,15 @@ interface Paginator {
     limit: number;
 }
 
-export interface AxiosResponseStudentData {
+export interface StudentData {
     total: number;
     students: Student[];
     paginator: Paginator;
+}
+
+export interface AxiosResponseGetStudentsData {
+    data: StudentData;
+    code: number;
+    msg: string;
 }
 

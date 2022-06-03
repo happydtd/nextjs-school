@@ -9,7 +9,7 @@ import GenericTable, { TableDataType } from '../../../../components/GenericTable
 // import {Store} from '../../../../Utils/Store'
 import {useRouter} from 'next/router'
 import {useAppSelector, useAppDispatch} from '../../../../Store/configureStore'
-import { AxiosResponseTeacherData } from '../../../../models/AxiosResponseTeacher.interface';
+import { AxiosResponseTeacherData } from '../../../../models/AxiosResponseGetTeachers.interface';
 
 export default function Teacher() {
   // const { state, dispatch } = useContext(Store);
@@ -101,7 +101,7 @@ export default function Teacher() {
 
   const GetItems = async(token: string, search: string, userId: number, page, pageSize) : Promise<AxiosResponseTeacherData> =>await GetTeachers(token, search, page, pageSize);
 
-  const DeleteItemById = async(token, id)=>await DeleteTeacherById(token, id);
+  const DeleteItemById = async(token : string, id : number) =>await DeleteTeacherById(token, id);
 
   const AddItem = async(token, name, country, phone, email, skills) => await AddTeacher(token, name, country, phone, email, skills);
 

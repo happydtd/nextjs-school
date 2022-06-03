@@ -1,6 +1,7 @@
 import React from 'react'
 import { Form, Input, Button, Select , Space, Slider} from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import { Teacher } from '../../models/AxiosResponseGetTeachers.interface';
 
 const { Option } = Select;
 
@@ -13,44 +14,14 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 
-type profile={
-    createdAt: Date
-    updatedAt: Date
-    id: number
-    address: string[]
-    gender: number
-    birthday: Date
-    avatar: string
-    description: string
+interface Props{
+  parentOnOK: (values: any)=>void
+  parentOnCancel: ()=>void
+  actionType: string
+  teacher: Teacher
 }
 
-type skill={
-    name: string
-    level: number
-}
-
-type teacher = {
-    createdAt: Date
-    updatedAt: Date
-    id: number
-    country: string
-    courseAmount: number
-    email: string
-    name: string
-    phone: string
-    profileId : number
-    profile: profile
-    skills : skill[]
-}
-
-type teacherFormProp = {
-    teacher: teacher
-    parentOnOK :(values: any)=>void
-    parentOnCancel: ()=>void
-    actionType : string
-}
-
-export default function TeacherForm({teacher, parentOnOK, parentOnCancel, actionType } : teacherFormProp) {
+export default function TeacherForm({teacher, parentOnOK, parentOnCancel, actionType } : Props) {
   const [form] = Form.useForm();
 
   const prefixSelector = (

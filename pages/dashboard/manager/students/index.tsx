@@ -9,7 +9,8 @@ import GenericTable, { TableDataType } from '../../../../components/GenericTable
 // import {Store} from '../../../../Utils/Store'
 import {useRouter} from 'next/router'
 import {useAppSelector, useAppDispatch} from '../../../../Store/configureStore'
-import { AxiosResponseStudentData } from '../../../../models/AxiosResponseStudent.interface';
+import { AxiosResponseGetStudentsData } from '../../../../models/AxiosResponseGetStudents.interface';
+import { AxiosResponseDeleteStudent } from '../../../../models/AxiosResponseDeleteStudent.interface';
 
 export default function Student() {
   // const { state, dispatch } = useContext(Store);
@@ -98,15 +99,15 @@ export default function Student() {
     childRef.current.handleDeleteItem(id);
   };
 
-  const handleEdit =(id, name, country, email, studentType )=>{
-    childRef.current.handleEdit(id, name, country, email, studentType , null, null);
+  const handleEdit =(id, name, country, email, type )=>{
+    childRef.current.handleEdit(id, name, country, email, type , null, null);
   }
 
   const childRef:any = useRef();
 
-  const GetItems = async(token:string,  search: string, userId: number, page: number, pageSize: number) : Promise<AxiosResponseStudentData> =>await GetStudents(token,  search, userId, page, pageSize);
+  const GetItems = async(token:string,  search: string, userId: number, page: number, pageSize: number) : Promise<AxiosResponseGetStudentsData> =>await GetStudents(token,  search, userId, page, pageSize);
 
-  const DeleteItemById = async(token, id)=>await DeleteStudentById(token, id);
+  const DeleteItemById = async(token:string, id: number) : Promise<AxiosResponseDeleteStudent> => await DeleteStudentById(token, id);
 
   const AddItem = async(token, name, country, email, studentType) => await AddStudent(token, name, country, email, studentType);
 
